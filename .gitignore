@@ -34,3 +34,19 @@ Icon
 # Files that might appear on external disk
 .Spotlight-V100
 .Trashes
+
+*.class
+build/classes/log4j.properties
+build/classes/reportconfig/report/system/report_center.xml
+*.xml
+build/classes/reportconfig/xsd/wabacus.applications.xsd
+build/classes/reportconfig/xsd/wabacus.cfg.xsd
+build/classes/reportconfig/xsd/wabacus.resources.xsd
+build/classes/reportconfig/xsd/wabacus.util.xsd
+src/reportconfig/resources/resources_report.xml
+src/reportconfig/resources/resources_report.xml
+src/reportconfig/resources/resources_report.xml
+src/reportconfig/wabacus.cfg.xml
+WebContent/jsp/login/login.html
+WebContent/jsp/login/loginError.html
+*.xml
