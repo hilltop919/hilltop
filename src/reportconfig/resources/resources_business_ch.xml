@@ -1,0 +1,877 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns="http://www.wabacus.com"
+			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			  xsi:schemaLocation="http://www.wabacus.com ../xsd/wabacus.resources.xsd">
+  <resource key="invalid.isnotempty">
+		<![CDATA[#label#不能为空]]>
+  </resource>
+  <resource key="invalid.number">
+		<![CDATA[#data#不是合法数字]]>
+  </resource>
+  <resource key="invalid.age">
+		<![CDATA[#data#不是有效年龄]]>
+  </resource>
+  <resource key="clickorderbypage1.header">
+		<![CDATA[<font color='#3366FF'><i>
+		  点击<u>工号</u>、<u>中文名</u>、<u>英文名</u>、<u>性别</u>、<u>年龄</u>、<u>出生日期</u>列的数据标题可以进行排序
+		</i></font>]]>
+  </resource>
+  <resource key="colselectedpage1.footer">
+		<![CDATA[<font color='#FF0000'>说明：<font color='#0000FF'>
+		  点击页面中最右边列的向右箭头或“下载Excel”链接，可以选择要显示/下载的列
+		</font></font>]]>
+  </resource>
+  <resource key="typepromptpage1.header">
+		<![CDATA[<font color='#3366FF'><i>其中<u>工号</u>查询条件采用任意位置匹配，<u>中文名</u>查询条件采用起始位置匹配</i></font>]]>
+  </resource>
+  <resource key="typepromptpage2.footer">
+		<![CDATA[<font color='#3366FF'><i>其中<u>工号</u>查询条件采用任意位置匹配，<u>姓名</u>查询条件采用起始位置匹配</i></font>]]>
+  </resource>
+  <resource key="typepromptpage3.footer">
+		<![CDATA[<font color='#3366FF'><i>其中<u>工号</u>提示列采用任意位置匹配，<u>中文名</u>提示列采用起始位置匹配</i></font>]]>
+  </resource>
+  <resource key="rowselectpage2.report1.footer">
+	<![CDATA[<font color='#3366FF'><i>通过按住Ctrl键或Shift键用鼠标点击记录行进行多选</i></font>]]>
+  </resource>
+  <resource key="masterslavepage3.report1.header">
+	<![CDATA[<font color='#3366FF'><i>点击“部门编号”查看部门员工列表，点击“部门名称”查看部门详细资料</i></font>]]>
+  </resource>
+  <resource key="masterslavepage3_2.report1.footer">
+	<![CDATA[<font color='#3366FF'><i>点击“部门编号”查看部门员工列表</i></font>]]>
+  </resource>
+  <resource key="masterslavepage3_1.report1.footer">
+	<![CDATA[<font color='#3366FF'><i>点击“工号”查看员工详细资料</i></font>]]>
+  </resource>
+  <resource key="interceptorpage1.footer">
+	<![CDATA[<font color='#3366FF'><i>
+		1、访问报表时查看服务器控制台，通过<report/>的子标签<interceptor/>中配置的拦截器会在控制台中打印信息；<br/>
+		2、年龄查询条件输入值只能在10到20范围之内，超出后会被前置动作提示出错。
+		</i></font>]]>
+  </resource>
+  <resource key="interceptorpage2.footer">
+	<![CDATA[<font color='#3366FF'><i>
+		1、访问报表时查看服务器控制台，通过<report/>的属性interceptor所引用的在资源文件中定义的拦截器会在控制台中打印信息；<br/>
+		2、年龄查询条件输入值只能在10到20范围之内，超出后会被前置动作提示出错。
+		</i></font>]]>
+  </resource>
+  <resource key="interceptorpage3.footer">
+	<![CDATA[<font color='#3366FF'><i>
+		1、访问报表时查看服务器控制台，通过<report/>的属性interceptor所引用的拦截器JAVA类会在控制台中打印信息；<br/>
+		2、年龄查询条件输入值只能在10到20范围之内，超出后会被前置动作提示出错。
+		</i></font>]]>
+  </resource>
+  <resource key="title.label">员工信息列表</resource>
+  <resource key="sequence.label">序号</resource>
+  <resource key="no.label">工号</resource>
+  <resource key="group.label">个人信息</resource>
+  <resource key="name.label">姓名</resource>
+  <resource key="sex.label">性别</resource>
+  <resource key="age.label">年龄</resource>
+  <resource key="birthday.label">出生日期</resource>
+  <resource key="salary.label">工资</resource>
+  <resource key="joinindate.label">入职日期</resource>
+  <resource key="condition.txtno.label">工号</resource>
+  <resource key="condition.txtage.label">年龄</resource>
+  <resource key="l10npage.report1.footer">
+  	<![CDATA[<font color='#3366FF'><i>
+  		1、这里演示的是静态配置信息的本地化，对于从数据库取出的动态数据，如果要进行本地化，请参看《Wabacus框架入门与提高》文档<br/>
+  		2、为两个查询条件都配置了校验，校验出错信息也支持本地化，校验规则与上面“客户端/服务器端校验”演示的报表一致。
+  	</i></font>]]>
+  </resource>
+  <resource key="otherpage3.report1.header">
+	<![CDATA[
+		<a href="#" onclick="viewSelectedRadioValues();">查看“选择一”列选中值</a>&nbsp;|&nbsp;<a href="#" onclick="viewSelectedCheckboxValues();">查看“选择二”列选中值</a>
+		]]>
+  </resource>
+  <resource key="otherpage4_2.report1.footer">
+	<![CDATA[<br/><br/><font color='#3366FF'><i>
+		这里演示的功能按钮只是测试，虽然是“添加”或“修改”按钮，但不能对报表数据进行编辑，关于数据编辑功能的演示，请参看“数据编辑篇”
+	</i></font>]]>
+  </resource>
+  <resource key="reportborderlistpage1.report5.footer">
+	<![CDATA[<br/><font color='red'>
+		注意：通过<report/>标签的bordercolor属性只能改变数据部分表格的边框颜色，如果要同时改变标题部分和外层表格的边框颜色，则需要通过修改
+		wabacus_system.css文件中的.cls-data-th-list、.cls-data-td-list的样式定义实现。
+	 </font>]]>
+  </resource>
+  <resource key="cellresizepage.report1.header">
+	<![CDATA[<br/><font color='#FF0000'>
+		请将鼠标放在数据标题列各单元格之间进行左右移动，调整列宽</font>
+	 </font>]]>
+  </resource>
+  <resource key="cellresizepage.report2.footer">
+	<![CDATA[<br/><font color='#3366FF'>
+		<b>说明：</b>对于复杂表头的报表，只能对顶层分组所在单元格以及没有参与列分组的列所在单元格进行移动，比如在这复杂表头报表中：<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;<font color="red">“工号”、“年龄”、“入职日期”三列</font>属于没有参与列分组的列，所以可以对它们所在单元格进行移动；<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;<font color="red">“基本信息”分组</font>属于顶层分组，因为它不属于哪个分组的子分组，所以也可以对它所在单元格进行移动；<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;<font color="red">“中文名”、“英文名”、“性别”三列</font>是参与了列分组的列，所以不能对它们所在单元格进行移动；<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;<font color="red">“姓名”分组</font>不是顶层分组，因为它是父分组“基本信息”的一部分，所以不能对它所在单元格进行移动。
+	 </font>]]>
+  </resource>
+  <resource key="celldragpage1.header">
+	<![CDATA[<br/><font color='#FF0000'>
+		请将鼠标放在数据标题列，点击后进行拖动</font>
+	 </font>]]>
+  </resource>
+  <resource key="interceptorpage2.report1.interceptor"
+  			type="com.wabacus.config.resource.InterceptorRes">
+  	 <interceptor>
+  		<imports>
+  			<import>com.wabacus.util.*</import>
+  			<import>java.util</import>
+  		</imports>
+		<preaction>
+			<![CDATA[
+				String age=rrequest.getStringAttribute("txtage","");
+				if(!age.equals(""))
+				{
+					try
+					{
+						int iage=Integer.parseInt(age);
+						if(iage<10||iage>20)
+						{
+							rrequest.getWResponse().getMessageCollector().alert("输入的年龄："+age+"起出范围，只能输入10到20之间的数字",null,true);
+						}
+					}catch(NumberFormatException nfe)
+					{
+						rrequest.getWResponse().getMessageCollector().alert("输入的年龄："+age+"不是合法数字",null,true);
+					}
+				}
+				System.out.println(new Date()+":::执行完前置动作------------------");
+			]]>
+		</preaction>
+		<postaction>
+			<![CDATA[
+				System.out.println(new Date()+":::执行完后置动作-------------------");
+			]]>
+		</postaction>
+	 </interceptor>
+  </resource>
+  <!--  -->
+  <resource key="editablelistreportpage1.footer">
+		<![CDATA[<br/><br/><font color='#3366FF'><i>
+		“省”、“市”、“县”三列为下拉框，且是关联下拉框</i></font>]]>
+  </resource>
+  <resource key="editabledetailpage2.footer">
+		<![CDATA[<br/><br/></br>
+		<font color='#ff0000'>注意：</font><br/>&nbsp;&nbsp;&nbsp;&nbsp;<font color='#3366FF'>
+		1、在这种编辑方式中需要先点击“修改”按钮才能修改数据；<br/><br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		2、因为此报表的“简介”列是大字段类型，如果是Oracle数据库，且采用的不是oracle10g的jdbc驱动，则可能不能正常的完成添加操作，需要将配置文件中此报表的
+		＜insert/＞标签配置的SQL语句：insert into ...后面加上where deptno=@{deptno__old}，即变为如下形式：
+		insert into tbl_department(guid=uuid{},@{deptno},@{deptname},@{manager},@{builtdate},@{performance},@{description}) where deptno=@{deptno__old};然后重新启动即可。
+		</font>]]>
+  </resource>
+  <resource key="editpartcolpage1.footer">
+		<![CDATA[<br/><br/></br>
+		<font color='#ff0000'>说明：</font><br/>&nbsp;&nbsp;&nbsp;&nbsp;<font color='#3366FF'>
+		1、修改数据时：“工号”、“姓名”、“所属部门”三列不允许修改<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		2、添加数据时，“性别”、“出生日期”两列不允许添加
+		</font>]]>
+  </resource>
+  <resource key="coldefaultvaluepage1.report1.footer">
+		<![CDATA[<br/><br/></br>
+		<font color='#ff0000'>说明：</font><br/><font color='#0000FF'>
+		&nbsp;&nbsp;&nbsp;&nbsp;“姓名”列默认值为“无名”；<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;“年龄”列默认值为60；<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;“出生日期”列默认值为1980-09-23<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;“工资”列默认值为1000<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;“省”列默认值为广东<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;“市”列默认值为深圳<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;“县”列默认值为福田<br/>
+		</font>]]>
+  </resource>
+  <resource key="inputboxdefaultvaluepage1.report1.footer">
+		<![CDATA[<br/><br/></br>
+		<font color='#ff0000'>说明：</font><br/><font color='#0000FF'>
+		&nbsp;&nbsp;&nbsp;&nbsp;“姓名”列的输入框默认值为“无名”；<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;“年龄”列的输入框默认值为60；<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;“出生日期”列的输入框默认值为1980-09-23<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;“工资”列的输入框默认值为1000<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;“省”列的输入框默认值为广东<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;“市”列的输入框默认值为深圳<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;“县”列的输入框默认值为福田<br/>
+		</font>]]>
+  </resource>
+  <resource key="editablemasterslavepage1.report3.footer">
+		<![CDATA[<br/><br/>
+		<font color='#ff0000'>说明：</font><br/><font color='#0000FF'>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		1、“详细资料1”和“详细资料2”两个细览报表是两种不同编辑方式的细览报表，它们都依赖于“员工信息列表”报表。<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		2、“详细资料1”和“详细资料2”两个细览报表均配置为不允许修改“工号”列，其它列均允许修改。
+		</font>]]>
+  </resource>
+  <resource key="editableFormatListPage1.footer">
+		<![CDATA[<br/><br/><font color='#ff0000'>说明：</font><font color='#0000FF'>&nbsp;&nbsp;在只读模式时，将此报表的“工号”列格式化为一个超链接</font>]]>
+  </resource>
+  <resource key="editableFormatDetailPage1.footer">
+		<![CDATA[<br/><br/><font color='#ff0000'>说明：</font><font color="#0000ff">使用只读访问模式访问时将“部门编号”列格式化为一个超链接，使用默认访问模式时，将“部门经理”列格式化为一超链接</font>]]>
+  </resource>
+  <resource key="editableFormatDetailPage2.footer">
+		<![CDATA[<br/><br/><font color='#ff0000'>说明：</font><font color="#0000ff">
+		使用只读访问模式访问时将“部门编号”列格式化为一个超链接，如果是添加记录模式，为部门编号赋默认值111111</font>]]>
+  </resource>
+  <resource key="savecallbackpage2.footer">
+		<![CDATA[<br/><br/>
+		<font color='#ff0000'>说明：</font><br/><font color='#0000FF'>
+		&nbsp;&nbsp;此报表配置了一个保存回调函数打印保存的数据，并且声明执行完此回调函数后不更新报表页面的显示，<br/>
+		&nbsp;&nbsp;这对于保存后跳转到新页面比较有用，可以提高性能，因为这种情况没必要更新页面显示。
+		</font>]]>
+  </resource>
+  <resource key="selectoptionspage1.footer">
+		<![CDATA[<br/>
+		<font color='#ff0000'>说明：</font><font color='#0000FF'><br>
+		&nbsp;&nbsp;“性别”列为单选框；<br/>
+		&nbsp;&nbsp;“兴趣爱好”列为复选框；<br/>
+		&nbsp;&nbsp;“所属部门”列为普通下拉框；<br/>
+		&nbsp;&nbsp;“省”、“市”、“县”三列为关联下拉框，其中“市”和“县”两个下拉框都依赖“省”这个文本框；<br/>
+		</font>]]>
+  </resource>
+  <resource key="popupsinglepage1.report1.footer">
+		<![CDATA[<br/>
+		<font color='#ff0000'>说明：</font><font color='#0000FF'>
+		“兴趣爱好”列为弹出输入框窗口编辑框
+		</font>]]>
+  </resource>
+  <resource key="popupmultiplypage1.report1.footer">
+		<![CDATA[<br/>
+		<font color='#ff0000'>说明：</font><font color='#0000FF'>
+		通过弹出窗口选择了“兴趣爱好”列的值后，会同时设置“姓名”列和“部门”列的值
+		</font>]]>
+  </resource>
+  
+  <resource key="pageinterceptorpage1.footer">
+		<![CDATA[<br/>
+		<font color='#ff0000'>说明：</font><font color='#0000FF'>
+		访问页面或操作页面上报表时，请查看控制台上各拦截器的打印信息，可以了解到不同类型、不同位置上的页面拦截器各方法的执行顺序
+		</font>]]>
+  </resource>
+  <resource key="fileuploadlistpage1.report1.footer">
+		<![CDATA[<br/>
+		<font color='#ff0000'>说明：</font><br/>
+		<font color='#0000FF'>
+		&nbsp;&nbsp;1、“图片文件上传”是指上传后以＜img/＞标签显示出来的上传类型。<br/>
+		&nbsp;&nbsp;2、如果要测试这里的文件上传功能，请先修改此报表配置中为此列配置的上传路径到合适路径
+		</font>]]>
+  </resource>
+  <resource key="fileuploadlistpage1.report2.footer">
+		<![CDATA[<br/>
+		<font color='#ff0000'>说明：</font><br/><font color='#0000FF'>
+		&nbsp;&nbsp;1、“WEB文件上传”是指上传后能通过URL在浏览器中访问到，Wabacus框架在上传这种类型的文件时，会根据用户配置的rooturl属性构造出此文件的访问URL；<br/>
+		&nbsp;&nbsp;2、如果要测试这里的文件上传功能，请先修改此报表配置中为此列配置的上传路径到合适路径
+		</font>]]>
+  </resource>
+  <resource key="fileuploadlistpage1.report3.footer">
+		<![CDATA[<br/>
+		<font color='#ff0000'>说明：</font><br/><font color='#0000FF'>
+		&nbsp;&nbsp;1、“普通文件上传”就是指一般的文件上传功能，Wabacus框架上传这种类型的文件时，会在上传后返回被上传文件在服务器中的绝对路径；
+		&nbsp;&nbsp;2、如果要测试这里的文件上传功能，请先修改此报表配置中为此列配置的上传路径到合适路径
+		</font>]]>
+  </resource>
+  <resource key="fileuploadlistpage1.report4.footer">
+		<![CDATA[<br/>
+		<font color='#ff0000'>说明：</font><font color='#0000FF'>
+		“上传后文件改名”对上面三种类型的文件上传操作都有效，是指将文件上传到服务器后，框架自动对文件进行更名。<br/>
+		&nbsp;&nbsp;更名的类型包括如下几种：<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;1、常量字符串；<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;2、{date}：以当前日期做为文件名；<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;3、{time}：以当前时间做为文件名；<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;4、{timestamp}：以当前日期时间的毫秒数做为文件名，可以保持每次上传的文件名不重复。
+		</font>]]>
+  </resource>
+  <resource key="clobpage1.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font><font color='#0000FF'>“简介”列即为大字符串类型字段。</font>]]>
+  </resource>
+  
+  <resource key="formpartcoldetail1.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font><br/>
+		<font color='#0000FF'>
+		&nbsp;&nbsp;编辑时，“婚否”、“工资”、“所属部门”三列不允许修改；<br/>
+		&nbsp;&nbsp;添加时，“英文名”、“入职日期”两列不允许输入数据
+		</font>]]>
+  </resource>
+  <resource key="formpartcollistpage1.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font><br/>
+		<font color='#0000FF'>
+		&nbsp;&nbsp;编辑时，“所属部门”、“省”、“市”、“县”四列不允许修改；<br/>
+		&nbsp;&nbsp;添加时，“姓名”、“性别”两列不允许输入数据
+		</font>]]>
+  </resource>
+  <resource key="formcallbackdetailpage1.header">
+		<![CDATA[<br/><font color='#ff0000'>注意：</font>
+		<font color='#0000FF'>如果要在照片列进行文件上传，请先修改此报表配置中为此列配置的上传路径到合适路径</font>]]>
+  </resource>
+  <resource key="formcallbacklistpage1.header">
+		<![CDATA[<br/><font color='#ff0000'>注意：</font>
+		<font color='#0000FF'>如果要在照片列进行文件上传，请先修改此报表配置中为此列配置的上传路径到合适路径</font>]]>
+  </resource>
+  
+  <resource key="masterslavepage1.report2.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font>
+		<font color='#0000FF'>这里演示的主从关系是当主报表没有数据时，从报表仍然显示出来，这也是默认的主从关系</font>]]>
+  </resource>
+  
+  <resource key="masterslavepage1.report4.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font>
+		<font color='#0000FF'>这里演示的主从关系是当主报表没有数据时，从报表不显示出来</font>]]>
+  </resource>
+  
+  <resource key="containerpermissionpage12.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font><font color='#0000FF'>此页面上所有输入框都只读。</font>]]>
+  </resource>
+  <resource key="containerpermissionpage13.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font><font color='#0000FF'>此页面上所有按钮都禁用，点击无效。</font>]]>
+  </resource>
+  <resource key="containerpermissionpage21.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font><font color='#0000FF'>此页面上id为“vp1”的容器的标题授权为不显示出来。</font>]]>
+  </resource>
+  <resource key="containerpermissionpage41.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font><font color='#0000FF'>此页面上id为“tab1”的tabpane容器配置了三个标签页显示三个报表，但第一个和第二个标签页的display权限设置为false，因此只显示了第三个标签页出来。</font>]]>
+  </resource>
+  <resource key="containerpermissionpage42.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font><font color='#0000FF'>此页面上id为“tab1”的tabpane容器配置了三个标签页显示三个报表，但第二个标签页的disabled权限设置为true，因此不能切换到这个标签页。</font>]]>
+  </resource>
+  <resource key="conditionrelatepage1.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font>
+		<br><font color='#0000FF'>&nbsp;&nbsp;此页面共包括三个报表，其中报表一、报表二、报表三的“工号”查询条件关联，因为它们的此条件的name属性都是txtno</font>
+		<br><font color='#0000FF'>&nbsp;&nbsp;报表一、报表三的“姓名”查询条件关联，因为它们的此条件的name属性都是txtname，但与报表二的“姓名”查询条件不关联，因为它的此查询条件的name为txtname1。</font>
+		<br><font color='#0000FF'>&nbsp;&nbsp;报表一、报表三的“性别”查询条件不关联，因为它们的此条件的name属性不同</font>
+		]]>
+  </resource>
+ 
+  <resource key="Interceptor_saveinterceptorreport"
+  			type="com.wabacus.config.resource.InterceptorRes">
+  	 <interceptor>
+  		<imports>
+  			<import>java.util.*</import>
+  		</imports>
+  		<saveaction>
+			<![CDATA[
+			  List lstInsertData=rrequest.getLstInsertedData(rbean);//添加的记录集合
+	        List lstInsertExternalVals=rrequest.getLstInsertedParamValues(rbean);//因为此报表为<insert/>配置了<external-values/>
+	        List lstUpdateData=rrequest.getLstUpdatedData(rbean);//修改的记录集合
+	        List lstDeleteData=rrequest.getLstDeletedData(rbean);//删除的记录集合
+	        if(lstInsertData!=null&&lstInsertData.size()>0||lstUpdateData!=null&&lstUpdateData.size()>0||lstDeleteData!=null&&lstDeleteData.size()>0)
+	        {
+	            System.out.println("--------------拦截器类型：资源项----------保存前置动作-------------------");
+	        }
+	        Map mData;
+	        if(lstInsertData!=null&&lstInsertData.size()>0)
+	        {//当前在做添加数据的保存操作
+	            Map mParamValues;
+	            for(int i=0;i<lstInsertData.size();i++)
+	            {//循环添加的每条记录
+	            	mData=(Map)lstInsertData.get(i);
+						mParamValues=(Map)lstInsertExternalVals.get(i);
+						if(mData==null) continue;
+						System.out.println("第"+(i+1)+"条添加的记录：");
+						Iterator itKeys=mData.keySet().iterator();
+						while(itKeys.hasNext())
+						{
+							String key=(String)itKeys.next();
+							String value=(String)mData.get(key);
+							System.out.print("["+key+"="+value+"]");
+						}
+						System.out.println();
+                	System.out.println("此条记录对应的<params/>定义的变量值：");
+                	itKeys=mParamValues.keySet().iterator();
+						while(itKeys.hasNext())
+						{
+							String key=(String)itKeys.next();
+							String value=(String)mParamValues.get(key);
+							System.out.print("["+key+"="+value+"]");
+						}
+						System.out.println();		            
+	            }
+	        }
+	
+	        if(lstUpdateData!=null&&lstUpdateData.size()>0)
+	        {//当前在做修改数据的保存操作
+	            for(int i=0;i<lstUpdateData.size();i++)
+					{
+						mData=(Map)lstUpdateData.get(i);
+						if(mData==null) continue;
+						System.out.println("第"+(i+1)+"条修改的记录：");
+						Iterator itKeys=mData.keySet().iterator();
+						while(itKeys.hasNext())
+						{
+							String key=(String)itKeys.next();
+							String value=(String)mData.get(key);
+							System.out.print("["+key+"="+value+"]");
+						}
+						System.out.println();
+					}
+	        }
+	
+	        if(lstDeleteData!=null&&lstDeleteData.size()>0)
+	        {//当前在做删除数据的保存操作
+	            for(int i=0;i<lstDeleteData.size();i++)
+					{
+						mData=(Map)lstDeleteData.get(i);
+						if(mData==null) continue;
+						System.out.println("第"+(i+1)+"条删除的记录：");
+						Iterator itKeys=mData.keySet().iterator();
+						while(itKeys.hasNext())
+						{
+							String key=(String)itKeys.next();
+							String value=(String)mData.get(key);
+							System.out.print("["+key+"="+value+"]");
+						}
+						System.out.println();
+					}
+	        }
+	        return super.doSave(rrequest,rbean,editbean);
+			]]>
+		  </saveaction>
+	 </interceptor>
+  </resource>
+  
+  <resource key="Interceptor_saveinterceptorperrowpage1"
+  			type="com.wabacus.config.resource.InterceptorRes">
+  	 <interceptor>
+			<imports>
+	 				<import>java.util.*</import>
+	 			</imports>
+			<saveaction-perrow>
+			<![CDATA[
+			  String message="";
+	        if(editbean instanceof EditableReportInsertDataBean)
+	        {//对本条记录做添加操作
+	            message="正在添加记录：";
+	        }else   if(editbean instanceof EditableReportUpdateDataBean)
+	        {//对本条记录做修改操作
+	            message="正在修改记录：";
+	        }else if(editbean instanceof EditableReportDeleteDataBean)
+	        {//对本条记录做删除操作
+	            message="正在删除记录：";
+	        }
+	        //因为没有通过<button/>配置调用后台服务的操作，因此不用先判断editbean instanceof  EditableReportSQLButtonDataBean
+	        if(message!=null)
+	        {
+	            System.out.print(message);
+	            if(mRowData!=null)//mRowData中存放了本条记录各列的值
+	            {
+	                Iterator itKeys=mRowData.keySet().iterator();
+	                while(itKeys.hasNext())
+	                {
+	                    String key=(String)itKeys.next();
+	                    String value=(String)mRowData.get(key);
+	                    System.out.print("["+key+"="+value+"]");
+	                }
+	                System.out.println();
+	            }
+	            if(mParamValues!=null)//存放了相对于本条记录的在<insert/>或<update/>或<delete/>中定义的变量值
+	            {
+	                System.out.print("各变量的值为：");
+	                Iterator itKeys=mParamValues.keySet().iterator();
+	                while(itKeys.hasNext())
+	                {
+	                    String key=(String)itKeys.next();
+	                    String value=(String)mParamValues.get(key);
+	                    System.out.print("["+key+"="+value+"]");
+	                }
+	                System.out.println();
+	            }
+	        }
+	        return super.doSavePerRow(rrequest,rbean,mRowData,mParamValues,editbean);
+			]]>
+			</saveaction-perrow>
+		</interceptor>
+  </resource>
+  
+  <resource key="Interceptor_saveinterceptorpersqlpage1"
+  			type="com.wabacus.config.resource.InterceptorRes">
+  	 <interceptor>
+  		<imports>
+  			<import>java.util.*</import>
+  		</imports>
+  		<saveaction-peraction>
+		<![CDATA[
+		  if(actionbean instanceof AbsEditSqlActionBean)
+        {//当前执行的脚本是配置的SQL语句或存储过程
+            System.out.print("正在执行sql语句："+((AbsEditSqlActionBean)actionbean).getSql()+"，保存的记录为：");
+        }
+        if(mRowData!=null)//mRowData中存放了本条记录各列的值
+        {
+            Iterator itKeys=mRowData.keySet().iterator();
+            while(itKeys.hasNext())
+            {
+                String key=(String)itKeys.next();
+                String value=(String)mRowData.get(key);
+                System.out.print("["+key+"="+value+"]");
+            }
+            System.out.println();
+        }
+        if(mParamValues!=null)//存放了相对于本条记录的在<insert/>或<update/>或<delete/>中定义的变量值
+        {
+            System.out.print("各变量的值为：");
+            Iterator itKeys=mParamValues.keySet().iterator();
+            while(itKeys.hasNext())
+            {
+                String key=(String)itKeys.next();
+                String value=(String)mParamValues.get(key);
+                System.out.print("["+key+"="+value+"]");
+            }
+            System.out.println();
+        }
+        return super.doSavePerAction(rrequest,rbean,mRowData,mParamValues,actionbean,editbean);
+		]]>
+		</saveaction-peraction>
+	 </interceptor>
+  </resource>
+  
+  <resource key="otherdata_requestpage1.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font>
+		<font color='#0000FF'>添加“部门”记录时，“简介”列不能输入数据，它会从request中获取key为descrip的参数值写到此字段中。</font>]]>
+  </resource>
+  <resource key="otherdata_sessionpage1.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font>
+		<font color='#0000FF'>添加“部门”记录时，“简介”列不能输入数据，它会从session中获取key为descrip的参数值写到此字段中，此参数会在前置动作中写入session。</font>]]>
+  </resource>
+  <resource key="otherdata_datepage1.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font>
+		<font color='#0000FF'>添加“部门”记录时，“创建日期”列自动取当前日期为保存数据</font>]]>
+  </resource>
+  <resource key="otherdata_serverpage1.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font>
+		<font color='#0000FF'>增、删、改数据时，都会在日志表中添加一条记录，其中日志内容就是在拦截器的前置动作中动态构造出来的</font>]]>
+  </resource>
+  <resource key="otherdata_clientpage1.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font>
+		<font color='#0000FF'>增、删、改数据时，都会在日志表中添加一条记录，其中日志内容是由保存前客户端回调函数otherdata_clientpage1_beforesave()构造好传入的</font>]]>
+  </resource>
+  <resource key="searchboxpage2.report1.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font>
+		<font color='#0000FF'>“年龄”查询条件是从session中获取数据，这里为了测试，在前置动作中在session中存放了txtage的值为30，这样
+			就会查出年龄大于30的员工列表，在真正使用时，session中的数据可能是在外部放进去的，比如登录时。</font>]]>
+  </resource>
+  <resource key="searchboxpage2.report2.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font>
+		<font color='#0000FF'>如果用户在“年龄”查询条件中输入了年龄进行搜索，在前置动作中会取出来，并加上5，再设置进去。
+			这样框架会查出比用户输入的年龄大于5岁的所有员工。</font>]]>
+  </resource>
+  <resource key="listformmaxrownumpage1.report1.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font>
+		<font color='#0000FF'>本列表表单记录数不能超过20条</font>]]>
+  </resource>
+  <resource key="listformminrownumpage1.report1.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font>
+		<font color='#0000FF'>本列表表单记录数不能少于20条，如果少于20条，将以添加的形式显示剩余记录数</font>]]>
+  </resource>
+  <resource key="listformfixrownumpage1.report1.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font>
+		<font color='#0000FF'>本列表表单只能显示20条记录</font>]]>
+  </resource>
+  <resource key="setcolinputboxvalueapipage1.report1.footer">
+		<![CDATA[<br/><font color='#ff0000'>说明：</font><br>
+		<font color='#0000FF'>点击此报表的“设置输入框数据”按钮时，会将原始性别为“男”的记录的“姓名”、“出生日期”、“性别”、“部门”列设置为新值</font><br>
+		<font color='#0000FF'>点击此报表的“设置所有行输入框数据”按钮时，会将本页面所有记录的“姓名”、“出生日期”、“性别”、“部门”列设置为新值</font>
+		]]>
+  </resource>
+  
+  <resource key="report.template.test" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+  			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  				<tr><td><font color='blue'><b>测试配置在资源文件中的html模板</b>[此列表报表显示在页面和Excel中分别采用一个资源项中的html模板进行布局]</font></td></tr>
+  				<tr><td><wx:searchbox/></td></tr><!--搜索栏-->
+  				<tr><td><hr></td></tr>
+  				<tr><td><wx:title/></td></tr><!--标题栏-->
+  				<tr><td><hr></td></tr>
+  				<tr><td><wx:data/></td></tr><!--数据-->
+  				<tr><td><hr></td></tr>
+  				<tr><td align='center'><wx:button type="search"/>&nbsp;<wx:button type="search"><input type="button" value="搜索"/></wx:button>
+  				<wx:button type="richexcel"/><wx:button type="word"/><wx:button name="button1"/></td><tr>
+  				<tr><td><hr></td></tr>
+				<tr><td align='left'>
+				DATA：：：第一条记录工号：<wx:data col="no" rowidx="0"/>；姓名：：<wx:data col="name" rowidx="0"/>；<br/>
+  				本页最后一条记录工号：<wx:data col="no" rowidx="-1"/>；姓名：<wx:data col="name" rowidx="-1"/>
+  				</td></tr>
+  				<tr><td><hr></td></tr>
+  				<tr><td><wx:navigate/></td></tr><!--翻页导航栏-->
+  			</table>
+  		]]>
+  </resource>
+  <resource key="exportdata.template.test" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+  			<div>
+  				<b>标题：</b><wx:title type="title"/><!--标题栏-->
+  			</div>
+  			<div>
+  				<wx:data/><!--数据部分-->
+  			</div>
+  		]]>
+  </resource>
+  <resource key="containerheaderpage1.tabpanel1.header">
+  		<![CDATA[
+  			<p align="left"><font size="2" color="green"><b>tabpanel容器的Header部分</font></p>
+  		]]>
+  </resource>
+  <resource key="containerheaderpage1.tabpanel1.footer">
+  		<![CDATA[
+  			<p align="left"><font size="2" color="green"><b>tabpanel容器的Footer部分</font></p>
+  		]]>
+  </resource>
+  <resource key="headertemplatepage1.report1.header" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+  			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  				<tr><td><hr></td></tr>
+  				<tr><td><font color='blue'><b>测试使用html模板布局Header部分</b></font></td></tr>
+  				<tr><td><wx:button type="richexcel"/><wx:button type="word"/><wx:button name="button1"/></td><tr>
+				<tr><td align='left'>
+				DATA：：：第一条记录工号：<wx:data col="no" rowidx="0"/>；姓名：：<wx:data col="name" rowidx="0"/>；<br/>
+  				本页最后一条记录工号：<wx:data col="no" rowidx="-1"/>；姓名：<wx:data col="name" rowidx="-1"/>
+  				</td></tr>
+  				<tr><td><hr></td></tr>
+  			</table>
+  		]]>
+  </resource>
+  <resource key="headertemplatepage1.report1.footer" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+  			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  				<tr><td><hr></td></tr>
+  				<tr><td><font color='blue'><b>测试使用html模板布局Footer部分</b></font></td></tr>
+  				<tr><td><wx:button type="richexcel"/><wx:button type="word"/><wx:button name="button1"/></td><tr>
+  				<tr><td><wx:navigate type="pageno">selectbox</wx:navigate><wx:navigate type="first"/><wx:navigate type="previous"/>
+  				<wx:navigate type="next"/><wx:navigate type="last"/></td></tr>
+  				<tr><td><hr></td></tr>
+  			</table>
+  		]]>
+  </resource>
+  
+  <resource key="navigatetemplatepage1.report1.navigate" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+  			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  				<tr><td><hr></td></tr>
+  				<tr><td><font color='blue'><b>测试使用html模板布局翻页导航栏部分</b></font></td></tr>
+  				<tr><td align="center"><wx:button type="richexcel"/><wx:button type="word"/><wx:button name="button1"/></td><tr>
+  				<tr><td align="center">
+  					当前页<wx:navigate type="pageno"/>/<wx:navigate type="pagecount"/>
+  					记录数：<wx:navigate type="recordcount"/>
+  					跳转<wx:navigate type="pageno">selectbox</wx:navigate>
+  					<wx:navigate type="first"/>
+  					<wx:navigate type="previous"/>
+  					<wx:navigate type="next"/>
+  					<wx:navigate type="last"/>
+  					<wx:navigate type="sequence" minlength="3"/>
+  				</td></tr>
+  				<tr><td><hr></td></tr>
+  			</table>
+  		]]>
+  </resource>
+  
+  <resource key="editabletemplatepage1.report2.template" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+  			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  				<tr><td><font color='blue'><b>报表二</b></font></td></tr>
+  				<tr><td><hr></td></tr>
+  				<tr><td><wx:searchbox/></td></tr><!--搜索栏-->
+  				<tr><td><hr></td></tr>
+  				<tr><td><wx:title/></td></tr><!--标题栏-->
+  				<tr><td><hr></td></tr>
+  				<tr><td><wx:data/></td></tr><!--数据-->
+  				<tr><td><hr></td></tr>
+  				<tr><td align='center'>
+  					<wx:button type="search"/>&nbsp;<wx:button type="save"/>
+  					<wx:button type="richexcel">下载Excel</wx:button>
+  					<wx:button type="word">下载Word</wx:button>
+  				</td><tr>
+  				<tr><td><hr></td></tr>
+  			</table>
+  		]]>
+  </resource>
+  
+  <resource key="navigatebuttonpage1.report1.navigate" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+  			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  				<tr><td align="left">
+  					当前页<wx:navigate type="pageno"/>/<wx:navigate type="pagecount"/>
+  					记录数：<wx:navigate type="recordcount"/>
+  				</td>
+				<td align="right">
+  					<wx:navigate type="first"/>
+  					<wx:navigate type="previous"><img src="%WEBROOT%webresources/skin/%SKIN%/images/prevpage_ch.gif" class="cls-navigate-img"/></wx:navigate>
+  					<wx:navigate type="sequence"/>
+  					<wx:navigate type="next"><img src="%WEBROOT%webresources/skin/%SKIN%/images/nextpage_ch.gif" class="cls-navigate-img"/></wx:navigate>
+  					<wx:navigate type="last"/>
+  				</td></tr>
+  			</table>
+  		]]>
+  </resource>
+  <resource key="navigatebuttonpage1.report2.navigate" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+  			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  				<tr><td align="left">
+  					当前页<wx:navigate type="pageno"/>/<wx:navigate type="pagecount"/>
+  					记录数：<wx:navigate type="recordcount"/>
+  				</td>
+				<td align="right">
+  					<wx:navigate type="first">首页</wx:navigate>
+  					<wx:navigate type="previous">上一页</wx:navigate>
+  					<wx:navigate type="sequence" initcount="5"/>
+  					<wx:navigate type="next">下一页</wx:navigate>
+  					<wx:navigate type="last">尾页</wx:navigate>
+  				</td></tr>
+  			</table>
+  		]]>
+  </resource>
+  <resource key="navigatebuttonpage1.report3.navigate" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+  			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  				<tr><td align="left">
+  					当前页<wx:navigate type="pageno"/>/<wx:navigate type="pagecount"/>
+  					记录数：<wx:navigate type="recordcount"/>
+  				</td>
+				<td align="right">
+  					<wx:navigate type="first"/>
+  					<wx:navigate type="previous"/>
+  					<wx:navigate type="sequence" initcount="5"/>
+  					<wx:navigate type="next"/>
+  					<wx:navigate type="last"/>
+  				</td></tr>
+  			</table>
+  		]]>
+  </resource>
+  <resource key="navigatesequencepage1.report1.navigate" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+  			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  				<tr><td align="left">
+  					当前页<wx:navigate type="pageno"/>/<wx:navigate type="pagecount"/>
+  					记录数：<wx:navigate type="recordcount"/>
+  				</td>
+				<td align="right">
+  					<wx:navigate type="first"/>
+  					<wx:navigate type="previous"/>
+  					<wx:navigate type="sequence" minlength="2"><u>[<font  color="blue">%PAGENO%</font>]</u></wx:navigate>
+  					<wx:navigate type="next"/>
+  					<wx:navigate type="last"/>
+  				</td></tr>
+  			</table>
+  		]]>
+  </resource>
+  <resource key="navigatesequencepage1.report2.navigate" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+  			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  				<tr><td align="left">
+  					当前页<wx:navigate type="pageno"/>/<wx:navigate type="pagecount"/>
+  					记录数：<wx:navigate type="recordcount"/>
+  				</td>
+				<td align="right">
+  					<wx:navigate type="first"/>
+  					<wx:navigate type="previous"/>
+  					<wx:navigate type="sequence" initcount="3"/>
+  					<wx:navigate type="next"/>
+  					<wx:navigate type="last"/>
+  				</td></tr>
+  			</table>
+  		]]>
+  </resource>
+  <resource key="navigatesequencepage1.report3.navigate" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+  			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  				<tr><td align="left">
+  					当前页<wx:navigate type="pageno"/>/<wx:navigate type="pagecount"/>
+  					记录数：<wx:navigate type="recordcount"/>
+  				</td>
+  				<td align="right">
+  					<wx:navigate type="first"/>
+  					<wx:navigate type="previous"/>
+  					<wx:navigate type="sequence" initcount="3" maxcount="5"/>
+  					<wx:navigate type="next"/>
+  					<wx:navigate type="last"/>
+  				</td></tr>
+  			</table>
+  		]]>
+  </resource>
+  <resource key="navigatesequencepage1.report4.navigate" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+  			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  				<tr><td align="left">
+  					当前页<wx:navigate type="pageno"/>/<wx:navigate type="pagecount"/>
+  					记录数：<wx:navigate type="recordcount"/>
+  				</td>
+				<td align="right">
+  					<wx:navigate type="first"/>
+  					<wx:navigate type="previous"/>
+  					<wx:navigate type="sequence" minlength="3">[%PAGENO%]</wx:navigate>
+  					<wx:navigate type="next"/>
+  					<wx:navigate type="last"/>
+  				</td></tr>
+  			</table>
+  		]]>
+  </resource>
+  <resource key="navigategotopage1.report1.navigate" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+  			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  				<tr><td align="left">
+  					当前页<wx:navigate type="pageno"/>/<wx:navigate type="pagecount"/>
+  					记录数：<wx:navigate type="recordcount"/>
+  					跳转到第<wx:navigate type="pageno">textbox</wx:navigate>页
+  				</td>
+				<td align="right">
+  					<wx:navigate type="first"/>
+  					<wx:navigate type="previous"/>
+  					<wx:navigate type="sequence"/>
+  					<wx:navigate type="next"/>
+  					<wx:navigate type="last"/>
+  				</td></tr>
+  			</table>
+  		]]>
+  </resource>
+  <resource key="navigategotopage1.report2.navigate" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+  			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  				<tr><td align="left">
+  					当前页<wx:navigate type="pageno"/>/<wx:navigate type="pagecount"/>
+  					记录数：<wx:navigate type="recordcount"/>
+  					跳转到第<wx:navigate type="pageno">selectbox</wx:navigate>页
+  				</td>
+				<td align="right">
+  					<wx:navigate type="first"/>
+  					<wx:navigate type="previous"/>
+  					<wx:navigate type="sequence"/>
+  					<wx:navigate type="next"/>
+  					<wx:navigate type="last"/>
+  				</td></tr>
+  			</table>
+  		]]>
+  </resource>
+  <resource key="navigatepagesizepage1.report3.navigate" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+  			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  				<tr><td align="left">
+  					当前页<wx:navigate type="pageno"/>/<wx:navigate type="pagecount"/>
+  					记录数：<wx:navigate type="recordcount"/>
+  					跳转到第<wx:navigate type="pageno">selectbox</wx:navigate>页
+  					页大小：<wx:navigate type="pagesize"/>
+  				</td>
+  				<td align="right">
+  					<wx:navigate type="first"/>
+  					<wx:navigate type="previous"/>
+  					<wx:navigate type="sequence"/>
+  					<wx:navigate type="next"/>
+  					<wx:navigate type="last"/>
+  				</td></tr>
+  			</table>
+  		]]>
+  </resource>
+  <resource key="detailnavigatepage1.report2.navigate" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+  			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  				<tr><td align="left">
+  					<wx:navigate type="pageno"/>/<wx:navigate type="pagecount"/>
+  				</td>
+				<td align="right">
+  					<wx:navigate type="first"/>
+  					<wx:navigate type="previous"/>
+  					<wx:navigate type="next"/>
+  					<wx:navigate type="last"/>
+  				</td></tr>
+  			</table>
+  		]]>
+  </resource>
+  <resource key="filedownloadpage1.downloadfilepath">
+  		relative{/wabacusdemo/uploadfile}
+  </resource>
+</resources>

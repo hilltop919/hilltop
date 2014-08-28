@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns="http://www.wabacus.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.wabacus.com ../xsd/wabacus.resources.xsd">
+
+	<resource key="top.header" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+  		
+		<p id="back-to-top"><a href="#top"><span></span>返回顶部</a></p>
+  		<ul id="navigation">
+            <li class="home"><a href="index.jsp" title="首页"></a></li>
+            <li class="report"><a href="javascript:void(0)" onclick="wx_alert('功能建设中，敬请期待。')" title="报表中心"></a></li>
+            <!-- <li class="maintain"><a href="javascript:void(0)" onclick="wx_alert('功能建设中，敬请期待。')" title="数据维护"></a></li> -->
+            <li class="setting"><a href="ShowReport.wx?PAGEID=user_setting" title="用户信息"></a></li>
+            <li class="about"><a href="ShowReport.wx?PAGEID=system_about" title="关于"></a></li>
+            <li class="logout"><a href="jsp/login/logout.jsp" title="注销"></a></li>
+        </ul>
+  		<wx:output value="session{menu_list}" />
+  		
+  		]]>
+	</resource>
+
+	<resource key="system.footer" type="com.wabacus.config.resource.TemplateRes">
+  		<![CDATA[
+	<div id="footer">
+		<ul>
+			<li>
+				<a href="ShowReport.wx?PAGEID=system_about">Copyright © 2013-2014 山顶冻人的三亩两分地儿</a>
+				<br><br>
+			</li>
+		
+		</ul>
+	</div>
+  		
+  		]]>
+	</resource>
+</resources>

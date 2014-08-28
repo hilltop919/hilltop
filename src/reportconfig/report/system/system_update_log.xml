@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<applications xmlns="http://www.wabacus.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.wabacus.com ../../xsd/wabacus.applications.xsd">
+
+	<!-- 系统更新日志 2014-7-15 -->
+	<page id="system_update_log" js="/webresources/script/validate.js">
+		<header>${top.header}</header>
+		<vpanel id="common_vpanel" width="1000px" align="center">
+			<report id="title" extends="title.report1"></report>
+			<report id="report1" title="系统更新日志" type="editablelist2"
+				pagesize="-1" navigate="${navigatepagesizepage1.report3.navigate}"
+				width="1000px" celldrag="0" cellresize="0">
+				<display>
+					<col column="{sequence:1}" label="序号" width="60px"></col>
+					<col column="log_id" displaytype="hidden"></col>
+					<col column="log_date" label="更新日期" width="120px" datatype="date{yyyy-MM-dd}">
+						<inputbox type="datepicker" jsvalidate="isNotEmpty(#label#列不允许为空)"
+							styleproperty="style='width:99%'"></inputbox>
+					</col>
+					<col column="log_title" label="标题" width="160px">
+						<inputbox jsvalidate="isNotEmpty(#label#列不允许为空)"
+							styleproperty="style='width:99%'"></inputbox>
+					</col>
+					<col column="system_version" label="版本号" width="100px"
+						clickorderby="true">
+						<inputbox styleproperty="style='width:99%'"></inputbox>
+					</col>
+					<col column="update_detail" label="更新内容">
+						<inputbox styleproperty="style='width:99%'"></inputbox>
+					</col>
+				</display>
+				<sql preparedstatement="false">
+					<select>
+						<value>
+						<![CDATA[
+						
+		SELECT log_id, log_date, log_title, system_version, update_detail, lm_user, lm_time
+		  FROM sys_c_app_log
+		ORDER BY log_date desc
+
+						]]>
+						</value>
+					</select>
+					<insert addposition="top">
+						<params>
+							<param name="myguid" value="uuid{}"></param>
+							<param name="user_id" value="session{user_id}"></param>
+							<param name="current_time" value="now{}"
+								datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+						</params>
+						<value>
+							insert into sys_c_app_log(log_id, log_date, log_title, system_version, update_detail, lm_user, lm_time)
+							values (#{myguid},@{log_date},@{log_title},@{system_version},@{update_detail},#{user_id},#{current_time});
+						</value>
+					</insert>
+					<update>
+						<params>
+							<param name="user_id" value="session{user_id}"></param>
+							<param name="current_time" value="now{}"
+								datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+						</params>
+						<value>
+							update sys_c_app_log set 
+							log_date=@{log_date},log_title=@{log_title},
+							system_version=@{system_version},update_detail=@{update_detail},
+							lm_user=#{user_id},lm_time=#{current_time}
+							where log_id=@{log_id__old};
+						</value>
+					</update>
+					<delete>
+						delete from sys_c_app_log where log_id=@{log_id};
+					</delete>
+				</sql>
+			</report>
+		</vpanel>
+		<footer>${system.footer}</footer> 
+	</page>
+
+
+</applications>

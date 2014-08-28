@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<applications xmlns="http://www.wabacus.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.wabacus.com ../../xsd/wabacus.applications.xsd">
+	<page id="home" js="/js/demo.js">
+		<header>${top.header}</header>
+		<vpanel id="common_vpanel" width="1000px" align="center" title="">
+			<report id="title" extends="title.report1"></report>
+			<tabpanel id="tab1" titlealign="center" titlewidth="120px" asyn="false">
+				<report id="report1"
+					parenttitle="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;所有功能&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+					title="" pagesize="-1" top="3" left="8" right="8" dataexport="none" celldrag="0" width="990px">
+					<display>
+						<col column="{sequence:1}" label="序号" width="80px"></col>
+						<col column="menu_name" label="类别" filter="condition{txt_menu_name}" rowgroup="true" width="160px" align="center" />
+						<col property="favor" column="{non-fromdb}" label="" width="30px"></col>
+						<col column="page_name" label="功能名称" align="left" />
+						<col column="hits" label="点击量" width="120px" align="right"></col>
+						<col column="lm_time" label="上线时间" datatype="date{yyyy-MM-dd}" width="120px" align="center" />
+						<col column="page_id" displaytype="hidden"></col>
+						<col column="is_favor" displaytype="hidden"></col>
+						<col column="url_param" displaytype="hidden"></col>
+						<col column="mnid" displaytype="hidden"></col>
+						<col column="menu_id" displaytype="hidden"></col>
+					</display>
+					<sql>
+						<value>
+					<![CDATA[
+		select case when f.page_id is null then 'non_favor' else 'favor' end as is_favor,mt.menu_id,m.menu_name,m.seq,
+		mt.page_id,mt.page_name,mt.url_param,mt.lm_time,p.hits,mt.id as mnid
+		from sys_c_app_mnlt mt
+		left join sys_c_sec_user u on u.group_id=mt.group_id and u.is_enable='Y'
+		left join sys_c_app_menu m on mt.menu_id=m.menu_id
+		left join sys_c_sec_page p on mt.page_id=p.page_id
+		left join sys_c_per_fvor f on mt.page_id=f.page_id and f.user_id=u.user_id
+		where {#condition#}
+		and m.menu_type='normal'
+		and mt.is_show='Y' 
+		order by m.seq,p.hits desc
+					]]>
+				</value>
+						<condition name="txt_user_id" source="session{user_id}">
+							<value><![CDATA[u.user_id='#data#']]></value>
+						</condition>
+						<condition name="txt_menu_name" hidden="true">
+							<value><![CDATA[m.menu_name='#data#']]></value>
+						</condition>
+						<condition name="txt_menu_id" hidden="true">
+							<value><![CDATA[m.menu_id='#data#']]></value>
+						</condition>
+					</sql>
+					<format>
+						<imports>
+							<import>com.taocares.aoms.util.*</import>
+							<import>java.util.*</import>
+							<import>java.text.*</import>
+						</imports>
+						<value>
+				<![CDATA[
+				Date d=new Date(); 
+				String current_date=DateFormat.getDateInstance().format(d);
+				String lm_days;
+				if(lm_time!=null){
+					lm_days=Time.getTwoDay(current_date,DateFormat.getDateInstance().format(lm_time));
+				}else{
+					lm_days="8";
+				}
+				String new_img="&nbsp;<img style='border:0px;' src='images/firstnew.gif'>";
+				if("non_favor".equals(is_favor)){
+					favor="<img src=\"images/star_off.gif\" style='padding-left:5px;float:left;width:15px;height:15px;cursor: pointer;' title=\"点击收藏\" onclick=\"invokeServerAction('com.taocares.aoms.personalize.FavorPage',{pageid:'"+page_id+"'},InvokeCallbackMethod_refreshHome_report1,null);\">";
+				}else{
+					favor="<img src=\"images/star_on.gif\" style='padding-left:5px;float:left;width:15px;height:15px;cursor: pointer;' title=\"取消收藏\" onclick=\"invokeServerAction('com.taocares.aoms.personalize.FavorPage',{pageid:'"+page_id+"'},InvokeCallbackMethod_refreshHome_report1,null);\">";
+				}
+				if(Long.parseLong(lm_days)<7){//最近7天上线的功能,以new图样标识
+					page_name="<a style='padding-left:4px; display:block; overflow:hidden; cursor:pointer;' href='ShowReport.wx?MENUID="+menu_id+"&PAGEID="+page_id+(url_param==null?"":url_param)+"&MNID="+mnid+"'>"+page_name +new_img+"</a>";
+				}else{
+					page_name="<a style='padding-left:4px;display: block; overflow: hidden; cursor: pointer;' href='ShowReport.wx?MENUID="+menu_id+"&PAGEID="+page_id+(url_param==null?"":url_param)+"&MNID="+mnid+"'>"+page_name +"</a>";
+				}
+				]]>
+						</value>
+					</format>
+					<footer><![CDATA[<div style='float:left'><font color='blue'>提示:点击名称,可以打开对应的功能页面</font></div>]]></footer>
+				</report>
+
+				<report id="report2"
+					parenttitle="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;我的收藏&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+					title="" pagesize="-1" top="3" left="8" right="8" dataexport="none" celldrag="0" width="990px">
+					<display>
+						<col column="{sequence:1}" label="序号" width="80px"></col>
+						<col column="menu_name" label="类别" filter="condition{txt_menu_name}" rowgroup="true" width="160px" align="center" />
+						<col property="favor" column="{non-fromdb}" label="" width="30px"></col>
+						<col column="page_name" label="功能名称" align="left" />
+						<col column="hits" label="点击量" width="120px" align="right"></col>
+						<col column="lm_time" label="上线时间" datatype="date{yyyy-MM-dd}" width="120px" align="center" />
+						<col column="page_id" displaytype="hidden"></col>
+						<col column="is_favor" displaytype="hidden"></col>
+						<col column="url_param" displaytype="hidden"></col>
+						<col column="mnid" displaytype="hidden"></col>
+						<col column="menu_id" displaytype="hidden"></col>
+					</display>
+					<sql>
+						<value>
+					<![CDATA[
+		select case when f.page_id is null then 'non_favor' else 'favor' end as is_favor,mt.menu_id,m.menu_name,m.seq,
+		mt.page_id,mt.page_name,mt.url_param,mt.lm_time,p.hits,mt.id as mnid
+		from sys_c_app_mnlt mt 
+		left join sys_c_sec_user u on u.group_id=mt.group_id and u.is_enable='Y'
+		left join sys_c_app_menu m on mt.menu_id=m.menu_id
+		left join sys_c_sec_page p on mt.page_id=p.page_id
+		right join sys_c_per_fvor f on mt.page_id=f.page_id and f.user_id=u.user_id
+		where {#condition#}
+		and mt.is_show='Y'
+		order by p.hits desc,m.seq
+					]]>
+				</value>
+						<condition name="txt_user_id" source="session{user_id}">
+							<value><![CDATA[u.user_id='#data#']]></value>
+						</condition>
+						<condition name="txt_menu_name" hidden="true">
+							<value><![CDATA[m.menu_name='#data#']]></value>
+						</condition>
+						<condition name="txt_menu_id" hidden="true">
+							<value><![CDATA[m.menu_id='#data#']]></value>
+						</condition>
+					</sql>
+					<format>
+						<imports>
+							<import>com.taocares.aoms.util.*</import>
+							<import>java.util.*</import>
+							<import>java.text.*</import>
+						</imports>
+						<value>
+				<![CDATA[
+				Date d=new Date(); 
+				String current_date=DateFormat.getDateInstance().format(d);
+				String lm_days;
+				if(lm_time!=null){
+					lm_days=Time.getTwoDay(current_date,DateFormat.getDateInstance().format(lm_time));
+				}else{
+					lm_days="8";
+				}
+				String new_img="&nbsp;<img style='border:0px;' src='images/firstnew.gif'>";
+				
+				if("non_favor".equals(is_favor)){
+					favor="<img src=\"images/star_off.gif\" style='float:left;width:15px;height:15px;cursor: pointer;' title=\"点击收藏\" onclick=\"invokeServerAction('com.taocares.aoms.personalize.FavorPage',{pageid:'"+page_id+"'},InvokeCallbackMethod_refreshHome_report1,null);\">";
+				}else{
+					favor="<img src=\"images/star_on.gif\" style='float:left;width:15px;height:15px;cursor: pointer;' title=\"取消收藏\" onclick=\"invokeServerAction('com.taocares.aoms.personalize.FavorPage',{pageid:'"+page_id+"'},InvokeCallbackMethod_refreshHome_report1,null);\">";
+				}
+				if(Long.parseLong(lm_days)<7){//最近7天上线的功能,以new图样标识
+					page_name="<a style='padding-left:4px; display:block; overflow:hidden; cursor:pointer;' href='ShowReport.wx?MENUID="+menu_id+"&PAGEID="+page_id+(url_param==null?"":url_param)+"&MNID="+mnid+"'>"+page_name +new_img+"</a>";
+				}else{
+					page_name="<a style='padding-left:4px;display: block; overflow: hidden; cursor: pointer;' href='ShowReport.wx?MENUID="+menu_id+"&PAGEID="+page_id+(url_param==null?"":url_param)+"&MNID="+mnid+"'>"+page_name +"</a>";
+				}
+				]]>
+						</value>
+					</format>
+					<footer><![CDATA[
+						<div style='float:left'>
+							<font color='blue'>提示:点击名称,可以打开对应的功能页面</font><br>
+						</div>]]>
+					</footer>
+				</report>
+			</tabpanel>
+			<footer><![CDATA[
+				<div style='float:right'>
+					<font color='gray'>建议使用<a href='others/ChromeStandaloneSetup35.0.1916.114.1401167998.exe'>谷歌浏览器</a>,IE8+等浏览器使用本系统</font>
+				</div>
+				<title>首页 - 山顶冻人的三亩两分地儿</title>
+				]]>
+			</footer>
+		</vpanel>
+		<footer>${system.footer}</footer> 
+	</page>
+
+	<!-- 单据页title部分,包含标题,公用按钮 -->
+	<page xmlns="http://www.wabacus.com" id="title" js="/js/demo.js">
+		<report id="report1" pagesize="-1" top="0" border="none0">
+			<interceptor>
+				<preaction>
+					<![CDATA[
+					String menuid=rrequest.getStringAttribute("MENUID");
+					if("favor".equals(menuid)){
+						rrequest.setAttribute("MENUID","");
+					}
+					]]>
+				</preaction>
+			</interceptor>
+			<display dataheader="" mouseoverbgcolor="#F0F1F3">
+				<col property="title" column="{non-fromdb}" align="left" valuestyleproperty="style='background:#F0F1F3'"></col>
+				<col column="is_favor" displaytype="hidden"></col>
+				<col column="page_id" displaytype="hidden"></col>
+				<col column="menu_name" displaytype="hidden"></col>
+				<col column="page_name" displaytype="hidden"></col>
+				<col column="menu_id" displaytype="hidden"></col>
+				<col column="menu_type" displaytype="hidden"></col>
+			</display>
+			<sql preparedstatement="false">
+				<select>
+					<value>
+					<![CDATA[
+		 select case when f.page_id is null then 'non_favor' else 'favor' end as is_favor,
+			 m.menu_name,mt.page_id,mt.page_name,mt.menu_id,m.menu_type
+		from sys_c_sec_user u 
+		left join sys_c_app_mnlt mt on u.group_id=mt.group_id
+		left join sys_c_app_menu m on mt.menu_id=m.menu_id 
+		left join sys_c_per_fvor f on f.page_id=mt.page_id and u.user_id=f.user_id
+		where {#condition#}
+		and u.is_enable='Y'
+					]]>
+					</value>
+					<condition name="txt_user_id" source="session{user_id}" hidden="true">
+						<value>u.user_id='#data#'</value>
+					</condition>
+					<condition name="MNID" hidden="true">
+						<value>mt.id='#data#'</value>
+					</condition>
+					<condition name="PAGEID" hidden="true">
+						<value>mt.page_id='#data#'</value>
+					</condition>
+					<condition name="MENUID" hidden="true">
+						<value>mt.menu_id='#data#'</value>
+					</condition>
+				</select>
+			</sql>
+			<format>
+				<imports>
+					<import>com.wabacus.config.Config</import>
+				</imports>
+				<value>
+				<![CDATA[
+				String favor="";
+				String path="<strong class='path'>当前位置：&nbsp;&nbsp;</strong>";
+				if("non_favor".equals(is_favor)){
+					favor="<img src=\"images/star_off.gif\" style='padding-left:1px;padding-right:5px;float:right;width:15px;height:15px;cursor: pointer;' title=\"点击收藏\" onclick=\"invokeServerAction('com.taocares.aoms.personalize.FavorPage',{pageid:'"+page_id+"'},InvokeCallbackMethod_refreshTitle,null);\">";
+				}else{
+					favor="<img src=\"images/star_on.gif\" style='padding-left:1px;padding-right:5px;float:right;width:15px;height:15px;cursor: pointer;' title=\"取消收藏\" onclick=\"invokeServerAction('com.taocares.aoms.personalize.FavorPage',{pageid:'"+page_id+"'},InvokeCallbackMethod_refreshTitle,null);\">";
+				}
+				//normal的菜单,显示2级,其他只显示名字
+				if("normal".equals(menu_type)){
+					title=path+"<font style='color:#154BA0'><a class='title_link' href='ShowReport.wx?PAGEID=home&txt_menu_id="+menu_id+"'>"+menu_name+"</a>&nbsp;&nbsp;»&nbsp;&nbsp;"+page_name+"</font>"+favor;
+				}else {
+					title=path+"<font style='color:#154BA0'><a class='title_link' href='"+menu_type.substring(4)+"'>"+menu_name+"</a>&nbsp;&nbsp;»&nbsp;&nbsp;"+page_name+"</font>"+favor;
+				}
+				rrequest.getRequest().setAttribute("title",page_name+" - "+Config.getInstance().getSystemConfigValue("system_title", ""));
+				]]>
+				</value>
+			</format>
+			<footer>
+				<![CDATA[<title><wx:output value="request{title}"/></title>
+				<link rel='shortcut icon' href='images/favicon.png' />]]>
+			</footer>
+		</report>
+	</page>
+
+</applications>

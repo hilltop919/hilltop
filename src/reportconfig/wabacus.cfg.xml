@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wabacus-config xmlns="http://www.wabacus.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.wabacus.com xsd/wabacus.cfg.xsd">
+
+	<system>
+		<item name="webroot" value="/hilltop" /><!-- 应用的根URL -->
+		<item name="webroot-abspath" value="" /><!-- 默认为context.getRealPath("/")获取的值，可以直接配置根路径 -->
+		<item name="showreport-url" value="/ShowReport.wx" /><!--显示报表数据的URL，就是在web.xml中配置的<url-pattern/>的值可以带参数 -->
+		<item name="encode" value="UTF-8" />
+		<item name="show-sql" value="true" /><!-- 是否显示执行的SQL语句或存储过程 -->
+		<item name="default-cellresize" value="2" /><!-- 指定整个项目中所有单行表头的数据自动列表报表的表格单元格默认可移动性 -->
+		<item name="default-condition-labelposition" value="left" /><!-- 查询条件提示标签的显示位置 -->
+		<item name="server-validate-class" value="" /><!-- 自己开发的服务器端校验类 -->
+		<item name="default-jsvalidatetype" value="both" /><!-- 客户端校验类型。默认为失去焦点和提交时都进行校验 -->
+		<item name="skin" value="cares" /><!-- 皮肤样式 lightblue -->
+		<item name="default-mouseoverbgcolor" value="#6FF67B" /><!-- 鼠标滑过时背景色 -->
+		<item name="selectedrow-bgcolor" value="#3297FD" />
+		<item name="dataimport-batchupdate-size" value="1" />
+		<item name="default-checkpermission" value="true" /><!-- 本应用是否要检查权限，如果在不需要检查权限的应用中关闭它，可以改善性能 -->
+		<item name="default-pagepersonalizeclass" value="com.taocares.aoms.personalize.PagePersonalizePersistenceImpl" /><!-- 默认保存页面个性化信息的类 -->
+		<item name="default-reportpersonalizeclass" value="com.taocares.aoms.personalize.ReportPersonalizePersistenceImpl" /><!-- 默认保存报表/表单个性化信息的类 -->
+		<item name="prompt-dialog-type" value="artdialog" /><!-- 提示组件类型 ymprompt;artdialog -->
+		<item name="default-chart-datatype" value="xmlurl" /><!-- 默认的chart图表数据类型 -->
+		<item name="default-listreport-pagecolselect" value="fasle" /><!-- 列表报表显示在页面时是否支持列选择的默认配置项 -->
+		<!-- 自定义的系统级参数 -->
+		<item name="system_name" value="山顶冻人的三亩两分地儿"></item><!-- 系统名称 -->
+		<item name="system_title" value="山顶冻人的三亩两分地儿"></item><!-- 系统标题 -->
+	</system>
+	<datasources default="hilltop">
+		<datasource name="hilltop"
+			type="com.wabacus.config.database.datasource.C3P0DataSource" dbtype="com.wabacus.config.database.type.Oracle">
+			<property name="driver">oracle.jdbc.driver.OracleDriver</property>
+			<property name="url">jdbc:oracle:thin:@192.168.163.228:1521:naoms</property>
+			<property name="user">hilltop</property>
+			<property name="password">hilltop</property>
+
+			<property name="max_size">20</property>
+			<property name="min_size">5</property>
+			<property name="timeout">100</property>
+			<property name="max_statements">100</property>
+			<property name="idle_test_period">50</property>
+			<property name="acquire_increment">2</property>
+		</datasource>
+	</datasources>
+
+	<inputbox-types />
+
+	<!-- 配置本项目中所有报表页面都必须包含的js文件 -->
+	<global-jsfiles>
+		<js-file>js/jquery-1.7.2.min.js</js-file>
+		<js-file>js/rcom-nav.js</js-file>
+		<js-file>js/menu.js</js-file>
+		<js-file loadorder="-1">js/demo.js</js-file>
+	</global-jsfiles>
+
+	<!-- 配置本项目中所有报表页面都必须包含的css文件 -->
+	<global-cssfiles>
+		<css-file>css/base.css</css-file>
+		<css-file>FixedNavigation/css/style.css</css-file>
+	</global-cssfiles>
+
+	<global-interceptors>
+		<interceptor class="com.taocares.aoms.interceptor.permissions.GlobalPermissionsInterceptor" />
+		<interceptor class="com.taocares.aoms.interceptor.pageinterceptor.PageResponseTimeInterceptor" />
+	</global-interceptors>
+
+	<i18n-resources file="resources/i18n/ApplicationResources.xml" />
+
+	<!-- 注册所有全局资源文件 -->
+	<global-resources>
+		<resource-file>resources/resources_report.xml</resource-file>
+		<resource-file>resources/resources_business_ch.xml</resource-file>
+		<resource-file>resources/resources_importdata.xml</resource-file>
+	</global-resources>
+
+	<!-- 注册所有报表配置文件 -->
+	<report-files>
+	<!-- 
+	
+	 -->
+	
+		<report-file pattern="true">report/system/(\S*?)(\.xml)</report-file>
+	</report-files>
+</wabacus-config>

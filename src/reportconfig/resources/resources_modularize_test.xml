@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns="http://www.wabacus.com"
+			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			  xsi:schemaLocation="http://www.wabacus.com ../xsd/wabacus.resources.xsd">
+  	<resource key="refdisplaypage1.report1.display1" type="com.wabacus.config.resource.XmlElementRes">
+    	<display>
+				<col column="{sequence:1}" label="序号"/>
+				<col column="no" label="工号" clickorderby="true" width="100px" filter="condition{txtgonghao}"  valuestyleproperty="style='mso-number-format:\@'"/>
+				<group label="姓名">
+					<col column="name" label="中文名" width="100px" filter="condition{txtname}" clickorderby="true"/>
+					<col column="ename" label="英文名" width="100px" filter="true" filterwidth="150px" clickorderby="true"/>
+				</group>
+				<col column="sex" label="性别" width="60px" clickorderby="true"/>
+				<col column="age" label="年龄" width="60px" clickorderby="true"/>
+				<col column="birthday" label="出生日期" clickorderby="true"/>
+				<group label="地区">
+					<col column="province"  label="省份" filter="true" filterwidth="120px"/>
+					<col column="city"  label="城市"/>
+					<col column="county"  label="县城"/>
+				</group>
+		</display>
+    </resource>
+    <resource key="refdisplaypage1.report2.display1" type="com.wabacus.config.resource.XmlElementRes">
+    		<display ref="${refdisplaypage1.report2.display3}">
+				<group label="姓名">
+					<col column="name" label="中文名" width="100px" filter="condition{txtname}" clickorderby="true"/>
+					<col column="ename" label="英文名" width="100px" filter="true" filterwidth="150px" clickorderby="true"/>
+				</group>
+				<col column="sex" label="性别" width="60px" clickorderby="true"/>
+			</display>
+    </resource>
+    <resource key="refdisplaypage1.report2.display2" type="com.wabacus.config.resource.XmlElementRes">
+    		<display>
+				<group label="地区">
+					<col column="province"  label="省份" filter="true" filterwidth="120px"/>
+					<col column="city"  label="城市"/>
+					<col column="county"  label="县城"/>
+				</group>
+			</display>
+    </resource>
+    <resource key="refdisplaypage1.report2.display3" type="com.wabacus.config.resource.XmlElementRes">
+    		<display>
+				<col column="age" label="年龄" width="60px" clickorderby="true"/>
+				<col column="birthday" label="出生日期" clickorderby="true"/>
+			</display>
+    </resource>
+    <resource key="refsqlpage1.report1.sql1" type="com.wabacus.config.resource.XmlElementRes">
+    		<sql>
+				<value>
+					<![CDATA[SELECT A.no,name,ename,sex,age,marriage,birthday,joinindate,province,city,county,description FROM tbl_baseinfo A left join tbl_detailinfo B on A.no=B.no where  {#condition#} order by no]]>
+				</value>
+				<condition name="txtgonghao" label="工号">
+					<value>
+						<![CDATA[(A.no like  '%#data#%')]]>
+					</value>
+					<inputbox>
+					  <typeprompt width="-1" count="15">
+						<promptcol label="no" matchmode="anywhere"/>
+						<datasource><option dataset="@{select no from tbl_baseinfo where {#matchcondition#}}"/></datasource>
+					  </typeprompt>
+					</inputbox>
+				</condition>
+				<condition name="txtname" label="中文名">
+					<value>
+						<![CDATA[(name like  '%#data#%')]]>
+					</value>
+					<inputbox>
+					  <typeprompt count="15">
+						<promptcol label="name" matchmode="anywhere"/>
+						<datasource><option dataset="@{select name from tbl_baseinfo where {#matchcondition#}}"/></datasource>
+					  </typeprompt>
+					</inputbox>
+				</condition>
+				<condition name="txtprovince" label="省">
+					<value>
+						<![CDATA[(province like %#data#%)]]>
+					</value>
+					<inputbox type="selectbox">
+						 <option label="全部" value=""></option>
+						 <option dataset="@{select distinct province from tbl_area}" label="province" value="province"></option>
+					</inputbox>
+				   </condition>
+				   <condition name="txtcity" label="市">
+					    <value>
+							<![CDATA[(city like %#data#%)]]>
+						</value>
+					    <inputbox type="selectbox" depends="txtprovince">
+						     <option label="全部" value=""></option>
+						     <option label="无" value="" type="false"></option>
+						     <option dataset="@{select distinct city from tbl_area where province like '%#txtprovince#%'}" label="city" value="city"></option>
+					    </inputbox>
+				   </condition>
+				   <condition name="txtcounty" label="县城">
+					   <value>
+							<![CDATA[(county like %#data#%)]]>
+						</value>
+					   <inputbox type="selectbox" depends="txtcity">
+						     <option label="全部" value=""></option>
+						     <option label="无" value="" type="false"></option>
+						     <option dataset="@{select distinct county from tbl_area where city like '%#txtcity#%'}" label="county" value="county"></option>
+					   </inputbox>
+				   </condition>
+			</sql>
+    </resource>
+    <resource key="refsqlpage1.report2.sql1" type="com.wabacus.config.resource.XmlElementRes">
+    		<sql>
+				<condition name="txtname" label="中文名">
+					<value>
+						<![CDATA[(name like  '%#data#%')]]>
+					</value>
+					<inputbox>
+					  <typeprompt count="15">
+						<promptcol label="name" matchmode="anywhere"/>
+						<datasource><option dataset="@{select name from tbl_baseinfo where {#matchcondition#}}"/></datasource>
+					  </typeprompt>
+					</inputbox>
+				</condition>
+			</sql>
+    </resource>
+    <resource key="refsqlpage1.report2.sql2" type="com.wabacus.config.resource.XmlElementRes">
+    		<sql ref="${refsqlpage1.report2.sql3}">
+				<condition name="txtprovince" label="省">
+					<value>
+						<![CDATA[(province like %#data#%)]]>
+					</value>
+					<inputbox type="selectbox">
+						 <option label="全部" value=""></option>
+						 <option dataset="@{select distinct province from tbl_area}" label="province" value="province"></option>
+					</inputbox>
+				   </condition>
+				   <condition name="txtcity" label="市">
+					    <value>
+							<![CDATA[(city like %#data#%)]]>
+						</value>
+					    <inputbox type="selectbox" depends="txtprovince">
+						     <option label="全部" value=""></option>
+						     <option label="无" value="" type="false"></option>
+						     <option dataset="@{select distinct city from tbl_area where province like '%#txtprovince#%'}" label="city" value="city"></option>
+					    </inputbox>
+				   </condition>
+			</sql>
+    </resource>
+    <resource key="refsqlpage1.report2.sql3" type="com.wabacus.config.resource.XmlElementRes">
+    		<sql>
+				<condition name="txtcounty" label="县城">
+					<value>
+						<![CDATA[(county like %#data#%)]]>
+					</value>
+					<inputbox type="selectbox" depends="txtcity">
+						<option label="全部" value=""></option>
+						<option label="无" value="" type="false"></option>
+						<option dataset="@{select distinct county from tbl_area where city like '%#txtcity#%'}" label="county" value="county"></option>
+					</inputbox>
+				</condition>
+			</sql>
+    </resource>
+    <resource key="refbuttonspage1.report1.buttons1" type="com.wabacus.config.resource.XmlElementRes">
+    		<buttons buttonspacing="1">
+				<button name="button1" position="searchbox" label="按钮一">
+					<![CDATA[alert('按钮一');]]>
+				</button>
+				<button name="button2" position="searchbox" label="按钮二">
+					<![CDATA[alert('按钮二');]]>
+				</button>
+				<button name="button3" position="searchbox" label="按钮三">
+					<![CDATA[alert('按钮三');]]>
+				</button>
+				<button name="button4" position="title|searchbox" label="按钮四">
+					<![CDATA[alert('按钮四');]]>
+				</button>
+				<button name="button5" position="searchbox" label="按钮五">
+					<![CDATA[alert('按钮五');]]>
+				</button>
+				<button name="button6" position="title" label="按钮六">
+					<![CDATA[alert('按钮六');]]>
+				</button>
+				<button name="button7" position="title" label="按钮七">
+					<![CDATA[alert('按钮七');]]>
+				</button>
+				<button name="button8" position="title" label="按钮八">
+					<![CDATA[alert('按钮八');]]>
+				</button>
+			</buttons>
+    </resource>
+    <resource key="refbuttonspage1.report2.buttons1" type="com.wabacus.config.resource.XmlElementRes">
+    		<buttons buttonspacing="1" ref="${refbuttonspage1.report2.buttons3}">
+				<button name="button3" position="searchbox" label="按钮三">
+					<![CDATA[alert('按钮三');]]>
+				</button>
+				<button name="button4" position="title|searchbox" label="按钮四">
+					<![CDATA[alert('按钮四');]]>
+				</button>
+			</buttons>
+    </resource>
+    <resource key="refbuttonspage1.report2.buttons2" type="com.wabacus.config.resource.XmlElementRes">
+    		<buttons buttonspacing="1">
+				<button name="button5" position="searchbox" label="按钮五">
+					<![CDATA[alert('按钮五');]]>
+				</button>
+				<button name="button6" position="title" label="按钮六">
+					<![CDATA[alert('按钮六');]]>
+				</button>
+			</buttons>
+    </resource>
+    <resource key="refbuttonspage1.report2.buttons3" type="com.wabacus.config.resource.XmlElementRes">
+    		<buttons buttonspacing="1">
+				<button name="button7" position="title" label="按钮七">
+					<![CDATA[alert('按钮七');]]>
+				</button>
+				<button name="button8" position="title" label="按钮八">
+					<![CDATA[alert('按钮八');]]>
+				</button>
+			</buttons>
+    </resource>
+    <resource key="refformatpage1.report1.format1" type="com.wabacus.config.resource.XmlElementRes">
+    		<format>
+			  <value>
+					sex=sex==null?"1":sex.trim();
+					if(sex.equals("0")) sex="女";
+					else sex="男";
+					birthday=birthday==null?"":birthday.trim();
+					int idx=birthday.indexOf(" ");//判断是否有时间，有的话就去掉时间，只显示日期
+					if(idx>0) birthday=birthday.substring(0,idx);
+			  </value>
+			</format>
+    </resource>
+</resources>

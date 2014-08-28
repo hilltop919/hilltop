@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns="http://www.wabacus.com"
+				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			   xsi:schemaLocation="http://www.wabacus.com ../xsd/wabacus.resources.xsd">
+ 	<resource key="title.label">Employee Information List</resource>
+ 	<resource key="sequence.label">sequence</resource>
+ 	<resource key="no.label">no</resource>
+ 	<resource key="group.label">personal info</resource>
+ 	<resource key="name.label">name</resource>
+ 	<resource key="sex.label">sex</resource>
+ 	<resource key="age.label">age</resource>
+ 	<resource key="birthday.label">birthday</resource>
+ 	<resource key="salary.label">salary</resource>
+ 	<resource key="joinindate.label">joinindate</resource>
+ 	<resource key="condition.txtno.label">no</resource>
+ 	<resource key="condition.txtage.label">age</resource>
+ 	<resource key="l10npage.report1.footer">
+  		<![CDATA[<font color='#3366FF'><i>
+  		1、this report just show localization of static data<br/>
+  		2、the two search input boxes have been configed client validate,and their validat error info are also localized。
+  	   </i></font>]]>
+    </resource>
+    <resource key="invalid.isnotempty">#label# can't be empty</resource>
+    <resource key="invalid.number">#data# is not valid number</resource>
+    <resource key="invalid.age">#data# is not valid age</resource>
+</resources>

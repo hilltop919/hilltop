@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<applications xmlns="http://www.wabacus.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.wabacus.com ../../xsd/wabacus.applications.xsd">
+	<page id="menu_page" js="/js/demo.js">
+		<header>${top.header}</header>
+		<vpanel id="common_vpanel" width="1200px" align="center">
+			<hpanel id="hp1">
+				<report id="report1" title="" pagesize="-1" dataexport="none" celldrag="0" width="200px" scrollheight="500px"
+				rowselect="single"  selectcallback="reportListSelectCallback">
+					<display>
+						<col column="{sequence:1}" label="序号" width="40px" labelstyleproperty="style='background:#6495ed'"></col>
+						<col property="favor" column="{non-fromdb}" label="" displaytype="hidden"></col>
+						<col column="page_name" label="报表名称" labelstyleproperty="style='background:#6495ed'" align="left" />
+						<col column="hits" label="点击率" width="70px" align="right" displaytype="hidden"></col>
+						<col column="lm_time" label="上线时间" datatype="date{yyyy-MM-dd}" displaytype="hidden" />
+						<col column="page_id" displaytype="hidden" rowselectvalue="true"></col>
+						<col column="is_favor" displaytype="hidden"></col>
+						<col column="url_param" displaytype="hidden"></col>
+					</display>
+					<sql>
+						<value>
+					<![CDATA[
+		select case when f.page_id is null then 'non_favor' else 'favor' end as is_favor,mt.menu_id,m.menu_name,m.seq,
+		mt.page_id,mt.page_name,mt.url_param,mt.lm_time,p.hits
+		from sys_c_app_mnlt mt
+		left join sys_c_sec_user u on u.group_id=mt.group_id and u.is_enable='Y'
+		left join sys_c_app_menu m on mt.menu_id=m.menu_id
+		left join sys_c_sec_page p on mt.page_id=p.page_id
+		left join sys_c_per_fvor f on mt.page_id=f.page_id and f.user_id=u.user_id
+		where {#condition#}
+		and m.menu_type<>'normal'
+		and mt.is_show='Y' 
+		order by m.seq
+							]]>
+						</value>
+						<condition name="txt_user_id" source="session{user_id}">
+							<value><![CDATA[u.user_id='#data#']]></value>
+						</condition>
+						<condition name="menu_id" hidden="true">
+							<value><![CDATA[m.menu_id='#data#']]></value>
+						</condition>
+					</sql>
+					<format>
+						<imports>
+							<import>com.taocares.aoms.util.*</import>
+							<import>java.util</import>
+							<import>java.text</import>
+						</imports>
+						<value>
+				<![CDATA[
+					page_name="<span style='display:block;overflow:hidden;cursor:pointer;'>"+page_name+"</span>";
+				]]>
+						</value>
+					</format>
+				</report>
+				<html id="html1">
+				<![CDATA[
+				<iframe id="reportframe" name="reportframe" width="1015px" height="500px" 
+				frameborder="0" src="" style="border: 0px solid #cecece;"></iframe>
+				]]>
+				</html>
+			</hpanel>
+		</vpanel>
+		<footer>${system.footer}</footer> 
+	</page>
+
+</applications>

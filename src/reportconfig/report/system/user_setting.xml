@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<applications xmlns="http://www.wabacus.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.wabacus.com ../../xsd/wabacus.applications.xsd">
+
+	<!-- user setting 2014-4-19 -->
+	<page id="user_setting" js="/webresources/script/validate.js">
+		<header>${top.header}</header>
+		<vpanel id="common_vpanel" align="center" width="1000px">
+			<report id="title" extends="title.report1">
+				<format>
+					<imports>
+						<import>com.wabacus.config.Config</import>
+					</imports>
+					<value>
+				<![CDATA[
+				String user_name=(String)rrequest.getRequest().getSession().getAttribute("user_name");
+				String path="<strong class='path'>当前位置：&nbsp;&nbsp;</strong>";
+				title=path+"<font style='color:#154BA0'>用户信息："+user_name+"</font>";
+				rrequest.getRequest().setAttribute("title","用户信息："+user_name+" - "+Config.getInstance().getSystemConfigValue("system_title", ""));
+				]]>
+					</value>
+				</format>
+			</report>
+			<report id="report1" title="明细" type="editabledetail"
+				contextmenu="false" pagesize="-1">
+				<display valuetdwidth="50%" labeltdwidth="30%" labelbgcolor="#f0f0f0"
+					labelalign="right" valuealign="left">
+					<col column="user_id" label="帐号：" br="true">
+					</col>
+					<col column="user_name" label="姓名：" br="true">
+					</col>
+					<col column="{non-fromdb}" property="change_password" label="密码："
+						br="true"></col>
+					<col column="group_id" label="组别：" br="true">
+					</col>
+					<col column="department" label="部门：" br="true">
+					</col>
+					<col column="skin" label="主题风格：" br="true">
+						<inputbox type="selectbox">
+							<option label="默认" value=""></option>
+							<option
+								dataset="@{select param_id,param_value from sys_c_set_parm where param_type='skin' order by seq}"
+								label="param_value" value="param_id">
+							</option>
+						</inputbox>
+					</col>
+				</display>
+				<sql>
+					<select>
+						<value>
+							<![CDATA[
+					SELECT user_id, user_name, password, group_id, is_enable, department,
+					       CASE
+					         WHEN skin IS NULL THEN
+					          '默认'
+					         ELSE
+					          skin
+					       END AS skin
+					  FROM sys_c_sec_user x
+					 WHERE {#condition#}
+					 ORDER BY user_id
+
+							]]>
+						</value>
+						<condition name="txt_user_id" source="session{user_id}"
+							hidden="true">
+							<value>
+						<![CDATA[(user_id =  '#data#' )]]>
+							</value>
+						</condition>
+					</select>
+					<update>
+						<params>
+							<param name="user_id" value="session{user_id}"></param>
+							<param name="current_time" value="now{}"
+								datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+						</params>
+						<value>
+							update
+							sys_c_sec_user(@{skin},lm_user=#{user_id},lm_time=#{current_time})
+							where user_id=@{user_id__old};
+						</value>
+					</update>
+				</sql>
+				<format>
+					<value>
+			   <![CDATA[
+			   change_password="<a href='javascript:void(0)' onclick=\"wx_winpage('ShowReport.wx?PAGEID=change_password',{title:'修改密码',lock:true,width:500,height:260})\">修改密码</a>";
+				  ]]>
+					</value>
+				</format>
+			</report>
+		</vpanel>
+		<footer>${system.footer}</footer> 
+	</page>
+
+</applications>

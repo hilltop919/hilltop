@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<applications xmlns="http://www.wabacus.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.wabacus.com ../../xsd/wabacus.applications.xsd">
+
+	<!-- 关于 2014-7-15 -->
+	<page id="system_about" js="/webresources/script/validate.js">
+		<header>${top.header}</header>
+		<vpanel id="common_vpanel" width="1000px" align="center">
+			<report id="title" extends="title.report1">
+				<format>
+					<imports>
+						<import>com.wabacus.config.Config</import>
+					</imports>
+					<value>
+				<![CDATA[
+				String user_name=(String)rrequest.getRequest().getSession().getAttribute("user_name");
+				String path="<strong class='path'>当前位置：&nbsp;&nbsp;</strong>";
+				title=path+"<font style='color:#154BA0'>关于</font>";
+				rrequest.getRequest().setAttribute("title","关于 - "+Config.getInstance().getSystemConfigValue("system_title", ""));
+				]]>
+					</value>
+				</format>
+			</report>
+			<report id="report1" title="系统更新日志" pagesize="-1" width="1000px" celldrag="0" cellresize="0">
+				<display>
+					<col column="{sequence:1}" label="序号" width="40px"></col>
+					<col column="log_id" displaytype="hidden"></col>
+					<col column="log_date" label="更新日期" width="100px" datatype="date{yyyy-MM-dd}" />
+					<col column="log_title" label="标题" width="160px" />
+					<col column="update_detail" label="更新内容" align="left" />
+					<col column="system_version" label="版本号" width="100px" />
+				</display>
+				<sql preparedstatement="false">
+					<select>
+						<value>
+						<![CDATA[
+						
+		SELECT log_id, log_date, log_title, system_version, update_detail, lm_user, lm_time
+		  FROM sys_c_app_log
+		ORDER BY log_date desc
+
+						]]>
+						</value>
+					</select>
+				</sql>
+			</report>
+		</vpanel>
+		<footer>${system.footer}</footer> 
+	</page>
+
+
+</applications>

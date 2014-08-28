@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<applications xmlns="http://www.wabacus.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.wabacus.com ../../xsd/wabacus.applications.xsd">
+
+	<page id="system_parameter" js="/webresources/script/validate.js">
+		<header>${top.header}</header>
+		<vpanel id="common_vpanel" width="1000px" align="center">
+			<report id="title" extends="title.report1"></report>
+			<report id="report1" title="通用参数设置" type="editablelist2" pagesize="10|20|-1" navigate="${navigatepagesizepage1.report3.navigate}"
+			width="1000px">
+				<display>
+					<col column="{sequence:1}" label="序号" width="60px"></col>
+					<col column="param_type" label="参数类别" align="left" width="240px" filter="condition{txt_param_type}" clickorderby="true"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="param_name" label="描述" align="left" clickorderby="true"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="seq" label="次序" width="60px" clickorderby="true"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="param_id" label="参数ID" align="left" width="130px" clickorderby="true"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="param_value" label="参数值" align="left" width="160px" clickorderby="true"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+				</display>
+				<sql>
+					<select>
+						<value>
+						<![CDATA[select param_type,param_name,param_id,param_value,seq,lm_user,lm_time
+										 from sys_c_set_parm where {#condition#} order by param_type,seq  ]]>
+						</value>
+						<condition name="txt_param_type" hidden="true">
+							<value>param_type='#data#'</value>
+						</condition>
+					</select>
+					<insert addposition="top">
+						<params>
+							<param name="user_id" value="session{user_id}"></param>
+							<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+						</params>
+						<value>
+							insert into
+							sys_c_set_parm(@{param_type},@{param_name},@{param_id},@{param_value},@{seq},lm_user=#{user_id},lm_time=#{current_time});
+						</value>
+					</insert>
+					<update>
+						<params>
+							<param name="user_id" value="session{user_id}"></param>
+							<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+						</params>
+						<value>
+							update
+							sys_c_set_parm(@{param_type},@{param_name},@{param_id},@{param_value},@{seq},lm_user=#{user_id},lm_time=#{current_time})
+							where param_type=@{param_type__old} and param_id=@{param_id__old};
+						</value>
+					</update>
+					<delete>
+						delete from sys_c_set_parm where param_type=@{param_type} and param_id=@{param_id};
+					</delete>
+				</sql>
+			</report>
+		</vpanel>
+	</page>
+
+<!-- 2013-1-31  com.wabacus.util.Consts-->
+	<page id="system_consts" js="/webresources/script/validate.js">
+		<header>${top.header}</header>
+		<vpanel id="common_vpanel" width="1000px" align="center">
+			<report id="title" extends="title.report1"></report>
+			<report id="report1" title="Consts设定" type="editablelist2" pagesize="10|20|-1" navigate="${navigatepagesizepage1.report3.navigate}"
+			width="1000px">
+				<display>
+					<col column="{sequence:1}" label="序号" width="60px"></col>
+					<col column="const_type" label="分类" width="230px" filter="condition{txt_const_type}" clickorderby="true"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="const_name" label="名称" clickorderby="true" align="left"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="const_value" label="值" width="120px" align="left"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="const_description" label="描述" width="120px" clickorderby="true"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="seq" label="次序" width="80px" clickorderby="true"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="data_type" label="数据类型" width="100px" clickorderby="true">
+						<inputbox type="selectbox" styleproperty="style='width:99%'">
+							<option value="String" label="String"></option>
+							<option value="int" label="int"></option>
+						</inputbox>
+					</col>
+				</display>
+				<sql>
+					<select>
+						<value>
+						<![CDATA[select const_type,const_name,const_value,data_type,const_description,seq,lm_user,lm_time
+								from sys_c_app_consts where {#condition#} order by const_type,seq  ]]>
+						</value>
+						<condition name="txt_const_type" hidden="true">
+							<value>const_type='#data#'</value>
+						</condition>
+					</select>
+					<insert addposition="top">
+						<params>
+							<param name="user_id" value="session{user_id}"></param>
+							<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+						</params>
+						<value>
+							insert into
+							sys_c_app_consts(@{const_type},@{const_name},@{const_value},@{data_type},@{const_description},@{seq},lm_user=#{user_id},lm_time=#{current_time});
+						</value>
+					</insert>
+					<update>
+						<params>
+							<param name="user_id" value="session{user_id}"></param>
+							<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+						</params>
+						<value>
+							update
+							sys_c_app_consts(@{const_type},@{const_name},@{const_value},@{data_type},@{const_description},@{seq},lm_user=#{user_id},lm_time=#{current_time})
+							where const_name=@{const_name__old} ;
+						</value>
+					</update>
+					<delete>
+						delete from sys_c_app_consts where const_name=@{const_name};
+					</delete>
+				</sql>
+			</report>
+		</vpanel>
+		<footer>${system.footer}</footer> 
+	</page>
+
+</applications>

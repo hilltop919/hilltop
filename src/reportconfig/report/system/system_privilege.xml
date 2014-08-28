@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<applications xmlns="http://www.wabacus.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.wabacus.com ../../xsd/wabacus.applications.xsd">
+
+
+	<!-- 权限 -->
+	<page id="system_privilege" js="/webresources/script/validate.js">
+	<header>${top.header}</header>
+		<vpanel id="common_vpanel" align="center" width="1000px">
+			<report id="title" extends="title.report1"></report>
+			<report id="report1" title="权限" type="listform" pagesize="10|20|-1" navigate="${navigatepagesizepage1.report3.navigate}" cellresize="0" celldrag="0"
+			width="1000px">
+				<display>
+					<col column="{sequence:1}" label="序号" width="100px"/>
+					<col column="privilege_id" label="权限" filter="condition{condition_privilege_id}" width="220px"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="priority" label="权限等级" width="120px">
+						<inputbox jsvalidate="isNumeric({0}不是合法数字)" styleproperty="style='width:99%'"></inputbox>
+					</col>
+					<col column="privilege_description" label="描述" ><inputbox styleproperty="style='width:99%'"></inputbox></col>
+				</display>
+				<sql>
+					<select>
+						<value>
+						<![CDATA[select privilege_id,priority,privilege_description,lm_user,lm_time
+										 from sys_c_sec_priv where {#condition#} order by privilege_id  ]]>
+						</value>
+						<condition name="condition_privilege_id" hidden="true">
+							<value>
+							<![CDATA[(privilege_id =  '#data#' )]]>
+							</value>
+						</condition>
+					</select>
+					<insert addposition="top">
+						<params>
+							<param name="user_id" value="session{user_id}"></param>
+							<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+						</params>
+						<value>
+							insert into
+							sys_c_sec_priv(@{privilege_id},@{priority},@{privilege_description},lm_user=#{user_id},lm_time=#{current_time});
+						</value>
+					</insert>
+					<update>
+						<params>
+							<param name="user_id" value="session{user_id}"></param>
+							<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+						</params>
+						<value>
+							update
+							sys_c_sec_priv(@{privilege_id},@{priority},@{privilege_description},lm_user=#{user_id},lm_time=#{current_time})
+							where privilege_id=@{privilege_id__old};
+							update sys_c_sec_pvlt (@{privilege_id}) where privilege_id=@{privilege_id__old};
+						</value>
+					</update>
+					<delete>
+						delete from sys_c_sec_priv where privilege_id=@{privilege_id};
+						delete from sys_c_sec_pvlt where privilege_id=@{privilege_id};
+					</delete>
+				</sql>
+			</report>
+			<report id="report1_1" title="url{txt_privilege_id}权限详细列表" type="listform"
+				depends="report1" dependsparams="txt_privilege_id=@{privilege_id}"
+				pagesize="10|20|-1" navigate="${navigatepagesizepage1.report3.navigate}" width="1000px">
+				<display minrownum="1">
+					<col column="{sequence:1}" label="序号" width="60px"/>
+					<col column="id" displaytype="hidden"/>
+					<col column="privilege_id" label="权限" displaytype="hidden" clickorderby="true">
+						<inputbox type="selectbox" defaultvalue="url{txt_privilege_id}" styleproperty="style='width:99%'">
+							<option
+								dataset="@{select privilege_id from sys_c_sec_priv where {#condition#} order by privilege_id}"
+								label="privilege_id" value="privilege_id">
+								<datasetconditions>
+									<condition name="txt_privilege_id">
+										<value>
+											privilege_id = '#data#'
+										</value>
+									</condition>
+								</datasetconditions>
+							</option>
+						</inputbox>
+					</col>
+					<col column="page_id" label="页面ID" clickorderby="true">
+						<inputbox styleproperty="style='width:99%'"></inputbox>
+					</col>
+					<col column="component_id" label="组件ID" clickorderby="true" width="120px">
+						<inputbox styleproperty="style='width:99%'" defaultvalue="common_vpanel"></inputbox>
+					</col>
+					<col column="part_type" label="组件部分" clickorderby="true" width="180px">
+					     <inputbox styleproperty="style='width:99%'">
+					        <typeprompt count="15" width="260px">
+						       <promptcol label="const_value" title="参数值"></promptcol>
+						       <promptcol label="const_name" value="const_value" title="名称" matchmode="anywhere"></promptcol>
+						       <datasource><option dataset="@{select const_name,const_value,seq from sys_c_app_consts where const_type='Consts.KEY' and {#matchcondition#} order by seq}"></option></datasource>
+					        </typeprompt>
+					     </inputbox>
+					</col>
+					<col column="part_id" label="组件元素" clickorderby="true" width="130px">
+					     <inputbox styleproperty="style='width:99%'">
+					        <typeprompt count="15">
+						       <promptcol label="const_value" title="参数值" matchmode="anywhere"></promptcol>
+						       <datasource><option dataset="@{select const_name,const_value,seq from sys_c_app_consts where const_type in ('Consts.BUTTON_PART','Consts.NAVIGATE_PART') and {#matchcondition#} order by seq}"></option></datasource>
+					        </typeprompt>
+					     </inputbox>
+					</col>
+					<col column="permission_type" label="权限类型" clickorderby="true" width="80px">
+						<inputbox type="selectbox" styleproperty="style='width:99%'">
+							<option label="display" value="display"></option>
+							<option label="readonly" value="readonly"></option>
+							<option label="disabled" value="disabled"></option>
+						</inputbox>
+					</col>
+					<col column="permission_value" label="权限值" clickorderby="true" width="80px">
+						<inputbox type="selectbox" styleproperty="style='width:99%'">
+							<option label="true" value="true"></option>
+							<option label="false" value="false"></option>
+						</inputbox>
+					</col>
+				</display>
+				<sql>
+					<select>
+						<value>
+						<![CDATA[select id,privilege_id,page_id,component_id,part_type,part_id,permission_type,permission_value,lm_user,lm_time
+										from sys_c_sec_pvlt where {#condition#} order by page_id,component_id,part_type  ]]>
+						</value>
+						<condition name="txt_privilege_id" label="权限组" hidden="true">
+							<value>
+							<![CDATA[(privilege_id =  '#data#' )]]>
+							</value>
+						</condition>
+						<condition name="txt_page_id" label="页面ID">
+							<value>page_id like '%#data#%'</value>
+						</condition>
+					</select>
+					<insert addposition="top">
+						<params>
+							<param name="user_id" value="session{user_id}"></param>
+							<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+							<param name="url_privilege_id" value="url{txt_privilege_id}"></param>
+						</params>
+						<value>
+							insert into
+							sys_c_sec_pvlt(id=uuid{},privilege_id=#{url_privilege_id},@{page_id},@{component_id},@{part_type},@{part_id},
+							@{permission_type},@{permission_value},lm_user=#{user_id},lm_time=#{current_time});
+						</value>
+					</insert>
+					<update>
+						<params>
+							<param name="user_id" value="session{user_id}"></param>
+							<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+						</params>
+						<value>
+							update
+							sys_c_sec_pvlt(@{page_id},@{component_id},@{part_type},@{part_id},
+							@{permission_type},@{permission_value},lm_user=#{user_id},lm_time=#{current_time})
+							where id=@{id__old};
+						</value>
+					</update>
+					<delete>
+						delete from sys_c_sec_pvlt where id=@{id};
+					</delete>
+				</sql>
+			</report>
+		</vpanel>
+		<footer>${system.footer}</footer> 
+	</page>
+</applications>

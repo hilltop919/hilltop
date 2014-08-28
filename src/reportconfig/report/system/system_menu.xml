@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<applications xmlns="http://www.wabacus.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.wabacus.com ../../xsd/wabacus.applications.xsd">
+
+	<page id="system_menu" js="/webresources/script/validate.js">
+		<header>${top.header}</header>
+		<vpanel id="common_vpanel" align="center" width="1000px">
+			<report id="title" extends="title.report1"></report>
+			<report id="report1" title="菜单" type="listform" width="1000px" pagesize="10|20|-1" navigate="${navigatepagesizepage1.report3.navigate}">
+				<display>
+					<col column="{sequence:1}" label="序号" width="40px"/>
+					<col column="menu_id" label="菜单ID" clickorderby="true" width="200px"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="menu_name" label="菜单名称" clickorderby="true"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="seq" label="次序" clickorderby="true" width="80px"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="menu_type" label="菜单类型" clickorderby="true" width="350px"><inputbox defaultvalue="normal" styleproperty="style='width:99%'"></inputbox></col>
+				</display>
+				<sql>
+					<select>
+						<value>
+						<![CDATA[select menu_id,menu_name,seq,lm_user,lm_time,menu_type
+										 from sys_c_app_menu where {#condition#} order by seq  ]]>
+						</value>
+						<condition name="txt_menu_id" label="菜单ID" hidden="true">
+							<value>
+							<![CDATA[(menu_id like  '%#data#%' )]]>
+							</value>
+						</condition>
+					</select>
+					<insert addposition="top">
+						<params>
+							<param name="user_id" value="session{user_id}"></param>
+							<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+						</params>
+						<value>
+							insert into
+							sys_c_app_menu(@{menu_id},@{menu_name},@{seq},@{menu_type},lm_user=#{user_id},lm_time=#{current_time});
+						</value>
+					</insert>
+					<update>
+						<params>
+							<param name="user_id" value="session{user_id}"></param>
+							<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+						</params>
+						<value>
+							update
+							sys_c_app_menu(@{menu_id},@{menu_name},@{seq},@{menu_type},lm_user=#{user_id},lm_time=#{current_time})
+							where menu_id=@{menu_id__old};
+							update sys_c_app_mnlt(@{menu_id}) where menu_id=@{menu_id__old};
+						</value>
+					</update>
+					<delete>
+						delete from sys_c_app_menu where menu_id=@{menu_id};
+						delete from sys_c_app_mnlt where menu_id=@{menu_id};
+					</delete>
+				</sql>
+				<footer><![CDATA[<div style='float:left'><font color='blue'>注意:正常菜单类型请填写 normal; 链接填写 url#index.jsp 或者 url#http://www.google.com.hk</font></div>]]></footer>
+			</report>
+			<html id="htm1"><![CDATA[<hr />]]></html>
+			<report id="report1_1" title="url{txt_menu_id} 菜单列表设置" type="listform"
+				depends="report1" dependsparams="txt_menu_id=@{menu_id}" pagesize="10|20|-1" navigate="${navigatepagesizepage1.report3.navigate}" width="1000px">
+				<display minrownum="1">
+					<col column="id" displaytype="hidden"/>
+					<col column="{sequence:1}" label="序号" width="40px"/>
+					<col column="menu_id" label="菜单" width="150px"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="group_id" label="用户组" clickorderby="true" width="120px" filter="true" filterwidth="130px">
+						<inputbox type="selectbox" jsvalidate="isNotEmpty(#label#列不允许为空)" styleproperty="style='width:99%'">
+							<option lable="请选择用户组..." value=""></option>
+							<option
+								dataset="@{select group_id from sys_c_sec_grop order by group_id}"
+								label="group_id" value="group_id">
+							</option>
+						</inputbox>
+					</col>
+					<col column="page_id" label="页面ID" clickorderby="true">
+						<inputbox styleproperty="style='width:99%'">
+							<autocomplete columns="page_name" colvaluecondition="page_id like '%#page_id#%'" dataset="select page_id,page_name from sys_c_sec_page where  {#condition#} order by page_name"></autocomplete>
+						</inputbox>
+					</col>
+					<col column="page_name" label="页面名称" width="160px"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="url_param" label="url参数" width="60px"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="seq" label="次序" width="45px"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="is_show" label="是否显示" width="80px">
+						<inputbox type="selectbox" defaultvalue="Y" styleproperty="style='width:99%'">
+							<option value="Y" label="Y"></option>
+							<option value="N" label="N"></option>
+						</inputbox>
+					</col><!-- 
+					<col column="lm_user" label="修改人" clickorderby="true" />
+					<col column="lm_time" label="修改时间" clickorderby="true" datatype="date{yyyy-MM-dd}"/> -->
+				</display>
+				<sql>
+					<select>
+						<value>
+						<![CDATA[select id,menu_id,group_id,page_id,page_name,url_param,seq,is_show,lm_user,lm_time
+										 from sys_c_app_mnlt where {#condition#} order by group_id,seq  ]]>
+						</value>
+						<condition name="txt_menu_id" label="组别" hidden="true">
+							<value>
+							<![CDATA[(menu_id = '#data#' )]]>
+							</value>
+						</condition>
+					</select>
+					<insert addposition="top">
+						<params>
+							<param name="url_menu_id" value="url{txt_menu_id}"></param>
+							<param name="user_id" value="session{user_id}"></param>
+							<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+						</params>
+						<value>
+							insert into
+							sys_c_app_mnlt(id=uuid{},menu_id=#{url_menu_id},@{group_id},@{page_id},@{page_name},@{url_param},
+							@{seq},@{is_show},lm_user=#{user_id},lm_time=#{current_time});
+						</value>
+					</insert>
+					<update>
+						<params>
+							<param name="user_id" value="session{user_id}"></param>
+							<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+						</params>
+						<value>
+							update
+							sys_c_app_mnlt(@{menu_id},@{group_id},@{page_id},@{page_name},@{url_param},
+							@{seq},@{is_show},lm_user=#{user_id},lm_time=#{current_time})
+							where id=@{id__old};
+						</value>
+					</update>
+					<delete>
+						delete from sys_c_app_mnlt where id=@{id};
+					</delete>
+				</sql>
+			</report>
+		</vpanel>
+		<footer>${system.footer}</footer> 
+	</page>
+
+</applications>

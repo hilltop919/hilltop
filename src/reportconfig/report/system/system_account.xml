@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<applications xmlns="http://www.wabacus.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.wabacus.com ../../xsd/wabacus.applications.xsd">
+
+	<!-- user account 2012-5-7 -->
+	<page id="system_user_account" js="/webresources/script/validate.js">
+	<header>${top.header}</header>
+		<vpanel id="common_vpanel" align="center" width="1000px">
+		<report id="title" extends="title.report1"></report>
+		<report id="report1" title="人员列表" type="listform" personalizeclass="default" pagesize="10|20|-1" navigate="${navigatepagesizepage1.report3.navigate}" width="1000px">
+			<interceptor>
+				<imports>
+					<import>java.util.*</import>
+					<import>com.wabacus.util.*</import>
+					<import>java.sql.*</import>
+				</imports>
+				<saveaction-perrow>
+				<![CDATA[
+					Connection conn = rrequest.getConnection();
+					String message="";
+					if(editbean instanceof EditableReportInsertDataBean)
+					{//对本条记录做添加操作
+						message="正在添加记录：";
+					}else	if(editbean instanceof EditableReportUpdateDataBean)
+					{//对本条记录做修改操作
+						message="正在修改记录：";
+					}else if(editbean instanceof EditableReportDeleteDataBean)
+					{//对本条记录做删除操作
+						message="正在删除记录：";
+					}
+					if("正在添加记录：".equals(message))
+					{
+						if(mRowData!=null)//mRowData中存放了本条记录各列的值
+						{
+							Iterator itKeys=mRowData.keySet().iterator();
+							while(itKeys.hasNext())
+							{
+								String key=(String)itKeys.next();
+								String value=(String)mRowData.get(key);
+								if("user_id".equals(key)){
+									//添加的时候,要求user_id不存在
+									String sql ="select * from sys_c_sec_user where user_id=?";
+									PreparedStatement pstmt = null;
+							
+									try {
+											pstmt = conn.prepareStatement(sql);
+											pstmt.setString(1, value);
+											ResultSet rs = pstmt.executeQuery();
+											boolean is_exists=false;
+											while (rs.next()) {
+												System.out.println(value);
+												rrequest.getWResponse().setStatecode(Consts.STATECODE_FAILED); 
+												rrequest.getWResponse().getMessageCollector().alert("帐号"+value+"已经存在,请确认信息是否正确!", null, true);
+												return WX_RETURNVAL_TERMINATE;
+												is_exists="true";
+											}
+											if(!is_exists){
+												mRowData.put("password",DesEncryptTools.encrypt("12345"));//新建帐号默认密码12345
+												return super.doSavePerRow(rrequest,rbean,mRowData,mParamValues,editbean);
+											}
+										rs.close();
+									} catch (SQLException e) {
+										e.printStackTrace();
+									} finally {
+									}
+								}	
+							}
+						}
+					}
+					return super.doSavePerRow(rrequest,rbean,mRowData,mParamValues,editbean);
+				]]>
+				</saveaction-perrow>
+			</interceptor>
+			<buttons>
+				<button name="button1"
+					class="com.wabacus.system.buttons.ServerSQLActionButton" position="other"
+					successprompt="重置成功" failedprompt="重置失败">
+					<![CDATA[
+						update sys_c_sec_user(password='Due2bkAVWVY=')  where user_id=@{user_id};
+					]]>
+				</button>
+			</buttons>
+			<display>
+				<col column="{sequence:1}" label="序号" width="100px" />
+				<col column="user_id" label="帐号" width="160px"><inputbox jsvalidate="isNotEmpty(#label#列不允许为空)" styleproperty="style='width:97%'"></inputbox></col>
+				<col column="user_name" label="姓名" width="160px"><inputbox jsvalidate="isNotEmpty(#label#列不允许为空)" styleproperty="style='width:97%'"></inputbox></col>
+				<col column="password" label="密码" displaytype="hidden"></col>
+				<col column="group_id" label="组别" width="120px">
+					<inputbox type="selectbox" styleproperty="style='width:97%'">
+						<option
+							dataset="@{select group_id from sys_c_sec_grop order by group_id}"
+							label="group_id" value="group_id">
+						</option>
+					</inputbox>
+				</col>
+				<col column="is_enable" label="是否启用" width="100px">
+					<inputbox type="selectbox" defaultvalue="Y" styleproperty="style='width:97%'">
+						<option label="启用" value="Y"></option>
+						<option label="停用" value="N"></option>
+					</inputbox>
+				</col>
+				<col column="department" label="部门" width="120px"><inputbox styleproperty="style='width:97%'"></inputbox></col>
+				<col property="reset_password" column="{non-fromdb}" width="100px" label="操作"></col>
+			</display>
+			<sql>
+				<select>
+					<value>
+							<![CDATA[select user_id,user_name,password,group_id,is_enable,department
+											 from sys_c_sec_user
+											 where  {#condition#} order by user_id
+							]]>
+					</value>
+					<condition name="txt_user_id" label="帐号">
+						<value>
+						<![CDATA[(user_id like  '%#data#%' )]]>
+						</value>
+					</condition>
+					<condition name="txt_user_name" label="姓名">
+						<value>
+						<![CDATA[(user_name like  '%#data#%' )]]>
+						</value>
+					</condition>
+				</select>
+				<insert addposition="top">
+					<params>
+						<param name="user_id" value="session{user_id}"></param>
+						<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+					</params>
+					<value>
+						insert into
+						sys_c_sec_user(@{user_id},@{user_name},@{password},@{group_id},@{is_enable},@{department},lm_user=#{user_id},lm_time=#{current_time});
+					</value>
+				</insert>
+				<update>
+					<params>
+						<param name="user_id" value="session{user_id}"></param>
+						<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+					</params>
+					<value>
+						update
+						sys_c_sec_user(@{user_name},@{group_id},@{is_enable},@{department},lm_user=#{user_id},lm_time=#{current_time})
+						where user_id=@{user_id__old};
+					</value>
+				</update>
+				<delete>delete from sys_c_sec_user where user_id=@{user_id};
+				</delete>
+			</sql>
+			<format>
+				<value>
+			   <![CDATA[
+					 	reset_password="<input type=\"button\" class=\"cls-button2\" value=\"重置密码\" onclick=\"invokeComponentSqlActionButton('system_user_account','report1','button1',{user_id:'"+user_id+"'},true,null)\">";
+				  ]]>
+				</value>
+			</format>
+		</report>
+		</vpanel>
+		<footer>${system.footer}</footer> 
+	</page>
+
+</applications>

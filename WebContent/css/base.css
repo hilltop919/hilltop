@@ -1,0 +1,290 @@
+body {
+	margin: 0 auto;
+	padding: 0;
+	background: #FFF;
+	font-family: arial, helvetica, sans;
+}
+
+a {
+	color: #006E97;
+	text-decoration: none;
+	cursor: pointer;
+	cursor: hand;
+	border-bottom: 0px solid #556164;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.path {
+	background-image: url(../images/wz_06.gif);
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	padding-left: 35px;
+	color: #154BA0;
+}
+
+.title_link {
+	color: #006E97;
+}
+
+.title_link:hover {
+	text-decoration: underline;
+}
+/* Header */
+#header {
+	float: left;
+	display: inline;
+	width: 100%;
+	min-width: 980px;
+	background: #005774;
+	padding: 0;
+	margin: 0 0 10px 0;
+	height: auto;
+	overflow: visible;
+}
+
+#masthead {
+	width: auto;
+	margin: 0;
+	clear: both;
+	overflow: visible;
+	z-index: 16777267;
+	position: relative;
+	font-weight: bold;
+	font-size: 26px;
+	color: white;
+	text-align: center;
+}
+
+#logo {
+	font-weight: bold;
+	font-size: 26px;
+	color: white;
+	text-align: center;
+	font-style: italic;
+}
+
+#logo_img {
+	background: url('../images/logo.png') no-repeat left;
+	border: 0;
+}
+/*  Nav */
+#nav-item-li {
+	white-space: nowrap; /*强制不换行*/
+	*overflow: hidden; /*自动隐藏文字*/
+	text-overflow: ellipsis; /*文字隐藏后添加省略号*/
+	-o-text-overflow: ellipsis; /*适用于opera浏览器*/
+	z-index: 100;
+}
+
+#dd-navigation {
+	background: url('../images/nav-bg.png') repeat-x;
+	clear: both;
+	border-bottom: 1px solid #556164;
+	z-index: 100;
+	position: relative;
+}
+
+#nav-strip ul li.nav-item,#nav-strip ul li.nav-item.active,#nav-strip ul li.nav-item:hover
+	{
+	border-right: solid 1px #79dbe1;
+	border-left: solid 1px #0d6b86;
+}
+
+#nav-strip {
+	clear: both;
+	margin: 0 auto;
+	width: auto;
+	height: 32px;
+	line-height: 21px;
+	position: relative;
+	z-index: 16777265;
+	border-right: solid 1px #0d6b86;
+	border-left: solid 1px #79dbe1;
+}
+
+#nav-strip a:hover {
+	text-decoration: none;
+}
+
+#nav-strip ul li.nav-item {
+	display: inline;
+	float: left;
+	position: relative;
+	min-width: 115px;
+	width: auto;
+	height: 32px;
+	text-align: center;
+}
+
+#nav-strip ul li.nav-item.active {
+	background-color: #91dce1;
+	background: url('../images/nav-hover.png') repeat-x;
+}
+
+#nav-strip ul li.nav-item:hover,#nav-strip ul li.nav-item.hover {
+	background: #3DA7C6;
+}
+
+#nav-strip ul li.nav-item:hover a,#nav-strip ul li.nav-item.hover a {
+	color: #fff;
+}
+
+#nav-strip ul li.nav-item.active a {
+	color: #000;
+}
+
+#nav-strip ul li a {
+	font-weight: bold;
+	color: #FFFFFF;
+	display: block;
+	padding: 5px;
+	font-size: 12px;
+	outline: none;
+	border-bottom: 1px solid #556164;
+}
+
+#nav-strip ul li a .primary-link,#nav-strip ul li.active a .primary-link,#nav-strip ul li.hover a .primary-link
+	{
+	background: url('../images/sprite-nav.gif') 100% -10px no-repeat
+		transparent;
+	padding-right: 10px;
+}
+
+#nav-strip ul li.no-subnav a .primary-link {
+	background: none;
+	padding-right: 0;
+}
+
+#nav-strip ul li .subnav {
+	display: none;
+	position: absolute;
+	top: 33px;
+	left: -1px;
+	padding-bottom: 0px;
+	background: #ceebf2;
+	border: 1px #ccc solid;
+	z-index: 16777263;
+	*min-width: 160px;
+}
+
+#nav-strip .subnav-inner {
+	float: left;
+	*min-width: 160px;
+}
+
+#nav-strip ul li .subnav ul {
+	float: left;
+	min-width: 160px;
+	margin: 0;
+}
+
+#nav-strip ul li .subnav ul li {
+	display: block;
+	border-left: none;
+	border-right: none;
+	float: none;
+	margin: 0px 1px;
+	padding: 0;
+}
+/* double list view */
+#nav-strip ul li .subnav ul.one {
+	width: auto;
+	margin-bottom: 0px;
+}
+
+#nav-strip ul li .subnav ul.one li {
+	margin: 0;
+}
+
+#nav-strip ul li .subnav ul.one li a {
+	font-weight: normal;
+}
+
+#nav-strip ul li .subnav ul li a,#nav-strip ul li.nav-item:hover .subnav ul li a
+	{
+	font-size: 12px;
+	color: #214181;
+	white-space: nowrap;
+	*white-space: normal;
+	_white-space: nowrap;
+	padding: 6px 10px;
+	text-align: left;
+	height: 19px;
+}
+
+#nav-strip ul li .subnav ul li a,#nav-strip ul li.nav-item:hover .subnav ul li a
+	{
+	white-space: nowrap;
+}
+
+#nav-strip ul li .subnav ul li.active a,#nav-strip ul li .subnav ul li a:hover
+	{
+	color: #FFFFFF !important;
+	text-decoration: none;
+	background: url(../images/menu_over2.jpg) repeat-x;
+}
+
+/*returnTop*/
+p#back-to-top {
+	position: fixed;
+	display: none;
+	bottom: 20px;
+	right: 20px;
+}
+
+p#back-to-top a {
+	text-align: center;
+	text-decoration: none;
+	color: #d1d1d1;
+	font-weight: bold;
+	display: block;
+	width: 64px;
+	/*使用CSS3中的transition属性给跳转链接中的文字添加渐变效果*/
+	-moz-transition: color 1s;
+	-webkit-transition: color 1s;
+	-o-transition: color 1s;
+}
+
+p#back-to-top a:hover {
+	color: #3465A4;
+}
+
+p#back-to-top a span {
+	background: transparent url(../images/back.png) no-repeat 8px 14px;
+	border-radius: 6px;
+	display: block;
+	height: 64px;
+	width: 56px;
+	margin-bottom: 5px;
+	/*使用CSS3中的transition属性给<span>标签背景颜色添加渐变效果*/
+	-moz-transition: background 1s;
+	-webkit-transition: background 1s;
+	-o-transition: background 1s;
+}
+
+#back-to-top a:hover span {
+	background: transparent url(../images/back.png) no-repeat 8px 14px;
+}
+
+#footer a {
+color: #707070;
+}
+#footer {
+	background:
+		url(../images/favicon.png) center bottom no-repeat;
+	color: #707070;
+	font-size: 12px;
+	margin: 20px 0;
+	padding: 20px 10px 45px 10px;
+	line-height: 1.66666666666667;
+	text-align: center;
+}

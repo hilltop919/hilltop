@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<applications xmlns="http://www.wabacus.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.wabacus.com ../../xsd/wabacus.applications.xsd">
+
+
+	<page id="system_group" js="/webresources/script/validate.js">
+	<header>${top.header}</header>
+		<vpanel id="common_vpanel" parenttitle="组" align="center" width="1000px">
+			<report id="title" extends="title.report1"></report>
+			<report id="report1" title="组别" type="listform" cellresize="0" celldrag="0" 
+			 pagesize="10|20|-1" navigate="${navigatepagesizepage1.report3.navigate}" width="1000px">
+				<display>
+					<col column="{sequence:1}" label="序号" width="100px"/>
+					<col column="group_id" label="组别" filter="condition{txt_group_id}" width="250px"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="group_description" label="描述" ><inputbox styleproperty="style='width:99%'"></inputbox></col>
+				</display>
+				<sql>
+					<select>
+						<value>
+						<![CDATA[select group_id,group_description,lm_user,lm_time
+										 from sys_c_sec_grop where {#condition#} order by group_id  ]]>
+						</value>
+						<condition name="txt_group_id" label="组别" hidden="true">
+							<value>
+							<![CDATA[(group_id =  '#data#' )]]>
+							</value>
+						</condition>
+					</select>
+					<insert addposition="top">
+						<params>
+							<param name="user_id" value="session{user_id}"></param>
+							<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+						</params>
+						<value>
+							insert into
+							sys_c_sec_grop(@{group_id},@{group_description},lm_user=#{user_id},lm_time=#{current_time});
+						</value>
+					</insert>
+					<update>
+						<params>
+							<param name="user_id" value="session{user_id}"></param>
+							<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+						</params>
+						<value>
+							update
+							sys_c_sec_grop(@{group_id},@{group_description},lm_user=#{user_id},lm_time=#{current_time})
+							where group_id=@{group_id__old};
+							update sys_c_sec_gppv (@{group_id}) where group_id=@{group_id__old};
+							update sys_c_app_mnlt (@{group_id}) where group_id=@{group_id__old};
+						</value>
+					</update>
+					<delete>
+						delete from sys_c_sec_grop where group_id=@{group_id};
+						delete from sys_c_sec_gppv where group_id=@{group_id};
+						delete from sys_c_app_mnlt where group_id=@{group_id};
+					</delete>
+				</sql>
+			</report>
+			<tabpanel id="tab1" titlealign="left" titlewidth="120px" titlestyle="2" top="1">
+				<report id="report1_1" parenttitle="权限设置" title="url{txt_group_id} 权限设置" type="listform"
+					depends="report1" dependsparams="txt_group_id=@{group_id}" pagesize="10|20|-1" navigate="${navigatepagesizepage1.report3.navigate}" cellresize="0" celldrag="0"
+					 width="1000px">
+					<display minrownum="1">
+						<col column="{sequence:1}" label="序号" width="100px" />
+						<col column="group_id" label="组别" displaytype="hidden">
+						</col>
+						<col column="privilege_id" label="权限" clickorderby="true" width="250px">
+							<inputbox type="selectbox" jsvalidate="isNotEmpty(#label#列不允许为空)" styleproperty="style='width:99%'">
+								<option lable="请选择权限..." value=""></option>
+								<option
+									dataset="@{select privilege_id from sys_c_sec_priv}"
+									label="privilege_id" value="privilege_id">
+								</option>
+							</inputbox>
+						</col>
+						<col column="privilege_description" label="权限描述"></col>
+						<!-- 
+						<col column="lm_user" label="修改人" clickorderby="true" />
+						<col column="lm_time" label="修改时间" clickorderby="true" datatype="date{yyyy-MM-dd}"/> -->
+					</display>
+					<sql>
+						<select>
+							<value>
+							<![CDATA[select gp.group_id,gp.privilege_id, gp.lm_user,gp.lm_time,p.privilege_description
+											 from sys_c_sec_gppv gp 
+											 left join sys_c_sec_priv p on gp.privilege_id=p.privilege_id
+											 where {#condition#} order by group_id  ]]>
+							</value>
+							<condition name="txt_group_id" label="组别" hidden="true">
+								<value>
+								<![CDATA[(gp.group_id = '#data#' )]]>
+								</value>
+							</condition>
+						</select>
+						<insert addposition="top">
+							<params>
+								<param name="user_id" value="session{user_id}"></param>
+								<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+								<param name="url_group_id" value="url{txt_group_id}"></param>
+							</params>
+							<value>
+								insert into
+								sys_c_sec_gppv(group_id=#{url_group_id},@{privilege_id},lm_user=#{user_id},lm_time=#{current_time});
+							</value>
+						</insert>
+						<update>
+							<params>
+								<param name="user_id" value="session{user_id}"></param>
+								<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+							</params>
+							<value>
+								update
+								sys_c_sec_gppv(@{privilege_id},lm_user=#{user_id},lm_time=#{current_time})
+								where group_id=@{group_id} and privilege_id=@{privilege_id__old};
+							</value>
+						</update>
+						<delete>
+							delete from sys_c_sec_gppv where group_id=@{group_id} and
+							privilege_id=@{privilege_id};
+						</delete>
+					</sql>
+				</report>
+
+				<report id="report1_2" parenttitle="菜单设置" title="url{txt_group_id} 菜单设置" type="listform"
+					depends="report1" dependsparams="txt_group_id=@{group_id}" pagesize="10|20|-1" navigate="${navigatepagesizepage1.report3.navigate}"
+					width="1000px">
+					<display minrownum="1">
+						<col column="{sequence:1}" label="序号" width="60px"/>
+						<col column="id" displaytype="hidden"/>
+						<col column="menu_id" displaytype="hidden"></col>
+						<col column="menu_name" label="菜单" width="120px" updatecol="@{menu_id}" filter="true" filterwidth="120px">
+							<inputbox type="selectbox" jsvalidate="isNotEmpty(#label#列不允许为空)" styleproperty="style='width:99%'">
+								<option lable="请选择菜单..." value=""></option>
+								<option
+									dataset="@{select menu_id,menu_name from sys_c_app_menu order by seq}"
+									label="menu_name" value="menu_id">
+								</option>
+							</inputbox>
+						</col>
+						<col column="group_id" label="用户组" displaytype="hidden">
+						</col>
+						<col column="page_id" label="页面ID" clickorderby="true">
+							<inputbox styleproperty="style='width:99%'">
+								<autocomplete columns="page_name" colvaluecondition="page_id like '%#page_id#%'" dataset="select page_id,page_name from sys_c_sec_page where  {#condition#} order by page_name"></autocomplete>
+							</inputbox>
+						</col>
+						<col column="page_name" label="页面名称" width="160px"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+						<col column="url_param" label="url参数" width="80px"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+						<col column="seq" label="次序" width="5%"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+						<col column="is_show" label="是否显示" width="100px">
+							<inputbox type="selectbox" defaultvalue="Y" styleproperty="style='width:99%'">
+								<option value="Y" label="Y"></option>
+								<option value="N" label="N"></option>
+							</inputbox>
+						</col>
+					</display>
+					<sql>
+						<select>
+							<value>
+							<![CDATA[select mt.id,mt.menu_id,mn.menu_name,mn.seq as menu_seq,mt.group_id,mt.page_id,mt.page_name,mt.url_param,mt.seq,mt.is_show,mt.lm_user,mt.lm_time
+											 from sys_c_app_mnlt mt
+											 left join sys_c_app_menu mn on mt.menu_id=mn.menu_id
+											 where {#condition#} order by menu_seq,mt.seq  ]]>
+							</value>
+							<condition name="txt_group_id" hidden="true">
+								<value>
+								<![CDATA[(mt.group_id = '#data#' )]]>
+								</value>
+							</condition>
+						</select>
+						<insert addposition="top">
+							<params>
+								<param name="url_group_id" value="url{txt_group_id}"></param>
+								<param name="user_id" value="session{user_id}"></param>
+								<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+							</params>
+							<value>
+								insert into
+								sys_c_app_mnlt(id=uuid{},group_id=#{url_group_id},@{menu_id},@{page_id},@{page_name},@{url_param},
+								@{seq},@{is_show},lm_user=#{user_id},lm_time=#{current_time});
+							</value>
+						</insert>
+						<update>
+							<params>
+								<param name="user_id" value="session{user_id}"></param>
+								<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+							</params>
+							<value>
+								update
+								sys_c_app_mnlt(@{menu_id},@{page_id},@{page_name},@{url_param},
+								@{seq},@{is_show},lm_user=#{user_id},lm_time=#{current_time})
+								where id=@{id__old};
+							</value>
+						</update>
+						<delete>
+							delete from sys_c_app_mnlt where id=@{id};
+						</delete>
+					</sql>
+				</report>
+				<report id="report1_3" parenttitle="子组设置" title="url{txt_group_id} 子组设置" type="listform"
+					depends="report1" dependsparams="txt_group_id=@{group_id}" pagesize="10|20|-1" navigate="${navigatepagesizepage1.report3.navigate}" cellresize="0" celldrag="0"
+					 width="1000px">
+					<display minrownum="1">
+						<col column="{sequence:1}" label="序号" width="100px" />
+						<col column="group_id" label="组别" displaytype="hidden">
+						</col>
+						<col column="child_group_id" label="子组">
+							<inputbox styleproperty="style='width:98%'"></inputbox>
+						</col>
+						<col column="seq" label="次序">
+							<inputbox styleproperty="style='width:98%'"></inputbox>
+						</col>
+						<!-- 
+						<col column="lm_user" label="修改人" clickorderby="true" />
+						<col column="lm_time" label="修改时间" clickorderby="true" datatype="date{yyyy-MM-dd}"/> -->
+					</display>
+					<sql>
+						<select>
+							<value>
+							<![CDATA[
+							select group_id,child_group_id,seq,lm_user,lm_time 
+							from sys_c_sec_gppc
+							where {#condition#} order by seq  ]]>
+							</value>
+							<condition name="txt_group_id" label="组别" hidden="true">
+								<value>
+								<![CDATA[group_id = '#data#']]>
+								</value>
+							</condition>
+						</select>
+						<insert addposition="top">
+							<params>
+								<param name="user_id" value="session{user_id}"></param>
+								<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+								<param name="url_group_id" value="url{txt_group_id}"></param>
+							</params>
+							<value>
+								insert into
+								sys_c_sec_gppc(group_id=#{url_group_id},@{child_group_id},@{seq},lm_user=#{user_id},lm_time=#{current_time});
+							</value>
+						</insert>
+						<update>
+							<params>
+								<param name="user_id" value="session{user_id}"></param>
+								<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+							</params>
+							<value>
+								update
+								sys_c_sec_gppc(@{child_group_id},@{seq},lm_user=#{user_id},lm_time=#{current_time})
+								where group_id=@{group_id__old} 
+								and child_group_id=@{child_group_id__old};
+							</value>
+						</update>
+						<delete>
+							delete from sys_c_sec_gppc where group_id=@{group_id__old} and child_group_id=@{child_group_id__old};
+						</delete>
+					</sql>
+				</report>
+				<report id="report1_4" parenttitle="权限详细列表" title="url{txt_group_id} 权限详细列表" type="list"
+					depends="report1" dependsparams="txt_group_id=@{group_id}"
+					pagesize="10|20|-1" navigate="${navigatepagesizepage1.report3.navigate}"
+					width="1000px">
+					<display minrownum="1">
+						<col column="{sequence:1}" label="序号" width="60px"/>
+						<col column="id" displaytype="hidden"/>
+						<col column="privilege_id" label="权限" width="100px" filter="true" filterwidth="100px" rowgroup="true"></col>
+						<col column="page_id" label="页面ID" align="left" clickorderby="true"></col>
+						<col column="component_id" label="组件ID" align="left" width="120px"></col>
+						<col column="part_type" label="组件部分" width="120px"></col>
+						<col column="part_id" label="组件元素" width="100px"></col>
+						<col column="permission_type" label="权限类型" width="80px"></col>
+						<col column="permission_value" label="权限值" width="80px"></col>
+					</display>
+					<sql>
+						<select>
+							<value>
+							<![CDATA[select m.id,m.privilege_id,m.page_id,m.component_id,m.part_type,m.part_id,m.permission_type,m.permission_value,m.lm_user,m.lm_time
+											from sys_c_sec_pvlt m
+											left join sys_c_sec_gppv n on m.privilege_id=n.privilege_id 
+											where {#condition#} order by m.privilege_id,m.page_id  ]]>
+							</value>
+							<condition name="txt_group_id" hidden="true">
+								<value>
+								<![CDATA[(n.group_id =  '#data#' )]]>
+								</value>
+							</condition>
+						</select>
+					</sql>
+				</report>
+			</tabpanel>
+		</vpanel>
+		<footer>${system.footer}</footer> 
+	</page>
+
+</applications>

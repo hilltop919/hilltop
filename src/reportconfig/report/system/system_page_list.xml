@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<applications xmlns="http://www.wabacus.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.wabacus.com ../../xsd/wabacus.applications.xsd">
+
+	<!-- page list 2012-5-8 -->
+	<!-- table name: sys_c_sec_page -->
+	<!--id,page_id,page_name,page_description,report_id,report_title,report_seq,report_type,lm_user,lm_time -->
+	<page id="system_page_list" js="/webresources/script/validate.js">
+		<header>${top.header}</header>
+		<vpanel id="common_vpanel" align="center" width="1000px">
+		<report id="title" extends="title.report1"></report>
+		<report id="report1" title="所有功能列表" type="listform" pagesize="10|20|-1" navigate="${navigatepagesizepage1.report3.navigate}"
+		width="1000px">
+			<buttons>
+				<button name="button1" position="title" extends="${add.button.default}"></button>
+				<button name="button2" position="title" extends="${delete.button.default}"></button>
+				<button name="button3" position="title" extends="${save.button.default}"></button>
+			</buttons>
+			<display>
+				<col column="{sequence:1}" label="序号" width="60px"></col>
+				<col column="page_id" label="页面ID"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+				<col column="page_name" label="页面名称" width="300px"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+				<col column="page_description" label="页面描述" width="150px"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+				<col column="hits" label="点击率" width="80px"></col>
+			</display>
+			<sql>
+				<select>
+					<value>
+						<![CDATA[select page_id,page_name,page_description,hits,
+										lm_user,lm_time
+										from sys_c_sec_page where {#condition#} order by page_id ]]>
+					</value>
+					<condition name="txt_page_id" label="页面ID">
+						<value>
+							<![CDATA[(page_id like  '%#data#%' )]]>
+						</value>
+					</condition>
+				</select>
+				<insert addposition="top">
+					<params>
+						<param name="user_id" value="session{user_id}"></param>
+						<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+					</params>
+					<value>
+						insert into
+						sys_c_sec_page(@{page_id},@{page_name},@{page_description},hits=0,lm_user=#{user_id},lm_time=#{current_time});
+					</value>
+				</insert>
+				<update>
+					<params>
+						<param name="user_id" value="session{user_id}"></param>
+						<param name="current_time" value="now{}" datatype="timestamp{yyyy-MM-dd HH:mm:ss}"></param>
+					</params>
+					<value>
+						update sys_c_sec_page(@{page_id},@{page_name},@{page_description},lm_user=#{user_id},lm_time=#{current_time})
+						where page_id=@{page_id__old};
+						update sys_c_app_mnlt (@{page_id},@{page_name}) where page_id=@{page_id__old};
+						update sys_c_sec_pvlt (@{page_id}) where page_id=@{page_id__old};
+					</value>
+				</update>
+				<delete>
+					delete from sys_c_sec_page where page_id=@{page_id} ;
+					delete from sys_c_app_mnlt where page_id=@{page_id} ;
+					delete from sys_c_sec_pvlt where page_id=@{page_id} ;
+				</delete>
+			</sql>
+		</report>
+		<footer><![CDATA[<div style='float:left;padding-top:15px'><font color='red' size='2'>注意:修改或者删除页面ID,将会同步更新菜单和权限中相应的page</font></div>]]></footer>
+		</vpanel>
+		<footer>${system.footer}</footer> 
+	</page>
+
+</applications>

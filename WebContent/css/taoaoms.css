@@ -1,0 +1,10 @@
+.via {
+color: #0092D2;
+font-size:12px;
+font-weight:normal;
+padding-left:8px;
+cursor: pointer;
+border-bottom-width: 1px;
+border-bottom-style: dashed;
+border-bottom-color: #0092D2;
+}
