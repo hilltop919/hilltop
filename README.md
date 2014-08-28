@@ -20,7 +20,7 @@ hilltop_eclipse_project.zip是eclipse项目文件夹
 文件夹db是数据库文件 
 视频说明.exe是项目演示的录像 
 
-3. 
+3.
 权限设置为:user属性有group_id,group_id下挂privilege_id,privilege_id下挂各page 
 (增加了一个group的父子关系表,各位看官自己决定如何使用吧) 
 详情查看table_schema.xlsx 
