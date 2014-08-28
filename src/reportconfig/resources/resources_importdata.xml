@@ -2,38 +2,5 @@
 <resources xmlns="http://www.wabacus.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.wabacus.com ../xsd/wabacus.resources.xsd">
 
-	<resource key="dataimport.multifiles"
-		type="com.wabacus.config.resource.dataimport.DataImportRes">
-		<dataimport filetype="excel" filename="data.xls"
-			filepath="c:\test\" autodetect="false" colnamerowindex="0"
-			tablename="DM_SCH_PLAN_DETAIL" importtype="append"
-			interceptor="com.taocares.aoms.interceptor.special.SchedulePlanImportInterceptor">
-			<!-- 显式指定从数据文件的哪个字段导入数据库表的哪个字段 配置映射关系时，等号左边为数据库，右边为数据文件，左边不能出现重复，右边可以出现重复， 
-				即不能将数据库的一个字段从多个数据文件字段取值，但一个数据文件字段值可以赋给数据库的多个字段 -->
-			<columnmap type="name=name" matchmode="lazy">
-				ID=request{plan_detail_seq};
-				PLAN_ID=request{plan_seq};
-				FD1=FD1;
-				FD2=FD2;
-				FD3=FD3;
-				FD22=FD22;
-				FD21=FD21;
-				FD4=FD4;
-				FD5=FD5;
-				FD6=FD6;
-				FD7=FD7;
-				FD8=FD8;
-				FD9=FD9;
-				FD10=FD10;
-				FD11=FD11;
-				FD12=FD12;
-				FD13=FD13;
-				FD14=FD14;
-				FD15=FD15;
-				FD16=FD16;
-			<!-- 只导这几个字段 -->
-			</columnmap>
-		</dataimport>
-	</resource>
 
 </resources>

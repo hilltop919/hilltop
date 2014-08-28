@@ -10,7 +10,7 @@
 	</context-param>
 	<filter>
 		<filter-name>Encoding</filter-name>
-		<filter-class>com.taocares.aoms.util.SetCharacterEncodingFilter</filter-class>
+		<filter-class>com.hilltop.util.SetCharacterEncodingFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>Encoding</filter-name>

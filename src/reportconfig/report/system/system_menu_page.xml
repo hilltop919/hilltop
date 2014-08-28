@@ -43,7 +43,7 @@
 					</sql>
 					<format>
 						<imports>
-							<import>com.taocares.aoms.util.*</import>
+							<import>com.hilltop.util.*</import>
 							<import>java.util</import>
 							<import>java.text</import>
 						</imports>

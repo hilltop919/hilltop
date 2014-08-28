@@ -51,7 +51,7 @@
 					</sql>
 					<format>
 						<imports>
-							<import>com.taocares.aoms.util.*</import>
+							<import>com.hilltop.util.*</import>
 							<import>java.util.*</import>
 							<import>java.text.*</import>
 						</imports>
@@ -67,9 +67,9 @@
 				}
 				String new_img="&nbsp;<img style='border:0px;' src='images/firstnew.gif'>";
 				if("non_favor".equals(is_favor)){
-					favor="<img src=\"images/star_off.gif\" style='padding-left:5px;float:left;width:15px;height:15px;cursor: pointer;' title=\"点击收藏\" onclick=\"invokeServerAction('com.taocares.aoms.personalize.FavorPage',{pageid:'"+page_id+"'},InvokeCallbackMethod_refreshHome_report1,null);\">";
+					favor="<img src=\"images/star_off.gif\" style='padding-left:5px;float:left;width:15px;height:15px;cursor: pointer;' title=\"点击收藏\" onclick=\"invokeServerAction('com.hilltop.personalize.FavorPage',{pageid:'"+page_id+"'},InvokeCallbackMethod_refreshHome_report1,null);\">";
 				}else{
-					favor="<img src=\"images/star_on.gif\" style='padding-left:5px;float:left;width:15px;height:15px;cursor: pointer;' title=\"取消收藏\" onclick=\"invokeServerAction('com.taocares.aoms.personalize.FavorPage',{pageid:'"+page_id+"'},InvokeCallbackMethod_refreshHome_report1,null);\">";
+					favor="<img src=\"images/star_on.gif\" style='padding-left:5px;float:left;width:15px;height:15px;cursor: pointer;' title=\"取消收藏\" onclick=\"invokeServerAction('com.hilltop.personalize.FavorPage',{pageid:'"+page_id+"'},InvokeCallbackMethod_refreshHome_report1,null);\">";
 				}
 				if(Long.parseLong(lm_days)<7){//最近7天上线的功能,以new图样标识
 					page_name="<a style='padding-left:4px; display:block; overflow:hidden; cursor:pointer;' href='ShowReport.wx?MENUID="+menu_id+"&PAGEID="+page_id+(url_param==null?"":url_param)+"&MNID="+mnid+"'>"+page_name +new_img+"</a>";
@@ -125,7 +125,7 @@
 					</sql>
 					<format>
 						<imports>
-							<import>com.taocares.aoms.util.*</import>
+							<import>com.hilltop.util.*</import>
 							<import>java.util.*</import>
 							<import>java.text.*</import>
 						</imports>
@@ -142,9 +142,9 @@
 				String new_img="&nbsp;<img style='border:0px;' src='images/firstnew.gif'>";
 				
 				if("non_favor".equals(is_favor)){
-					favor="<img src=\"images/star_off.gif\" style='float:left;width:15px;height:15px;cursor: pointer;' title=\"点击收藏\" onclick=\"invokeServerAction('com.taocares.aoms.personalize.FavorPage',{pageid:'"+page_id+"'},InvokeCallbackMethod_refreshHome_report1,null);\">";
+					favor="<img src=\"images/star_off.gif\" style='float:left;width:15px;height:15px;cursor: pointer;' title=\"点击收藏\" onclick=\"invokeServerAction('com.hilltop.personalize.FavorPage',{pageid:'"+page_id+"'},InvokeCallbackMethod_refreshHome_report1,null);\">";
 				}else{
-					favor="<img src=\"images/star_on.gif\" style='float:left;width:15px;height:15px;cursor: pointer;' title=\"取消收藏\" onclick=\"invokeServerAction('com.taocares.aoms.personalize.FavorPage',{pageid:'"+page_id+"'},InvokeCallbackMethod_refreshHome_report1,null);\">";
+					favor="<img src=\"images/star_on.gif\" style='float:left;width:15px;height:15px;cursor: pointer;' title=\"取消收藏\" onclick=\"invokeServerAction('com.hilltop.personalize.FavorPage',{pageid:'"+page_id+"'},InvokeCallbackMethod_refreshHome_report1,null);\">";
 				}
 				if(Long.parseLong(lm_days)<7){//最近7天上线的功能,以new图样标识
 					page_name="<a style='padding-left:4px; display:block; overflow:hidden; cursor:pointer;' href='ShowReport.wx?MENUID="+menu_id+"&PAGEID="+page_id+(url_param==null?"":url_param)+"&MNID="+mnid+"'>"+page_name +new_img+"</a>";
@@ -231,9 +231,9 @@
 				String favor="";
 				String path="<strong class='path'>当前位置：&nbsp;&nbsp;</strong>";
 				if("non_favor".equals(is_favor)){
-					favor="<img src=\"images/star_off.gif\" style='padding-left:1px;padding-right:5px;float:right;width:15px;height:15px;cursor: pointer;' title=\"点击收藏\" onclick=\"invokeServerAction('com.taocares.aoms.personalize.FavorPage',{pageid:'"+page_id+"'},InvokeCallbackMethod_refreshTitle,null);\">";
+					favor="<img src=\"images/star_off.gif\" style='padding-left:1px;padding-right:5px;float:right;width:15px;height:15px;cursor: pointer;' title=\"点击收藏\" onclick=\"invokeServerAction('com.hilltop.personalize.FavorPage',{pageid:'"+page_id+"'},InvokeCallbackMethod_refreshTitle,null);\">";
 				}else{
-					favor="<img src=\"images/star_on.gif\" style='padding-left:1px;padding-right:5px;float:right;width:15px;height:15px;cursor: pointer;' title=\"取消收藏\" onclick=\"invokeServerAction('com.taocares.aoms.personalize.FavorPage',{pageid:'"+page_id+"'},InvokeCallbackMethod_refreshTitle,null);\">";
+					favor="<img src=\"images/star_on.gif\" style='padding-left:1px;padding-right:5px;float:right;width:15px;height:15px;cursor: pointer;' title=\"取消收藏\" onclick=\"invokeServerAction('com.hilltop.personalize.FavorPage',{pageid:'"+page_id+"'},InvokeCallbackMethod_refreshTitle,null);\">";
 				}
 				//normal的菜单,显示2级,其他只显示名字
 				if("normal".equals(menu_type)){
