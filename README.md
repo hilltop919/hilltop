@@ -8,6 +8,7 @@ Wabacus4.2开发的系统示例(hilltop升级,支持mysql/oracle/sqlserer2005)(2
 
 
 ====20131024==== 
+
 1.说明: 
 这是一个用wabacus4.2开发的系统(wabacus4.2+tomcat6+jdk1.7+sqlserver2005/oracle10g/mysql), 
 登录,权限管理,菜单管理,保存用户个性化信息(主题,列排序,列拖动,列选择)等 
