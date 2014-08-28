@@ -18,14 +18,14 @@
 		<item name="selectedrow-bgcolor" value="#3297FD" />
 		<item name="dataimport-batchupdate-size" value="1" />
 		<item name="default-checkpermission" value="true" /><!-- 本应用是否要检查权限，如果在不需要检查权限的应用中关闭它，可以改善性能 -->
-		<item name="default-pagepersonalizeclass" value="com.taocares.aoms.personalize.PagePersonalizePersistenceImpl" /><!-- 默认保存页面个性化信息的类 -->
-		<item name="default-reportpersonalizeclass" value="com.taocares.aoms.personalize.ReportPersonalizePersistenceImpl" /><!-- 默认保存报表/表单个性化信息的类 -->
+		<item name="default-pagepersonalizeclass" value="com.hilltop.personalize.PagePersonalizePersistenceImpl" /><!-- 默认保存页面个性化信息的类 -->
+		<item name="default-reportpersonalizeclass" value="com.hilltop.personalize.ReportPersonalizePersistenceImpl" /><!-- 默认保存报表/表单个性化信息的类 -->
 		<item name="prompt-dialog-type" value="artdialog" /><!-- 提示组件类型 ymprompt;artdialog -->
 		<item name="default-chart-datatype" value="xmlurl" /><!-- 默认的chart图表数据类型 -->
 		<item name="default-listreport-pagecolselect" value="fasle" /><!-- 列表报表显示在页面时是否支持列选择的默认配置项 -->
 		<!-- 自定义的系统级参数 -->
-		<item name="system_name" value="山顶冻人的三亩两分地儿"></item><!-- 系统名称 -->
-		<item name="system_title" value="山顶冻人的三亩两分地儿"></item><!-- 系统标题 -->
+		<item name="system_name" value="山顶冻人的两亩三分地儿"></item><!-- 系统名称 -->
+		<item name="system_title" value="山顶冻人的两亩三分地儿"></item><!-- 系统标题 -->
 	</system>
 	<datasources default="hilltop">
 		<datasource name="hilltop"
@@ -61,8 +61,8 @@
 	</global-cssfiles>
 
 	<global-interceptors>
-		<interceptor class="com.taocares.aoms.interceptor.permissions.GlobalPermissionsInterceptor" />
-		<interceptor class="com.taocares.aoms.interceptor.pageinterceptor.PageResponseTimeInterceptor" />
+		<interceptor class="com.hilltop.interceptor.permissions.GlobalPermissionsInterceptor" />
+		<interceptor class="com.hilltop.interceptor.pageinterceptor.PageResponseTimeInterceptor" />
 	</global-interceptors>
 
 	<i18n-resources file="resources/i18n/ApplicationResources.xml" />

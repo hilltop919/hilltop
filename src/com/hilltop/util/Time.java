@@ -1,4 +1,4 @@
-package com.taocares.aoms.util;
+package com.hilltop.util;
 
 import java.text.DateFormat;
 import java.text.ParsePosition;

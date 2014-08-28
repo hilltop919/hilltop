@@ -1,4 +1,4 @@
-package com.taocares.aoms.util;
+package com.hilltop.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
