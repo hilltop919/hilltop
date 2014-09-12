@@ -39,6 +39,7 @@
     		<xs:enumeration value="textareabox"/>
     		<xs:enumeration value="checkbox"/>
     		<xs:enumeration value="selectbox"/>
+    		<xs:enumeration value="combox"/>
     		<xs:enumeration value="radiobox"/>
     		<xs:enumeration value="datepicker"/>
     		<xs:enumeration value="datepicker2"/>
@@ -46,6 +47,7 @@
     		<xs:enumeration value="file"/>
     		<xs:enumeration value="popupbox"/>
     		<xs:enumeration value="richtextbox"/>
+    		<xs:enumeration value="customized"/>
   		</xs:restriction>
     </xs:simpleType>
     

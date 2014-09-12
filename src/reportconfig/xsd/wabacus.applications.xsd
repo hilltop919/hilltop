@@ -247,6 +247,14 @@
     		<xs:attribute name="dataexportlazyloadata" type="xs:integer"/>
     		<xs:attribute name="batchouputcount" type="xs:integer"/>
     		<xs:attribute name="checkdirtydata" type="wxs:booleanType"/>
+    		<xs:attribute name="savedatatype">
+    			<xs:simpleType>
+    				<xs:restriction base="xs:string">
+    					<xs:enumeration value="all"/>
+    					<xs:enumeration value="changed"/>
+  					</xs:restriction>
+    			</xs:simpleType>
+    		</xs:attribute>
     		<xs:attribute name="datatype">
     			<xs:simpleType>
     				<xs:restriction base="xs:string">

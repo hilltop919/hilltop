@@ -80,7 +80,7 @@
     			<xs:element name="report-datasetvalue-providers" minOccurs="0">
     				<xs:complexType>
     					<xs:sequence>
-    						<xs:element name="datasetvalue-provider" minOccurs="0" maxOccurs="unbounded">
+    						<xs:element name="dataset-provider" minOccurs="0" maxOccurs="unbounded">
     							<xs:complexType>
     								<xs:attribute name="name" type="wxs:keyType" use="required"/>
     								<xs:attribute name="class" type="xs:string" use="required"/>
@@ -94,7 +94,7 @@
     			<xs:element name="common-datasetvalue-providers" minOccurs="0">
     				<xs:complexType>
     					<xs:sequence>
-    						<xs:element name="datasetvalue-provider" minOccurs="0" maxOccurs="unbounded">
+    						<xs:element name="dataset-provider" minOccurs="0" maxOccurs="unbounded">
     							<xs:complexType>
     								<xs:attribute name="name" type="wxs:keyType" use="required"/>
     								<xs:attribute name="class" type="xs:string" use="required"/>

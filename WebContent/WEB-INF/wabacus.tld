@@ -37,11 +37,6 @@
     	<rtexprvalue>true</rtexprvalue>
     </attribute>
     <attribute>
-    	<name>inputbox</name>
-    	<required>false</required>
-    	<rtexprvalue>true</rtexprvalue>
-    </attribute>
-    <attribute>
     	<name>styleproperty</name>
     	<required>false</required>
     	<rtexprvalue>true</rtexprvalue>
@@ -114,11 +109,6 @@
     </attribute>
     <attribute>
     	<name>showdata</name>
-    	<required>false</required>
-    	<rtexprvalue>true</rtexprvalue>
-    </attribute>
-    <attribute>
-    	<name>inputbox</name>
     	<required>false</required>
     	<rtexprvalue>true</rtexprvalue>
     </attribute>

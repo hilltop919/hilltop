@@ -208,7 +208,7 @@ function addListReportNewDataRow(pageid,reportid,dynDefaultValues)
 }
 
 /**
- * 设置一个或多个输入框的值（对任意可编辑报表类型及查询条件输入框均有效）
+ * 设置一个或多个编辑列上的值
  * @param isConditionbox 要设置值的输入框是否是查询条件输入框，true：是查询条件输入框；false：可编辑报表编辑输入框
  * @param newvaluesObj 传入所有要设置新值的输入框及相应的新值，通过json组织，格式为：{name1:"newvalue1",name2:"newvalue2",...}，其中的name分两种情况：
  *								如果当前是设置查询条件输入框的值，则其中的name1、name2等分别为输入框所在查询条件<condition/>的name属性；
@@ -219,74 +219,41 @@ function addListReportNewDataRow(pageid,reportid,dynDefaultValues)
  *												   如果有多个条件，则格式为：[{name:"column1",value:"value1",matchmode:"equals"},{name:"column2",oldvalue:"value2",matchmode:"include"},...]
  *					关于此方法的更多使用说明，请参看《常用接口方法》相关介绍
  */
-function setReportInputBoxValue(pageid,reportid,isConditionbox,newvaluesObj,conditionsObj)
-{
-	var reportguid=getComponentGuidById(pageid,reportid);
-	if(isConditionbox)
-	{//当前是设置查询条件输入框的值
-		setConditionInputBoxValue(reportguid,newvaluesObj);
-	}else
-	{//编辑输入框
-		var metadataObj=getReportMetadataObj(reportguid);
-		if(metadataObj.reportfamily==ReportFamily.EDITABLELIST2||metadataObj.reportfamily==ReportFamily.LISTFORM)
-		{
-			setEditableListReportColValue(reportguid,newvaluesObj,conditionsObj,false);
-		}else if(metadataObj.reportfamily==ReportFamily.EDITABLEDETAIL2)
-		{
-			setEditableDetail2ReportColValue(reportguid,newvaluesObj,false);
-		}else if(metadataObj.reportfamily==ReportFamily.EDITABLEDETAIL||metadataObj.reportfamily==ReportFamily.FORM)
-		{
-			setEditableDetailReportColValue(reportguid,newvaluesObj,false);
-		}
-	}
-}
-
-/**
- * 设置一个或多个编辑列上的值，对所有可编辑报表类型都有效
- * 各参数意义与上面setReportInputBoxValue()方法完全相同
- */
 function setEditableReportColValue(pageid,reportid,newvaluesObj,conditionsObj)
 {
 	var reportguid=getComponentGuidById(pageid,reportid);
 	var metadataObj=getReportMetadataObj(reportguid);
 	if(metadataObj.reportfamily==ReportFamily.EDITABLELIST2||metadataObj.reportfamily==ReportFamily.LISTFORM)
 	{
-		setEditableListReportColValue(reportguid,newvaluesObj,conditionsObj,true);
+		setEditableListReportColValue(reportguid,newvaluesObj,conditionsObj);
 	}else if(metadataObj.reportfamily==ReportFamily.EDITABLEDETAIL2)
 	{
-		setEditableDetail2ReportColValue(reportguid,newvaluesObj,true);
+		var tableObj=document.getElementById(reportguid+'_data');
+		if(tableObj==null)
+		{
+			wx_warn('没有取到报表表格对象，设置编辑列值失败');
+			return false;
+		}
+		if(tableObj.rows.length<=0) return false;
+		setBatchEditableColValues(reportguid,tableObj.getElementsByTagName('TD'),newvaluesObj);
 	}else if(metadataObj.reportfamily==ReportFamily.EDITABLEDETAIL||metadataObj.reportfamily==ReportFamily.FORM)
 	{
-		setEditableDetailReportColValue(reportguid,newvaluesObj,true);
+		setBatchEditableColValues(reportguid,document.getElementsByName('font_'+reportguid),newvaluesObj);
 	}
 }
 
 /**
- * 设置查询条件输入框的值
- * @param paramname 要设置新值的查询条件<condition/>的name属性值
- * @param paramvalue 为此查询条件输入框设置的新值
- */
-function setInputboxValueForCondition(pageid,reportid,paramname,paramvalue)
-{
-	if(paramname==null||paramname=='') return;
-	if(paramvalue==null) paramvalue='';
-	var reportguid=getComponentGuidById(pageid,reportid);
-	var newvalue='{'+paramname+':"'+jsonParamEncode(paramvalue)+'"}';
-	setConditionInputBoxValue(reportguid,getObjectByJsonString(newvalue));
-}
-
-/**
- * 设置可编辑数据细览报表及普通表单某列输入框的值（包括edtaibledetail/form，但不包括editabledetail2）
+ * 设置可编辑数据细览报表及普通表单某列的值（包括edtaibledetail/form，但不包括editabledetail2）
  * @param paramname 列<col/>的column属性配置值
  * @param paramvalue 为此列输入框设置的新值
  */
-function setInputboxValueForDetailReport(pageid,reportid,paramname,paramvalue)
+function setColValueForDetailReport(pageid,reportid,paramname,paramvalue)
 {
 	if(paramname==null||paramname=='') return;
 	if(paramvalue==null) paramvalue='';
 	var reportguid=getComponentGuidById(pageid,reportid);
 	var newvalue='{'+paramname+':"'+jsonParamEncode(paramvalue)+'"}';
-	setEditableDetailReportColValue(reportguid,getObjectByJsonString(newvalue),false);
+	setBatchEditableColValues(reportguid,document.getElementsByName('font_'+reportguid),getObjectByJsonString(newvalue));
 }
 
 /**
@@ -299,7 +266,7 @@ function setEditableListReportColValueInRow(pageid,reportid,trObj,newvaluesObj)
 {
 	var reportguid=getComponentGuidById(pageid,reportid);
 	if(!isEditableListReportTr(reportguid,trObj)) return;
-	setEditableListReportColValueInRowImpl(reportguid,trObj,newvaluesObj,true);
+	setBatchEditableColValues(reportguid,trObj.getElementsByTagName('TD'),newvaluesObj);
 }
 
 /**
@@ -321,10 +288,13 @@ function getEditableReportColValues(pageid,reportid,columnsObj,conditionsObj)
 		return getEditableListReportColValues(pageid,reportguid,columnsObj,conditionsObj);
 	}else if(metadataObj.reportfamily==ReportFamily.EDITABLEDETAIL2)
 	{
-		return getEditableDetailReportColValues(pageid,reportguid,columnsObj,true);
+		var tableObj=document.getElementById(reportguid+'_data');
+		if(tableObj==null) return null;
+		if(tableObj.rows.length<=0) return null;
+		return wx_getAllColValueByParentElementObjs(tableObj.getElementsByTagName('TD'),columnsObj);
 	}else if(metadataObj.reportfamily==ReportFamily.EDITABLEDETAIL||metadataObj.reportfamily==ReportFamily.FORM)
 	{
-		return getEditableDetailReportColValues(pageid,reportguid,columnsObj,false);
+		return wx_getAllColValueByParentElementObjs(document.getElementsByName('font_'+reportguid),columnsObj);
 	}
 	return null;
 }
@@ -333,9 +303,72 @@ function getEditableReportColValues(pageid,reportid,columnsObj,conditionsObj)
  * 获取指定行上指定列的数据
  * @param columnsObj 与上页接口方法中columnsObj完全一样，如果值为null，则获取此行所有列的数据
  */
-function getEditableListReportColValuesInRow(trObj,columnsObj)
+function wx_getListReportColValuesInRow(trObj,columnsObj)
 {
-	return getAllColValueByParentElementObjs(trObj.getElementsByTagName('TD'),columnsObj);
+	return wx_getAllColValueByParentElementObjs(trObj.getElementsByTagName('TD'),columnsObj);
+}
+
+/**
+ * 设置查询条件输入框的值
+ * @param paramname 要设置新值的查询条件<condition/>的name属性值
+ * @param paramvalue 为此查询条件输入框设置的新值
+ */
+function setConditionValue(pageid,reportid,paramname,paramvalue)
+{
+	if(paramname==null||paramname=='') return;
+	if(paramvalue==null) paramvalue='';
+	var reportguid=getComponentGuidById(pageid,reportid);
+	var fontConditionObjs=document.getElementsByName('font_'+reportguid+'_conditions');//取到所有查询条件的<font/>对象
+	if(fontConditionObjs==null||fontConditionObjs.length==0) return;
+	var parentEleObj=null;
+	for(var i=0,len=fontConditionObjs.length;i<len;i++)
+	{
+		parentEleObj=fontConditionObjs[i];
+		if(parentEleObj==null||parentEleObj.getAttribute('value_name')!=paramname) continue;
+		setColConditionValue(parentEleObj,paramvalue,null);//对于一个条件显示一组输入框的情况，同一个value_name有多个条件，因此这里不调用break
+	}
+}
+
+/**
+ * 设置某列或查询条件的值
+ * @param parentEleObj 查询条件或编辑列的标签对象（可能是<font/>或<td/>）
+ * @param newValue 要设置的新值 
+ * @param newLabel 对于可编辑报表的编辑列，这里传入新值的显示label（只有所有可编辑报表类型的只读列和editablelist2报表类型的点击单元格再显示输入框的列才有效，对于一直显示输入框的列无效，因为没有必要）
+ *							如果为null，则它的值为newValue，即与实际值保持一致
+ */
+function setColConditionValue(parentEleObj,newValue,newLabel)
+{
+	if(parentEleObj==null) return;
+	if(parentEleObj.tagName=='FONT')
+	{
+		var inputboxid=parentEleObj.getAttribute('inputboxid');
+		if(inputboxid==null||inputboxid=='') return;
+		if(inputboxid.indexOf('_wxcondition_')>0)
+		{//查询条件
+			wx_setConditionValue(parentEleObj,newValue);
+			return;
+		} 
+	}
+	setEditableColValue(parentEleObj,newValue,newLabel);
+}
+
+/**
+ * 获取某列或查询条件的值
+ * @param parentEleObj 查询条件或编辑列的标签对象（可能是<font/>或<td/>） 
+ */
+function getColConditionValue(parentEleObj)
+{
+	if(parentEleObj==null) return null;
+	if(parentEleObj.tagName=='FONT')
+	{
+		var inputboxid=parentEleObj.getAttribute('inputboxid');
+		if(inputboxid==null||inputboxid=='') return null;
+		if(inputboxid.indexOf('_wxcondition_')>0)
+		{//查询条件
+			return wx_getConditionValue(parentEleObj);
+		} 
+	}
+	return wx_getColValue(parentEleObj);
 }
 
 /**
@@ -456,14 +489,91 @@ function invokeServerAction(serverClassName,datas,afterCallbackMethod,onErrorMet
 }
 
 /**************************************************
+ * 客户端/服务器端校验输入框的接口方法，最常见的使用场合是自定义输入框在失去焦点时调用
+ *************************************************/
+
+/**
+ * 自定义输入框在onblur时可以调用此方法对它进行客户端校验
+ * @param element 校验失败时提示信息显示在此标签元素对象的下方
+ * @param isConditionBox 当前自定义输入框是否是查询条件上的输入框，true：查询条件输入框；false：编辑列的输入框
+ */
+function wx_jsvalidateOnblur(pageid,reportid,element,isConditionBox)
+{
+	var parentElementObj=getInputboxParentElementObj(element);
+	if(parentElementObj==null) return;
+	parentElementObj.changeStyleObjByInputBoxObjOnEdit=element;
+	wx_onblurValidate(getComponentGuidById(pageid,reportid),element,isConditionBox,false);
+}
+
+/**
+ * 自定义输入框在onblur时可以调用此方法对它进行服务器端校验
+ * @param element 校验失败时提示信息显示在此标签元素对象的下方
+ * @param isConditionBox 当前自定义输入框是否是查询条件上的输入框，true：查询条件输入框；false：编辑列的输入框
+ */
+function wx_servervalidateOnblur(pageid,reportid,element,isConditionBox)
+{
+	var parentElementObj=getInputboxParentElementObj(element);
+	if(parentElementObj==null) return;
+	parentElementObj.changeStyleObjByInputBoxObjOnEdit=element;
+	wx_onblurValidate(getComponentGuidById(pageid,reportid),element,isConditionBox,true);
+}
+
+/**
+ * 在onblur进行客户端校验失败时，提示出错信息
+ * @param parentElementObj 套在输入框外面的<font/>对象或<td/>对象
+ * @param tiparamsObj 出错提示窗口的参数，可以指定wx_tip()方法中paramsObj能接受的任意参数，以json形式传递
+ */
+function wx_jsPromptErrorOnblur(metadataObj,parentElementObj,errormess,tiparamsObj)
+{
+	if(parentElementObj==null) return;
+	var promptEleObj=getChangeStyleObjByParentElementOnEdit(parentElementObj);
+	if(promptEleObj==null) return;
+	wx_tip(errormess,promptEleObj,tiparamsObj);
+}
+
+function wx_hideJsPromptErrorOnblur(metadataObj,parentElementObj)
+{
+	if(parentElementObj==null) return;
+	var promptEleObj=getChangeStyleObjByParentElementOnEdit(parentElementObj);
+	if(promptEleObj==null) return;
+	wx_hidetip(promptEleObj);
+}
+
+/**
+ * 在onblur进行服务器端校验失败时，提示出错信息
+ * @param parentElementObj 套在输入框外面的<font/>对象或<td/>对象
+ */
+function wx_serverPromptErrorOnblur(metadataObj,parentElementObj,errormess,tiparamsObj)
+{
+	wx_jsPromptErrorOnblur(metadataObj,parentElementObj,errormess,tiparamsObj);//与客户端采用同样的提示方式
+}
+
+function wx_hideServerPromptErrorOnblur(metadataObj,parentElementObj)
+{
+	wx_hideJsPromptErrorOnblur(metadataObj,parentElementObj);//与客户端采用同样的提示方式
+}
+
+/**
+ * 对于自定义输入框，调用此方法将自定义输入框数据加入待保存队列中，并改变自定义输入框样式
+ * @param element编辑输入框数据后要改变的HTML元素样式（一般是传入输入框对象）
+ */
+function addMyDataForSaving(pageid,reportid,element)
+{
+	var parentElementObj=getInputboxParentElementObj(element);
+	if(parentElementObj==null) return;
+	parentElementObj.changeStyleObjByInputBoxObjOnEdit=element;
+	addElementDataForSaving(getComponentGuidById(pageid,reportid),parentElementObj);
+}
+
+/**************************************************
  * 显示/隐藏正在加载页面提示接口方法
  *************************************************/
 /**
  * 显示正在加载提示信息
  */
-function displayLoadingMessage()
+function displayLoadingMessage(pageid)
 {
-	window.status='loading...';
+	/*window.status='loading...';
    var imgobj=document.getElementById('LOADING_IMG_ID');
 	if(imgobj!=null)
 	{
@@ -472,17 +582,19 @@ function displayLoadingMessage()
 		var documentScrollSize=getDocumentScroll();
 		imgobj.style.top = (documentSize.height+documentScrollSize.scrollTop-imgobj.clientHeight) + "px";
    	imgobj.style.left = (documentSize.width+documentScrollSize.scrollLeft-imgobj.clientWidth) + "px";
-	}
+	}*/
+	jQuery(pageid!=null&&pageid!=''?'#WX_CONTENT_'+pageid:document.body).showLoading();
 } 
 
 /**
  * 隐藏正在加载提示信息
  */
-function hideLoadingMessage()
+function hideLoadingMessage(pageid)
 {
-	window.status='';
+	/*window.status='';
 	var imgobj=document.getElementById('LOADING_IMG_ID');
-   if(imgobj!=null) imgobj.style.display='none';
+   if(imgobj!=null) imgobj.style.display='none';*/
+   jQuery(pageid!=null&&pageid!=''?'#WX_CONTENT_'+pageid:document.body).hideLoading();
 }
 
 /**
@@ -519,36 +631,6 @@ function changeEditedInputboxDisplayStyle(editedElementObj)
 	}
 }*/
 
-/**
- * 在onblur进行客户端校验失败时，提示出错信息
- * @param parentElementObj 套在输入框外面的<font/>对象或<td/>对象
- */
-function wx_jsPromptErrorOnblur(metadataObj,parentElementObj,errormess)
-{
-	if(parentElementObj==null) return;
-	var promptEleObj=parentElementObj;
-	if(parentElementObj.tagName=='FONT'||metadataObj.reportfamily==ReportFamily.LISTFORM)
-	{//如果是<font/>，或者是listform表单类型，因为这种输入框不会隐藏，所以可以直接贴在输入框上显示
-		promptEleObj=getWXInputBoxChildNode(parentElementObj);
-		if(promptEleObj==null) promptEleObj=parentElementObj.parentNode;
-	}
-	if(promptEleObj==null) return;
-	if(promptEleObj.errorPromptObj==null)
-	{
-		promptEleObj.errorPromptObj=createJsValidateTipObj(promptEleObj);
-	}
-	promptEleObj.errorPromptObj.show(errormess);
-}
-
-/**
- * 在onblur进行服务器端校验失败时，提示出错信息
- * @param parentElementObj 套在输入框外面的<font/>对象或<td/>对象
- */
-function wx_serverPromptErrorOnblur(metadataObj,parentElementObj,errormess)
-{
-	wx_jsPromptErrorOnblur(metadataObj,parentElementObj,errormess);//与客户端采用同样的提示方式
-}
-
 /**************************************************
  * 信息提示接口方法
  *************************************************/
@@ -556,14 +638,8 @@ function wx_serverPromptErrorOnblur(metadataObj,parentElementObj,errormess)
 /**
  * 通过alert方式提示信息，下面的参数除message外都有默认值，可以不传
  * @param message 提示内容
- * @param title 提示窗口的标题
- *	@param width 提示窗口的宽度
- * @param height 提示窗口的高度
- * @param handler 提示时回调函数 默认值为null
- * @param showMask 是否显示遮罩
- * @param interval 是否自动隐藏，如果指定为>0的数，则指定秒后自动隐藏
+ * @param paramsObj 提示窗口的参数，比如{lock:false,width:500,height:300,title:'测试提示信息',time:0}
  */
-//function wx_alert(message,title,width,height,handler,showMask,interval)
 function wx_alert(message,paramsObj)
 {
 	if(paramsObj==null) paramsObj=new Object();
@@ -585,14 +661,8 @@ function wx_alert(message,paramsObj)
 /**
  * 通过alert方式提示信息，下面的参数除message外都有默认值，可以不传
  * @param message 提示内容
- * @param title 提示窗口的标题
- *	@param width 提示窗口的宽度
- * @param height 提示窗口的高度
- * @param handler 提示时回调函数 默认值为null
- * @param showMask 是否显示遮罩
- * @param interval 是否自动隐藏，如果指定为>0的数，则指定秒后自动隐藏
+ * @param paramsObj 提示窗口的参数，比如{lock:false,width:500,height:300,title:'测试提示信息',time:0}
  */
-//function wx_warn(message,title,width,height,handler,showMask,interval)
 function wx_warn(message,paramsObj)
 {
 	if(paramsObj==null) paramsObj=new Object();
@@ -607,7 +677,7 @@ function wx_warn(message,paramsObj)
 	{
 		if(message!=null) paramsObj.content=message;
 		if(paramsObj.lock==null) paramsObj.lock=true;
-		if(paramsObj.time==null) paramsObj.time=2;
+		if(paramsObj.time==null) paramsObj.time=2;//time指定为0时则不自动隐藏
 		if(paramsObj.icon==null) paramsObj.icon='warning';
 		art.dialog(paramsObj);
 	}
@@ -617,7 +687,6 @@ function wx_warn(message,paramsObj)
  * 提示出错信息
  * 参数意义与wx_alert相同
  */
-//function wx_error(message,title,width,height,handler,showMask,interval)
 function wx_error(message,paramsObj)
 {
 	if(paramsObj==null) paramsObj=new Object();
@@ -642,7 +711,6 @@ function wx_error(message,paramsObj)
  * 提示成功信息
  * 参数意义与wx_alert相同
  */
-//function wx_success(message,title,width,height,handler,showMask,interval)
 function wx_success(message,paramsObj)
 {
 	if(paramsObj==null) paramsObj=new Object();
@@ -738,12 +806,12 @@ function wx_win(message,paramsObj)
  * @param beforeCallBackMethod 弹出前客户端回调JS函数
  */
 //function wx_winpage(url,title,width,height,maxbtn,minbtn,handler)
-function wx_winpage(url,paramsObj,beforeCallBackMethod)
+function wx_winpage(url,paramsObj,beforeCallBackMethod,callbackMethodParams)
 {
 	if(!isExistPromptObj()) return;
 	if(beforeCallBackMethod!=null)
 	{
-		url=beforeCallBackMethod(url);
+		url=beforeCallBackMethod(url,callbackMethodParams);
 		if(url==null||url=='') return;//不弹出
 	}
 	if(paramsObj==null) paramsObj=new Object();
@@ -801,6 +869,31 @@ function closePopupWin(delaytime)
 		//art.dialog.close();
 	}
 }
+
+/**
+ * 在元素上、下、左、右或内部弹出一层显示提示信息
+ */
+function wx_tip(message,element,paramsObj)
+{
+	if(element==null) return;
+	if(element.promptObj==null)
+	{
+		element.promptObj=createTipElementObj(element);
+	}
+	element.promptObj.show(message,paramsObj);
+}
+
+/**
+ * 隐藏为element标签显示的提示信息
+ * @param element 调用wx_tip()显示信息时，在element参数中传入的标签对象
+ * @param milsec 延迟多少毫秒后再关闭，如果指定为大于0的数，则调用此方法后再延迟指定秒时隐藏，如果传入其它值或不传值，则立即隐藏
+ */
+function wx_hidetip(element,milsec)
+{
+	if(element==null||element.promptObj==null) return;
+	hideTipContainer(element.promptObj.myContainer,milsec);
+}
+
 /**
  * 判断是否加载了相应类型的提示组件对象
  */

@@ -6,14 +6,6 @@
   		<![CDATA[
   		
 		<p id="back-to-top"><a href="#top"><span></span>返回顶部</a></p>
-  		<ul id="navigation">
-            <li class="home"><a href="index.jsp" title="首页"></a></li>
-            <li class="report"><a href="javascript:void(0)" onclick="wx_alert('功能建设中，敬请期待。')" title="报表中心"></a></li>
-            <!-- <li class="maintain"><a href="javascript:void(0)" onclick="wx_alert('功能建设中，敬请期待。')" title="数据维护"></a></li> -->
-            <li class="setting"><a href="ShowReport.wx?PAGEID=user_setting" title="用户信息"></a></li>
-            <li class="about"><a href="ShowReport.wx?PAGEID=system_about" title="关于"></a></li>
-            <li class="logout"><a href="jsp/login/logout.jsp" title="注销"></a></li>
-        </ul>
   		<wx:output value="session{menu_list}" />
   		
   		]]>
@@ -24,8 +16,7 @@
 	<div id="footer">
 		<ul>
 			<li>
-				<a href="ShowReport.wx?PAGEID=system_about">Copyright © 2013-2014 山顶冻人的两亩三分地儿</a>
-				<br><br>
+				<a href="ShowReport.wx?PAGEID=system_about">Copyright © 2013-2014 </a>
 			</li>
 		
 		</ul>

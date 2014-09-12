@@ -164,6 +164,7 @@
 		   			<xs:simpleContent>
 							<xs:extension base="xs:string">
 								<xs:attribute name="datasource" type="xs:string"/>
+								<xs:attribute name="provider" type="xs:string"/>
 							</xs:extension>
 						</xs:simpleContent>
 					</xs:complexType>
@@ -366,6 +367,8 @@
    		<xs:attribute name="preparedstatement" type="wxs:booleanType"/>
    		<xs:attribute name="realvalue" type="xs:string"/>
    		<xs:attribute name="description" type="xs:string"/>
+   		<xs:attribute name="ongetvalue" type="xs:string"/>
+   		<xs:attribute name="onsetvalue" type="xs:string"/>
    		<xs:attribute name="inlinecount" type="xs:string"/>
    		<xs:attribute name="sourcebox" type="xs:string"/>
    		<xs:attribute name="formatemplate" type="xs:string"/>
@@ -677,6 +680,8 @@
    		<xs:attribute name="keepkeywords" type="wxs:booleanType"/>
    		<xs:attribute name="defaultvalue" type="xs:string"/>
    		<xs:attribute name="belongto" type="xs:string"/>
+   		<xs:attribute name="ongetvalue" type="xs:string"/>
+   		<xs:attribute name="onsetvalue" type="xs:string"/>
    	</xs:complexType>
    </xs:element>
    
@@ -703,6 +708,18 @@
    
    <xs:complexType name="updateType" mixed="true">
    	<xs:sequence>
+   		<xs:element name="preconditions" minOccurs="0">
+   			<xs:complexType>
+   				<xs:sequence>
+   					<xs:element name="precondition" maxOccurs="unbounded">
+   						<xs:complexType>
+   							<xs:attribute name="name" type="xs:string" use="required"/>
+   							<xs:attribute name="value" type="xs:string" use="required"/>
+   						</xs:complexType>
+   					</xs:element>
+   				</xs:sequence>
+   			</xs:complexType>
+   		</xs:element>
    		<xs:element name="params" minOccurs="0">
    			<xs:complexType>
    				<xs:sequence>
@@ -721,6 +738,8 @@
 	   			<xs:simpleContent>
 						<xs:extension base="xs:string">
 							<xs:attribute name="datasource" type="xs:string"/>
+							<xs:attribute name="precondition" type="xs:string"/>
+							<xs:attribute name="provider" type="xs:string"/>
 						</xs:extension>
 					</xs:simpleContent>
 				</xs:complexType>
@@ -730,6 +749,8 @@
    	<xs:attribute name="pageurl" type="xs:string"/>
    	<xs:attribute name="urlparams" type="xs:string"/>
    	<xs:attribute name="beforepopup" type="xs:string"/>
+   	<xs:attribute name="preparedstatement" type="wxs:booleanType"/>
+   	<xs:attribute name="originalparams" type="wxs:booleanType"/>
    	<xs:attribute name="refreshparentonsave" type="xs:string"/>
    	<xs:attribute name="popupparams" type="xs:string"/>
    	<xs:attribute name="pageinitsize">

@@ -371,7 +371,7 @@ span.spanOutputHighElement{
 	color:white;
 	cursor:pointer;
 }
-span.spanJsValidateErrorTip{
+span.spanTipContainer{
   padding: 3px; 
   border: 1px solid #666;
   border-right-width: 2px;
@@ -716,4 +716,20 @@ span.spanJsValidateErrorTip{
 	font-weight:bold;
 	color:#DC143C;
 	font-size:16px;
+}
+
+/*正在加载的提示层样式*/
+.loading-indicator 
+{
+	height: 20px;
+	width: 220px;
+	background: url( 'images/loading.gif' );
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+.loading-indicator-overlay 
+{
+	background-color: #FFFFFF;
+	opacity: 0.6;
+	filter: alpha(opacity = 60);
 }

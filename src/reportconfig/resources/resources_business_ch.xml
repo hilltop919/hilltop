@@ -220,15 +220,6 @@
 		&nbsp;&nbsp;这对于保存后跳转到新页面比较有用，可以提高性能，因为这种情况没必要更新页面显示。
 		</font>]]>
   </resource>
-  <resource key="selectoptionspage1.footer">
-		<![CDATA[<br/>
-		<font color='#ff0000'>说明：</font><font color='#0000FF'><br>
-		&nbsp;&nbsp;“性别”列为单选框；<br/>
-		&nbsp;&nbsp;“兴趣爱好”列为复选框；<br/>
-		&nbsp;&nbsp;“所属部门”列为普通下拉框；<br/>
-		&nbsp;&nbsp;“省”、“市”、“县”三列为关联下拉框，其中“市”和“县”两个下拉框都依赖“省”这个文本框；<br/>
-		</font>]]>
-  </resource>
   <resource key="popupsinglepage1.report1.footer">
 		<![CDATA[<br/>
 		<font color='#ff0000'>说明：</font><font color='#0000FF'>
@@ -489,9 +480,9 @@
   		</imports>
   		<saveaction-peraction>
 		<![CDATA[
-		  if(actionbean instanceof AbsEditSqlActionBean)
+		  if(action instanceof AbsRationalDBUpdateAction)
         {//当前执行的脚本是配置的SQL语句或存储过程
-            System.out.print("正在执行sql语句："+((AbsEditSqlActionBean)actionbean).getSql()+"，保存的记录为：");
+            System.out.print("正在执行sql语句："+((AbsRationalDBUpdateAction)action).getSqlsp()+"，保存的记录为：");
         }
         if(mRowData!=null)//mRowData中存放了本条记录各列的值
         {
@@ -516,7 +507,7 @@
             }
             System.out.println();
         }
-        return super.doSavePerAction(rrequest,rbean,mRowData,mParamValues,actionbean,editbean);
+        return super.doSavePerAction(rrequest,rbean,mRowData,mParamValues,action,editbean);
 		]]>
 		</saveaction-peraction>
 	 </interceptor>

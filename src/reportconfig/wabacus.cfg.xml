@@ -48,7 +48,6 @@
 
 	<!-- 配置本项目中所有报表页面都必须包含的js文件 -->
 	<global-jsfiles>
-		<js-file>js/jquery-1.7.2.min.js</js-file>
 		<js-file>js/rcom-nav.js</js-file>
 		<js-file>js/menu.js</js-file>
 		<js-file loadorder="-1">js/demo.js</js-file>
@@ -71,7 +70,6 @@
 	<global-resources>
 		<resource-file>resources/resources_report.xml</resource-file>
 		<resource-file>resources/resources_business_ch.xml</resource-file>
-		<resource-file>resources/resources_importdata.xml</resource-file>
 	</global-resources>
 
 	<!-- 注册所有报表配置文件 -->

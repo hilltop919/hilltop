@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<resources xmlns="http://www.wabacus.com"
+			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			  xsi:schemaLocation="http://www.wabacus.com ../xsd/wabacus.resources.xsd">
+	<resource key="dataimport.overwrite" 
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="data1.xls" 
+			 tablename="tbl_testimport1" importtype="overwrite"
+			 startdatarowindex="1" filepath="d:\test">
+			<columnmap type="index" matchmode="lazy"/><!-- 通过数据文件的字段位置与数据库表的字段位置自动匹配 -->
+		</dataimport>
+	</resource>
+	
+	<resource key="dataimport.append1"
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="data1.xls" 
+			startdatarowindex="1"  tablename="tbl_testimport1" importtype="append"
+			keyfields="no;name" interceptor="">
+			<columnmap type="index" matchmode="lazy"/><!-- 通过数据文件的字段位置与数据库表的字段位置自动匹配 -->
+		</dataimport>
+	</resource>
+	
+	<resource key="dataimport.append2"
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="data1.xls" 
+			startdatarowindex="1"  tablename="tbl_testimport1" importtype="append"
+			interceptor="">
+			<columnmap type="index" matchmode="lazy"/>
+		</dataimport>
+	</resource>
+	
+	
+	<resource key="dataimport.index"
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="data1.xls" 
+			startdatarowindex="1"  tablename="tbl_testimport1" importtype="overwrite">
+			<columnmap type="index" exclusive="2;4" matchmode="lazy"/><!-- 通过数据文件的字段位置与数据库表的字段位置自动匹配，这里排除掉数据库表中第2和第4个字段不导入。字段位置都是从0开始 -->
+		</dataimport>
+	</resource>
+	
+	<resource key="dataimport.name"
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="data2.xls" 
+			colnamerowindex="0"  tablename="tbl_testimport1" importtype="overwrite" filepath="d:\test">
+			<columnmap type="name" exclusive="birthday;name" matchmode="lazy"/><!-- 通过数据文件的字段名与数据库表的字段名自动匹配，这里排除掉数据库表中名为birthday和name两列不导入。 -->
+		</dataimport>
+	</resource>
+	
+	<resource key="dataimport.name.name"
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="data2.xls" 
+			colnamerowindex="0"  tablename="tbl_testimport1" importtype="overwrite" filepath="d:\test">
+			<!-- 
+				显式指定从数据文件的哪个字段导入数据库表的哪个字段
+				配置映射关系时，等号左边为数据库，右边为数据文件，左边不能出现重复，右边可以出现重复，
+				即不能将数据库的一个字段从多个数据文件字段取值，但一个数据文件字段值可以赋给数据库的多个字段
+			 -->
+			<columnmap type="name=name" matchmode="lazy">
+				no=no;name=name;salary=salary;age=age;<!-- 只导这几个字段 -->
+			</columnmap>
+		</dataimport>
+	</resource>
+	
+	<resource key="dataimport.name.index"
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="data2.xls" 
+			startdatarowindex="1"  tablename="tbl_testimport1" importtype="overwrite" filepath="d:\test">
+			<!-- 
+				显式指定从数据文件的哪个位置的字段导入到数据库表的哪个字段名对应的字段中
+				配置映射关系时，等号左边为数据库，右边为数据文件，左边不能出现重复，右边可以出现重复，
+				即不能将数据库的一个字段从多个数据文件字段取值，但一个数据文件字段值可以赋给数据库的多个字段
+			 -->
+			<columnmap type="name=index" matchmode="lazy">
+				no=0;name=1;salary=4;<!-- 只导这几个字段 -->
+			</columnmap>
+		</dataimport>
+	</resource>
+	
+	<resource key="dataimport.request.session"
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="data2.xls" interceptor="com.wabacusdemo.Interceptor_dataImportTest2"
+			startdatarowindex="1"  tablename="tbl_testimport1" importtype="overwrite" filepath="d:\test">
+			<!-- 
+				指定部分字段的数据来自request/session
+			 -->
+			<columnmap type="name=index" matchmode="lazy">
+				no=0;name=request{namekey};salary=4;age=session{agekey};
+			</columnmap>
+		</dataimport>
+	</resource>
+
+	<resource key="dataimport.index.name"
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="data2.xls" 
+			colnamerowindex="0"  tablename="tbl_testimport1" importtype="overwrite" filepath="d:\test">
+			<!-- 
+				显式指定从数据文件的哪个字段名的字段导入到数据库表的哪个位置的字段中
+				配置映射关系时，等号左边为数据库，右边为数据文件，左边不能出现重复，右边可以出现重复，
+				即不能将数据库的一个字段从多个数据文件字段取值，但一个数据文件字段值可以赋给数据库的多个字段
+			 -->
+			<columnmap type="index=name" matchmode="lazy">
+				0=no;2=age;4=salary;<!-- 只导这几个字段 -->
+			</columnmap>
+		</dataimport>
+	</resource>
+
+	<resource key="dataimport.index.index"
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="data2.xls" 
+			startdatarowindex="1"  tablename="tbl_testimport1" importtype="overwrite" filepath="d:\test">
+			<!-- 
+				显式指定从数据文件的哪个位置的字段导入到数据库表的哪个位置的字段中，字段位置都是从0开始。
+				配置映射关系时，等号左边为数据库，右边为数据文件，左边不能出现重复，右边可以出现重复，
+				即不能将数据库的一个字段从多个数据文件字段取值，但一个数据文件字段值可以赋给数据库的多个字段
+			 -->
+			<columnmap type="index=index" matchmode="lazy">
+				0=1;1=1;4=4;<!-- 只导这几个字段 -->
+			</columnmap>
+		</dataimport>
+	</resource>
+
+	<resource key="dataimport.notitlerow"
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="data3.xls" 
+			tablename="tbl_testimport1" importtype="append"
+			keyfields="no" filepath="d:\test">
+			<columnmap type="index" matchmode="lazy"/>
+		</dataimport>
+	</resource>
+
+	<resource key="dataimport.complextitlerow"
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="data5.xls" 
+			tablename="tbl_testimport1" importtype="overwrite"
+			startdatarowindex="3" filepath="d:\test">
+			<columnmap type="index" exclusive="4" matchmode="lazy"/>
+		</dataimport>
+	</resource>
+
+	<resource key="dataimport.mixedtitlerow"
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="data6.xls" filepath="d:\test"
+			tablename="tbl_testimport1" importtype="overwrite"
+			colnamerowindex="4" startdatarowindex="6">
+			<columnmap type="name" exclusive="birthday" matchmode="lazy"/>
+		</dataimport>
+	</resource>
+
+	<resource key="dataimport.interceptor"
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="data3.xls" 
+			tablename="tbl_testimport1" importtype="append"
+			keyfields="no" filepath="d:\test" interceptor="com.wabacusdemo.Interceptor_dataImportTest">
+			<columnmap type="index" matchmode="lazy"/>
+		</dataimport>
+	</resource>
+	
+	<resource key="dataimport.xlsx"
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="data7.xlsx" 
+			startdatarowindex="1"  tablename="tbl_testimport1" importtype="append"
+			keyfields="no;name" interceptor="">
+			<columnmap type="index" matchmode="lazy"/><!-- 通过数据文件的字段位置与数据库表的字段位置自动匹配 -->
+		</dataimport>
+	</resource>
+	
+	<resource key="dataimport.multifiles"
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="data4.xls"  filepath="d:\test"
+			colnamerowindex="0" tablename="tbl_testimport2" importtype="overwrite">
+			<columnmap type="name" matchmode="lazy"/>
+		</dataimport>
+	</resource>
+
+	<resource key="dataimport.multifiles2"
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="data2.xls" filepath="d:\test"
+			colnamerowindex="0"  tablename="tbl_testimport1" importtype="overwrite">
+			<columnmap type="name" matchmode="lazy"/>
+		</dataimport>
+	</resource>
+
+	<resource key="resetdata1"
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="originaldata.xls" sheet="员工基本信息"
+			startdatarowindex="1"  tablename="tbl_testimport1" importtype="overwrite" filepath="d:\test">
+			<columnmap type="index" matchmode="lazy"/>
+		</dataimport>
+	</resource>
+	
+	<resource key="resetdata2"
+				 type="com.wabacus.config.resource.dataimport.DataImportRes">
+		<dataimport filetype="excel" filename="originaldata.xls" sheet="index{1}"
+			colnamerowindex="0"  tablename="tbl_testimport2" importtype="overwrite" filepath="d:\test">
+			<columnmap type="name" matchmode="lazy"/>
+		</dataimport>
+	</resource>
+</resources>
