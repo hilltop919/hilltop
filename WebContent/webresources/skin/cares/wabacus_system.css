@@ -219,6 +219,7 @@ A:link {
 	border:1px solid #C7C7C7;
 	display:inline;
 	font-size:14px;
+	text-align:left !important;
 }
 
 .cls-inputbox-datepicker{/*日期选择框样式*/

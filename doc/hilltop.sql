@@ -14,17 +14,7 @@ create table SYS_C_APP_CONSTS
   LM_USER           VARCHAR2(32),
   LM_TIME           DATE
 )
-tablespace AMDB_SYSTEM
-  pctfree 10
-  initrans 1
-  maxtrans 255
-  storage
-  (
-    initial 64K
-    next 1M
-    minextents 1
-    maxextents unlimited
-  );
+;
 comment on table SYS_C_APP_CONSTS
   is 'com.wabacus.util.Consts.java,wabacus定义的 final static,这里记录一下,便于授权使用';
 comment on column SYS_C_APP_CONSTS.CONST_TYPE
@@ -53,7 +43,6 @@ comment on column SYS_C_APP_CONSTS.LM_TIME
 alter table SYS_C_APP_CONSTS
   add primary key (CONST_NAME)
   using index 
-  tablespace AMDB_SYSTEM
   pctfree 10
   initrans 2
   maxtrans 255
@@ -79,7 +68,6 @@ create table SYS_C_APP_DATE
   LM_USER        VARCHAR2(32),
   LM_TIME        DATE
 )
-tablespace AMDB_SYSTEM
   pctfree 10
   initrans 1
   maxtrans 255
@@ -122,8 +110,7 @@ create table SYS_C_APP_LOG
   UPDATE_DETAIL  VARCHAR2(1024),
   LM_USER        VARCHAR2(32),
   LM_TIME        DATE
-)
-tablespace AMDB_SYSTEM
+) 
   pctfree 10
   initrans 1
   maxtrans 255
@@ -154,8 +141,7 @@ comment on column SYS_C_APP_LOG.LM_TIME
 ';
 alter table SYS_C_APP_LOG
   add primary key (LOG_ID)
-  using index 
-  tablespace AMDB_DATAMART
+  using index  
   pctfree 10
   initrans 2
   maxtrans 255
@@ -176,8 +162,7 @@ create table SYS_C_APP_MENU
   LM_USER   VARCHAR2(32),
   LM_TIME   DATE,
   MENU_TYPE VARCHAR2(128)
-)
-tablespace AMDB_SYSTEM
+) 
   pctfree 10
   initrans 1
   maxtrans 255
@@ -210,8 +195,7 @@ comment on column SYS_C_APP_MENU.MENU_TYPE
 ';
 alter table SYS_C_APP_MENU
   add primary key (MENU_ID)
-  using index 
-  tablespace AMDB_SYSTEM
+  using index  
   pctfree 10
   initrans 2
   maxtrans 255
@@ -236,8 +220,7 @@ create table SYS_C_APP_MNLT
   IS_SHOW   VARCHAR2(8) not null,
   LM_USER   VARCHAR2(32),
   LM_TIME   DATE
-)
-tablespace AMDB_SYSTEM
+) 
   pctfree 10
   initrans 1
   maxtrans 255
@@ -281,8 +264,7 @@ comment on column SYS_C_APP_MNLT.LM_TIME
 ';
 alter table SYS_C_APP_MNLT
   add primary key (ID)
-  using index 
-  tablespace AMDB_SYSTEM
+  using index  
   pctfree 10
   initrans 2
   maxtrans 255
@@ -304,8 +286,7 @@ create table SYS_C_APP_RESPONSE
   RESPONSE_TIME NUMBER,
   USER_ID       VARCHAR2(32),
   ACTION_TYPE   VARCHAR2(32)
-)
-tablespace AMDB_SYSTEM
+) 
   pctfree 10
   initrans 1
   maxtrans 255
@@ -341,8 +322,7 @@ create table SYS_C_PER_DSPL
   REPORT_ID         VARCHAR2(64) not null,
   PERSONALIZE_TYPE  VARCHAR2(32) not null,
   PERSONALIZE_VALUE VARCHAR2(64)
-)
-tablespace AMDB_SYSTEM
+) 
   pctfree 10
   initrans 1
   maxtrans 255
@@ -372,8 +352,7 @@ comment on column SYS_C_PER_DSPL.PERSONALIZE_VALUE
 ';
 alter table SYS_C_PER_DSPL
   add primary key (USER_ID, PAGE_ID, REPORT_ID, PERSONALIZE_TYPE)
-  using index 
-  tablespace AMDB_SYSTEM
+  using index  
   pctfree 10
   initrans 2
   maxtrans 255
@@ -393,8 +372,7 @@ create table SYS_C_PER_FVOR
   URL_PARAM VARCHAR2(64),
   SEQ       NUMBER,
   LM_TIME   DATE
-)
-tablespace AMDB_SYSTEM
+) 
   pctfree 10
   initrans 1
   maxtrans 255
@@ -424,8 +402,7 @@ comment on column SYS_C_PER_FVOR.LM_TIME
 ';
 alter table SYS_C_PER_FVOR
   add primary key (USER_ID, PAGE_ID)
-  using index 
-  tablespace AMDB_SYSTEM
+  using index  
   pctfree 10
   initrans 2
   maxtrans 255
@@ -445,8 +422,7 @@ create table SYS_C_SEC_GPPC
   SEQ            NUMBER,
   LM_USER        VARCHAR2(32),
   LM_TIME        DATE
-)
-tablespace AMDB_SYSTEM
+) 
   pctfree 10
   initrans 1
   maxtrans 255
@@ -476,8 +452,7 @@ comment on column SYS_C_SEC_GPPC.LM_TIME
 ';
 alter table SYS_C_SEC_GPPC
   add primary key (GROUP_ID, CHILD_GROUP_ID)
-  using index 
-  tablespace AMDB_SYSTEM
+  using index  
   pctfree 10
   initrans 2
   maxtrans 255
@@ -496,8 +471,7 @@ create table SYS_C_SEC_GPPV
   PRIVILEGE_ID VARCHAR2(64) not null,
   LM_USER      VARCHAR2(32),
   LM_TIME      DATE
-)
-tablespace AMDB_SYSTEM
+) 
   pctfree 10
   initrans 1
   maxtrans 255
@@ -524,8 +498,7 @@ comment on column SYS_C_SEC_GPPV.LM_TIME
 ';
 alter table SYS_C_SEC_GPPV
   add primary key (GROUP_ID, PRIVILEGE_ID)
-  using index 
-  tablespace AMDB_SYSTEM
+  using index  
   pctfree 10
   initrans 2
   maxtrans 255
@@ -544,8 +517,7 @@ create table SYS_C_SEC_GROP
   GROUP_DESCRIPTION VARCHAR2(64),
   LM_USER           VARCHAR2(32),
   LM_TIME           DATE
-)
-tablespace AMDB_SYSTEM
+) 
   pctfree 10
   initrans 1
   maxtrans 255
@@ -572,8 +544,7 @@ comment on column SYS_C_SEC_GROP.LM_TIME
 ';
 alter table SYS_C_SEC_GROP
   add primary key (GROUP_ID)
-  using index 
-  tablespace AMDB_SYSTEM
+  using index  
   pctfree 10
   initrans 2
   maxtrans 255
@@ -594,8 +565,7 @@ create table SYS_C_SEC_PAGE
   HITS             NUMBER default 0,
   LM_USER          VARCHAR2(32),
   LM_TIME          DATE
-)
-tablespace AMDB_SYSTEM
+) 
   pctfree 10
   initrans 1
   maxtrans 255
@@ -628,8 +598,7 @@ comment on column SYS_C_SEC_PAGE.LM_TIME
 ';
 alter table SYS_C_SEC_PAGE
   add primary key (PAGE_ID)
-  using index 
-  tablespace AMDB_SYSTEM
+  using index  
   pctfree 10
   initrans 2
   maxtrans 255
@@ -649,8 +618,7 @@ create table SYS_C_SEC_PRIV
   PRIVILEGE_DESCRIPTION VARCHAR2(64),
   LM_USER               VARCHAR2(32),
   LM_TIME               DATE
-)
-tablespace AMDB_SYSTEM
+) 
   pctfree 10
   initrans 1
   maxtrans 255
@@ -680,8 +648,7 @@ comment on column SYS_C_SEC_PRIV.LM_TIME
 ';
 alter table SYS_C_SEC_PRIV
   add primary key (PRIVILEGE_ID)
-  using index 
-  tablespace AMDB_SYSTEM
+  using index  
   pctfree 10
   initrans 2
   maxtrans 255
@@ -706,8 +673,7 @@ create table SYS_C_SEC_PVLT
   PERMISSION_VALUE VARCHAR2(32),
   LM_USER          VARCHAR2(32),
   LM_TIME          DATE
-)
-tablespace AMDB_SYSTEM
+) 
   pctfree 10
   initrans 1
   maxtrans 255
@@ -752,8 +718,7 @@ comment on column SYS_C_SEC_PVLT.LM_TIME
 ';
 alter table SYS_C_SEC_PVLT
   add primary key (ID)
-  using index 
-  tablespace AMDB_SYSTEM
+  using index  
   pctfree 10
   initrans 2
   maxtrans 255
@@ -777,8 +742,7 @@ create table SYS_C_SEC_USER
   LM_TIME    DATE,
   PASSWORD   VARCHAR2(64),
   DEPARTMENT VARCHAR2(64)
-)
-tablespace AMDB_SYSTEM
+) 
   pctfree 10
   initrans 1
   maxtrans 255
@@ -820,8 +784,7 @@ comment on column SYS_C_SEC_USER.DEPARTMENT
 ';
 alter table SYS_C_SEC_USER
   add primary key (USER_ID)
-  using index 
-  tablespace AMDB_SYSTEM
+  using index  
   pctfree 10
   initrans 2
   maxtrans 255
@@ -843,8 +806,7 @@ create table SYS_C_SET_PARM
   SEQ         NUMBER,
   LM_USER     VARCHAR2(32),
   LM_TIME     DATE
-)
-tablespace AMDB_SYSTEM
+) 
   pctfree 10
   initrans 1
   maxtrans 255
@@ -880,8 +842,7 @@ comment on column SYS_C_SET_PARM.LM_TIME
 ';
 alter table SYS_C_SET_PARM
   add primary key (PARAM_TYPE, PARAM_ID)
-  using index 
-  tablespace AMDB_SYSTEM
+  using index  
   pctfree 10
   initrans 2
   maxtrans 255
