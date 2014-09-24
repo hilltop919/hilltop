@@ -26,7 +26,7 @@
 						clickorderby="true">
 						<inputbox styleproperty="style='width:99%'"></inputbox>
 					</col>
-					<col column="update_detail" label="更新内容">
+					<col column="update_detail" label="更新内容" align="left">
 						<inputbox styleproperty="style='width:99%'"></inputbox>
 					</col>
 				</display>

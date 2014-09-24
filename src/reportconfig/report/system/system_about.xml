@@ -24,12 +24,11 @@
 			</report>
 			<report id="report1" title="系统更新日志" pagesize="-1" width="1000px" celldrag="0" cellresize="0">
 				<display>
-					<col column="{sequence:1}" label="序号" width="40px"></col>
 					<col column="log_id" displaytype="hidden"></col>
-					<col column="log_date" label="更新日期" width="100px" datatype="date{yyyy-MM-dd}" />
+					<col column="system_version" label="版本号" width="100px" valuestyleproperty="style='font-weight:bold'" />
 					<col column="log_title" label="标题" width="160px" />
 					<col column="update_detail" label="更新内容" align="left" />
-					<col column="system_version" label="版本号" width="100px" />
+					<col column="log_date" label="更新日期" width="100px" datatype="date{yyyy-MM-dd}" />
 				</display>
 				<sql preparedstatement="false">
 					<select>

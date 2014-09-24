@@ -36,7 +36,7 @@ line-height:32px;
 /*Checkbox*/
 .NFCheck {cursor:pointer; position:absolute;width:20px; margin:0px 0 0 0; height:20px; border:1px solid transparent; background:url(img/checkbox.gif) no-repeat 0 0; z-index:2;}
 /*Buttons*/
-.NFButton {width:65px; height:34px; padding:0 15px; font-weight:bold; background:url(img/button.gif) repeat-x 0 0; cursor:pointer; border:none;color:#FFFFFF; text-shadow:1px 1px #45add8;vertical-align:middle;}
+.NFButton {width:75px; height:34px; padding:0 15px; font-weight:bold; background:url(img/button.gif) repeat-x 0 0; cursor:pointer; border:none;color:#FFFFFF; text-shadow:1px 1px #45add8;vertical-align:middle;}
 .NFButtonLeft, .NFButtonRight {width:10px; height:34px; vertical-align:middle;}
 .NFButtonLeft {background:url(img/button-left.gif) no-repeat 0 0;}
 .NFButtonRight {background:url(img/button-right.gif) no-repeat 0 0;}
