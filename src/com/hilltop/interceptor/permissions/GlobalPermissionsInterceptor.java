@@ -52,9 +52,9 @@ public class GlobalPermissionsInterceptor extends AbsPageInterceptor {
 			}
 		} else {
 			// 已登录用户,生成登录用户菜单,把菜单代码放到session中,在page的header中调用
-			if (!rrequest.isLoadedByAjax()) {
-				session.setAttribute("menu_list", MenuBuilder.createMenu(user_id, conn, rrequest));
-			}
+//			if (!rrequest.isLoadedByAjax()) {
+//				session.setAttribute("menu_list", MenuBuilder.createMenu(user_id, conn, rrequest));
+//			}
 		}
 
 		// 对要访问的页面进行授权

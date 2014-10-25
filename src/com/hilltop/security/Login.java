@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import javax.servlet.http.HttpSession;
 
+import com.hilltop.interceptor.permissions.MenuBuilder;
 import com.wabacus.config.Config;
 import com.wabacus.util.*;
 
@@ -31,6 +33,7 @@ public class Login {
 					session.setAttribute("user_name", user_name);
 					session.setAttribute("user_id", user_id);
 					session.setAttribute("group_id", group_id);
+					session.setAttribute("menu_list", MenuBuilder.createMenu(user_id, conn, user_name));
 				}
 			}
 			rs.close();

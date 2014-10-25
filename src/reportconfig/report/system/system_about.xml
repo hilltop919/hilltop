@@ -28,7 +28,8 @@
 					<col column="system_version" label="版本号" width="100px" valuestyleproperty="style='font-weight:bold'" />
 					<col column="log_title" label="标题" width="160px" />
 					<col column="update_detail" label="更新内容" align="left" />
-					<col column="log_date" label="更新日期" width="100px" datatype="date{yyyy-MM-dd}" />
+					<col column="log_date" datatype="date{yyyy-MM-dd}" displaytype="hidden" />
+					<col column="{non-fromdb}" property="display_log_date" label="更新日期" width="100px" />
 				</display>
 				<sql preparedstatement="false">
 					<select>
@@ -43,6 +44,19 @@
 						</value>
 					</select>
 				</sql>
+				<format>
+					<imports>
+						<import>org.ocpsoft.prettytime.*</import>
+						<import>java.util.Locale</import>
+						<import>java.text.*</import>
+						<import>java.util.Date</import>
+					</imports>
+					<value><![CDATA[
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				PrettyTime pt_zh = new PrettyTime ( new Locale ("zh") ) ; 
+				display_log_date="<span title='"+df.format(log_date)+"'>"+pt_zh.format(log_date)+"</span>";
+				]]></value>
+				</format>
 			</report>
 		</vpanel>
 		<footer>${system.footer}</footer> 
