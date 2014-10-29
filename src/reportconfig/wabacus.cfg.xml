@@ -56,6 +56,7 @@
 		<js-file>js/rcom-nav.js</js-file>
 		<js-file>js/menu.js</js-file>
 		<js-file loadorder="-1">js/demo.js</js-file>
+		<js-file loadorder="-1">js/common.js</js-file>
 	</global-jsfiles>
 
 	<!-- 配置本项目中所有报表页面都必须包含的css文件 -->
