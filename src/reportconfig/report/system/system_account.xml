@@ -83,7 +83,7 @@
 			</buttons>
 			<display>
 				<col column="{sequence:1}" label="序号" width="100px" />
-				<col column="user_id" label="帐号" width="160px"><inputbox jsvalidate="isNotEmpty(#label#列不允许为空)" styleproperty="style='width:97%'"></inputbox></col>
+				<col column="user_id" label="帐号" width="160px"></col>
 				<col column="user_name" label="姓名" width="160px"><inputbox jsvalidate="isNotEmpty(#label#列不允许为空)" styleproperty="style='width:97%'"></inputbox></col>
 				<col column="password" label="密码" displaytype="hidden"></col>
 				<col column="group_id" label="组别" width="120px">

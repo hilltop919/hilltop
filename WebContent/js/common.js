@@ -78,11 +78,12 @@ function logout() {
 	art.dialog({
 		width : 200,
 		content : '确定退出吗？',
+		okVal : '退出',
 		ok : function() {
 			window.location.href = 'jsp/login/logout.jsp';
 			return false;
 		},
-		cancelVal : '关闭',
+		cancelVal : '取消',
 		cancel : true
 	});
 

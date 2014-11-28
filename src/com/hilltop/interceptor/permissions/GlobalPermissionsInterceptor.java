@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.wabacus.system.*;
@@ -17,6 +18,12 @@ import com.wabacus.system.intercept.AbsPageInterceptor;
 public class GlobalPermissionsInterceptor extends AbsPageInterceptor {
 
 	public void doStart(ReportRequest rrequest) {
+		HttpServletResponse response = rrequest.getWResponse().getResponse();
+		response.setContentType("text/html;charset=utf-8");  
+        response.setDateHeader("Expires", 0);  
+        response.setHeader("Cache-Control", "no-cache");  
+        response.setHeader("Prama", "no-cache");  
+		
 		String pageid = rrequest.getPagebean().getId();
 		HttpSession session = rrequest.getRequest().getSession();
 		Connection conn = rrequest.getConnection();
