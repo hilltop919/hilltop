@@ -573,17 +573,17 @@ function addMyDataForSaving(pageid,reportid,element)
  */
 function displayLoadingMessage(pageid)
 {
-	/*window.status='loading...';
+	window.status='loading...';
    var imgobj=document.getElementById('LOADING_IMG_ID');
 	if(imgobj!=null)
 	{
 		imgobj.style.display='block';
 		var documentSize=getDocumentSize();
 		var documentScrollSize=getDocumentScroll();
-		imgobj.style.top = (documentSize.height+documentScrollSize.scrollTop-imgobj.clientHeight) + "px";
-   	imgobj.style.left = (documentSize.width+documentScrollSize.scrollLeft-imgobj.clientWidth) + "px";
-	}*/
-	jQuery(pageid!=null&&pageid!=''?'#WX_CONTENT_'+pageid:document.body).showLoading();
+		imgobj.style.top = (documentSize.height+documentScrollSize.scrollTop-imgobj.clientHeight)/2 + "px";
+   	imgobj.style.left = (documentSize.width+documentScrollSize.scrollLeft-imgobj.clientWidth)/2 + "px";
+	}
+//	jQuery(pageid!=null&&pageid!=''?'#WX_CONTENT_'+pageid:document.body).showLoading();
 } 
 
 /**
@@ -591,10 +591,10 @@ function displayLoadingMessage(pageid)
  */
 function hideLoadingMessage(pageid)
 {
-	/*window.status='';
+	window.status='';
 	var imgobj=document.getElementById('LOADING_IMG_ID');
-   if(imgobj!=null) imgobj.style.display='none';*/
-   jQuery(pageid!=null&&pageid!=''?'#WX_CONTENT_'+pageid:document.body).hideLoading();
+   if(imgobj!=null) imgobj.style.display='none';
+//   jQuery(pageid!=null&&pageid!=''?'#WX_CONTENT_'+pageid:document.body).hideLoading();
 }
 
 /**

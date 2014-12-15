@@ -62,7 +62,9 @@
 				<display minrownum="1">
 					<col column="id" displaytype="hidden"/>
 					<col column="{sequence:1}" label="序号" width="40px"/>
-					<col column="menu_id" label="菜单" width="150px"><inputbox styleproperty="style='width:99%'"></inputbox></col>
+					<col column="menu_id" label="菜单" width="150px">
+						<inputbox styleproperty="style='width:99%'" defaultvalue="url{txt_menu_id}"></inputbox>
+					</col>
 					<col column="group_id" label="用户组" clickorderby="true" width="120px" filter="true" filterwidth="130px">
 						<inputbox type="selectbox" jsvalidate="isNotEmpty(#label#列不允许为空)" styleproperty="style='width:99%'">
 							<option lable="请选择用户组..." value=""></option>
